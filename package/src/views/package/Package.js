@@ -90,7 +90,7 @@ export default function Package() {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>Add PAckage</Modal.Title>
+          <Modal.Title>Add Package</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ width: "500px" }}>
           <Form>
