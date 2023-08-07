@@ -4,20 +4,21 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import BaseURL from '../urls/BaseUrl'
+import BaseURL from "../urls/BaseUrl";
 
 export default function AdminLogin() {
   const navigate = useNavigate();
 
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
 
   const [data, setData] = useState({
     email: "",
     password: "",
   });
 
-  const HandleSubmit =  (event) => {
+  const HandleSubmit = (event) => {
     event.preventDefault();
+    // console.log('url',BaseURL);
     axios
       .post(`${BaseURL}employee/login`, data)
       .then((res) => {

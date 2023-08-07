@@ -1,21 +1,19 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Card, CardBody, Table } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 // import { FiMoreVertical } from "react-icons/fi";
 import axios from "axios";
-import BaseURL from '../../urls/BaseUrl'
-
+import BaseURL from "../../urls/BaseUrl";
 
 export default function BackgroundCategory() {
   const navigate = useNavigate();
   const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
-  
+
   useEffect(() => {
-    axios.get(`${BaseURL}background/showallcat`)
-      .then((res) => {
-        setDatas(res.data.record);
-        console.log('res', res.data.record);
-      });
+    axios.get(`${BaseURL}background/showallcat`).then((res) => {
+      setDatas(res.data.record);
+      console.log("res", res.data.record);
+    });
   }, []);
 
   return (
@@ -44,18 +42,24 @@ export default function BackgroundCategory() {
               </tr>
             </thead>
             <tbody>
-            {datas.map((items) => {
-                    return (
-                      <tr className="border-top" key={items.no}>
-                        <td>{items.sql_id}</td>
-                        <td>{items.bg_category_name}</td>
-                        <td><img style={{height:'100%',width:'100px'}} src={`http://192.168.29.222:8000/${items.bg_category_thumb}`} alt="Logo" /></td>
-                        <td>{items.sequence_number}</td>
-                        <td>{items.status?'ACTIVATE':'DISABLE'}</td>                        
-                        <td>buttons</td>
-                      </tr>
-                    );
-                  })}
+              {datas.map((items) => {
+                return (
+                  <tr className="border-top" key={items.no}>
+                    <td>{items.sql_id}</td>
+                    <td>{items.bg_category_name}</td>
+                    <td>
+                      <img
+                        style={{ height: "100%", width: "100px" }}
+                        src={`http://192.168.29.222:8080/${items.bg_category_thumb}`}
+                        alt="Logo"
+                      />
+                    </td>
+                    <td>{items.sequence_number}</td>
+                    <td>{items.status ? "ACTIVATE" : "DISABLE"}</td>
+                    <td>buttons</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </Table>
         </CardBody>
