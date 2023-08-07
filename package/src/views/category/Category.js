@@ -1,10 +1,20 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
+import BaseURL from "../../urls/BaseUrl";
 import { Button, Card, CardBody, Table } from "reactstrap";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 // import { FiMoreVertical } from "react-icons/fi";
 
 export default function Category() {
   const navigate = useNavigate();
+  const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
+
+  useEffect(() => {
+    axios.get(`${BaseURL}category/showCategory`).then((res) => {
+      setDatas(res.data.record);
+      console.log("res", res.data.record);
+    });
+  }, []);
 
   return (
     <div className="mainContent">
@@ -23,45 +33,36 @@ export default function Category() {
           <Table className="no-wrap mt-3 align-middle" responsive borderless>
             <thead>
               <tr>
-                <th>No.</th>
-                <th>Application</th>
-                <th>Category</th>
+                <th>Catrgory ID</th>
+                <th>App Name</th>
+                <th>Category Name</th>
                 <th>ID Name</th>
-                <th>Seq Number</th>
+                <th>Category Thumb</th>
+                <th>Sequence name</th>
                 <th>Status</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr className="border-top">
-                <td>1</td>
-                <td>Om Kakadiya</td>
-                <td>mail@mail.com</td>
-                <td>Employee</td>
-                <td>Employee</td>
-                <td>
-                  ACTIVE
-                </td>
-              </tr>
-              <tr className="border-top">
-                <td>1</td>
-                <td>Om Kakadiya</td>
-                <td>mail@mail.com</td>
-                <td>Employee</td>
-                <td>Employee</td>
-                <td>
-                  ACTIVE
-                </td>
-              </tr>
-              <tr className="border-top">
-                <td>1</td>
-                <td>Om Kakadiya</td>
-                <td>mail@mail.com</td>
-                <td>Employee</td>
-                <td>Employee</td>
-                <td>
-                  ACTIVE
-                </td>
-              </tr>
+            {datas.map((items) => {
+                return (
+                  <tr className="border-top" key={items.no}>
+                    {" "}
+                    {/* Add a unique key for each row */}
+                    <td>{items._id}</td>
+                    <td>CraftyArt</td>
+                    <td>{items.category_name}</td>                    
+                    <td>{items.id_name}</td>
+                    <td><img
+                        style={{ height: "100%", width: "100px" }}
+                        src={`http://192.168.29.222:8080/${items.category_thumb}`}
+                        alt="Logo"
+                      /></td>
+                    <td>{items.sequence_number}</td>
+                    <td>{items.status ? "ACTIVATE" : "DESABLE"}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </Table>
         </CardBody>

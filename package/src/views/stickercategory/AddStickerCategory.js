@@ -1,21 +1,44 @@
-import React from "react";
-import { Button, Card, CardBody, Table } from "reactstrap";
+import React, { useState } from "react";
+import { Card, CardBody } from "reactstrap";
+import axios from "axios";
+import BaseURL from "../../urls/BaseUrl";
 import { useNavigate } from "react-router-dom";
-import { FiMoreVertical } from "react-icons/fi";
 
 export default function AddStickerCategory() {
   const navigate = useNavigate();
+  const [data, setData] = useState({
+    bg_category_name: "",
+    bg_category_thumb: "",
+    sequence_number: "",
+    status: "1",
+  });
+  // console.log('state',data);
 
+  const HandleSubmit = (event) => {
+    event.preventDefault();
+    axios
+      .post(`${BaseURL}background/bg_cat`, data)
+      .then((res) => {
+        console.log("res", res);
+
+        // localStorage.setItem("token", "done");
+        // localStorage.setItem("token", res.data.token);
+        // localStorage.setItem('user',res.data.token);
+        // console.log(token);
+        // handleClose();
+        window.location.reload(false);
+        navigate("/backgroundCategory");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   return (
     <div className="mainContent">
       <Card className="m-3">
         <CardBody>
           <h4 className="card-title">Add Sticker Category</h4>
-          <form
-            action="/category/add_category"
-            method="post"
-            enctype="multipart/form-data"
-          >
+          <form>
             <div>
               <div className="form-group">
                 <label>Sticker Category Name</label>
@@ -24,6 +47,9 @@ export default function AddStickerCategory() {
                   className=" my-3 form-control"
                   name="name"
                   placeholder="Category Name"
+                  onChange={(e) =>
+                    setData({ ...data, bg_category_name: e.target.value })
+                  }
                 />
               </div>
             </div>
@@ -34,6 +60,9 @@ export default function AddStickerCategory() {
                 type="file"
                 className=" my-3 form-control"
                 name="catimage"
+                onChange={(e) =>
+                  setData({ ...data, bg_category_thumb: e.target.value })
+                }
               />
             </div>
             <div className="form-group">
@@ -43,18 +72,26 @@ export default function AddStickerCategory() {
                 className=" my-3 form-control"
                 name="seqnumber"
                 placeholder="Sequence Number"
+                onChange={(e) =>
+                  setData({ ...data, sequence_number: e.target.value })
+                }
               />
             </div>
 
             <div className="form-group">
               <label>Status</label>
-              <select className="form-control" name="status" id="">
+              <select
+                className="form-control"
+                name="status"
+                id=""
+                onChange={(e) => setData({ ...data, status: e.target.value })}
+              >
                 <option value="true">LIVE</option>
                 <option value="false">NOT LIVE</option>
               </select>
             </div>
 
-            <button className="my-3 btn btn-primary">Submit</button>
+            <button onClick={HandleSubmit} className="my-3 btn btn-primary">Submit</button>
           </form>
         </CardBody>
       </Card>

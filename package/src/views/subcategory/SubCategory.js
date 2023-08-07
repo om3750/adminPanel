@@ -1,11 +1,41 @@
-import React, { useState } from "react";
+import React,{useState,useEffect} from "react";
+import BaseURL from "../../urls/BaseUrl";
 import { Button, Card, CardBody, Table } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import { FiMoreVertical } from "react-icons/fi";
 import { Form, Modal } from "react-bootstrap";
+import axios from "axios";
 
 export default function SubCategory() {
+
   const navigate = useNavigate();
+
+  const [data, setData] = useState({
+    name: "",
+    status: "1",
+  });
+
+  const HandleSubmit = (event) => {
+    axios
+      .post(`${BaseURL}subCat/addSubCat`, data)
+      .then((res) => {
+        console.log("res", res);
+        window.location.reload(false);
+        navigate("/backgroundCategory");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
+
+  useEffect(() => {
+    axios.get(`${BaseURL}subCat/showSubCat`).then((res) => {
+      setDatas(res.data.record);
+      console.log("res", res.data.record);
+    });
+  }, []);
   const [show, setShow] = useState(false);
   const [editShow, setEditShow] = useState(false);
   const [editItems, setEditItems] = useState({ name: "", status: true });
@@ -43,42 +73,18 @@ export default function SubCategory() {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-top">
-                <td>1</td>
-                <td>Om Kakadiya</td>
-                <td>ACTIVE</td>
-                <td>
-                  {" "}
-                  <FiMoreVertical />
-                </td>
-              </tr>
-              <tr className="border-top">
-                <td>1</td>
-                <td>Om Kakadiya</td>
-                <td>ACTIVE</td>
-                <td>
-                  {" "}
-                  <FiMoreVertical />
-                </td>
-              </tr>
-              <tr className="border-top">
-                <td>1</td>
-                <td>Om Kakadiya</td>
-                <td>ACTIVE</td>
-                <td>
-                  {" "}
-                  <FiMoreVertical />
-                </td>
-              </tr>
-              <tr className="border-top">
-                <td>1</td>
-                <td>Om Kakadiya</td>
-                <td>ACTIVE</td>
-                <td>
-                  {" "}
-                  <FiMoreVertical />
-                </td>
-              </tr>
+            {datas.map((items) => {
+                return (
+                  <tr className="border-top" key={items.no}>
+                    {" "}
+                    {/* Add a unique key for each row */}
+                    <td>{items._id}</td>
+                    <td>{items.name}</td>
+                      <td>{items.status ? "ACTIVATE" : "DESABLE"}</td>
+                    <td>Button</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </Table>
         </CardBody>
@@ -107,17 +113,24 @@ export default function SubCategory() {
         </Modal.Header>
         <Modal.Body style={{ width: "400px" }}>
           <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3" controlId="name">
               <Form.Label>Subcategory Name</Form.Label>
               <Form.Control
-                type="email"
+              name="name"
+              onChange={(e) =>
+                setData({ ...data, name: e.target.value })
+              }
                 placeholder="Enter Subcategory Name"
                 autoFocus
               />
             </Form.Group>
             <Form.Group
               className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
+              name="status"
+                    onChange={(e) =>
+                      setData({ ...data, status: e.target.value })
+                    }
+              controlId="status"
             >
               <Form.Label>Status</Form.Label>
               <Form.Control as="select">
@@ -126,7 +139,10 @@ export default function SubCategory() {
               </Form.Control>
             </Form.Group>
           </Form>
-          <Button className="w-100" variant="primary" onClick={handleClose}>
+          <Button className="w-100" variant="primary" onClick={()=>{
+            handleClose();
+            HandleSubmit();
+          }}>
             Submit
           </Button>
         </Modal.Body>

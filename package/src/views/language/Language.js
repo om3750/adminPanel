@@ -1,22 +1,45 @@
-import React, { useState } from "react";
 import { Button, Card, CardBody, Table } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import { FiMoreVertical } from "react-icons/fi";
 import { Form, Modal } from "react-bootstrap";
-
+import React,{useState,useEffect} from "react";
+import BaseURL from "../../urls/BaseUrl";
+import axios from "axios";
 export default function Language() {
   const navigate = useNavigate();
+  const [data, setData] = useState({
+    name: "",
+    status: "1",
+  });
+
+  const HandleSubmit = (event) => {
+    axios
+      .post(`${BaseURL}language/addLanguage`, data)
+      .then((res) => {
+        console.log("res", res);
+        window.location.reload(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
+  useEffect(() => {
+    axios.get(`${BaseURL}language/showLanguage`).then((res) => {
+      setDatas(res.data.record);
+      console.log("res", res.data.record);
+    });
+  }, []);
   const [show, setShow] = useState(false);
   const [editShow, setEditShow] = useState(false);
   const [editItems, setEditItems] = useState({ name: "", status: true });
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleEditShow = (items) => {
     setEditShow(true);
     setEditItems(items);
   };
-
   const handleEditClose = () => setEditShow(false);
   return (
     <div className="mainContent">
@@ -42,42 +65,18 @@ export default function Language() {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-top">
-                <td>1</td>
-                <td>Om Kakadiya</td>
-                <td>ACTIVE</td>
-                <td>
-                  {" "}
-                  <FiMoreVertical />
-                </td>
-              </tr>
-              <tr className="border-top">
-                <td>1</td>
-                <td>Om Kakadiya</td>
-                <td>ACTIVE</td>
-                <td>
-                  {" "}
-                  <FiMoreVertical />
-                </td>
-              </tr>
-              <tr className="border-top">
-                <td>1</td>
-                <td>Om Kakadiya</td>
-                <td>ACTIVE</td>
-                <td>
-                  {" "}
-                  <FiMoreVertical />
-                </td>
-              </tr>
-              <tr className="border-top">
-                <td>1</td>
-                <td>Om Kakadiya</td>
-                <td>ACTIVE</td>
-                <td>
-                  {" "}
-                  <FiMoreVertical />
-                </td>
-              </tr>
+            {datas.map((items) => {
+                return (
+                  <tr className="border-top" key={items.no}>
+                    {" "}
+                    {/* Add a unique key for each row */}
+                    <td>{items._id}</td>
+                    <td>{items.name}</td>
+                    <td>{items.status ? "ACTIVATE" : "DESABLE"}</td>
+                    <td>Action</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </Table>
         </CardBody>
@@ -106,29 +105,38 @@ export default function Language() {
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Language Name</Form.Label>
               <Form.Control
-                placeholder="Enter Language"
+                name="name"
+                onChange={(e) => setData({ ...data, name: e.target.value })}
+                placeholder="Enter Language Name"
                 autoFocus
               />
             </Form.Group>
             <Form.Group
               className="mb-3"
               controlId="exampleForm.ControlTextarea1"
+              name="status"
+              onChange={(e) => setData({ ...data, status: e.target.value })}
             >
               <Form.Label>Status</Form.Label>
               <Form.Control as="select">
-                <option value="">ACTIVE</option>
-                <option value="">DEACTIVE</option>
+                <option value="1">ACTIVE</option>
+                <option value="0">DEACTIVE</option>
               </Form.Control>
             </Form.Group>
           </Form>
-          <Button className="w-100" variant="primary" onClick={handleClose}>
+          <Button
+            className="w-100"
+            variant="primary"
+            onClick={() => {
+              handleClose();
+              HandleSubmit();
+            }}
+          >
             Submit
           </Button>
         </Modal.Body>
       </Modal>
-
       {/* ----------------- edit model ------------ */}
-
       {/* <Modal
         show={editShow}
         onHide={handleEditClose}

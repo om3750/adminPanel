@@ -10,11 +10,7 @@ export default function importJson() {
       <Card className="m-3">
         <CardBody>
         <h4 className="card-title">Import Json</h4>
-        <form
-                    action="/category/add_category"
-                    method="post"
-                    enctype="multipart/form-data"
-                  >
+        <form>
                     <div className="row">
                       <div className="col-lg-6">
                         <div className="form-group">

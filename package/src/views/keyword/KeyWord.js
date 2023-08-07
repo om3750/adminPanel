@@ -1,11 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import BaseURL from "../../urls/BaseUrl";
 import { Button, Card, CardBody, Table } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import { FiMoreVertical } from "react-icons/fi";
 import { Form, Modal } from "react-bootstrap";
+import axios from "axios";
 
-export default function KeyWord() {
-  const navigate = useNavigate();
+export default function Style() {
+  const [data, setData] = useState({
+    name: "",
+    title: "",
+    meta_title: "",
+    meta_desc: "",
+    short_desc: "",
+    long_desc: "",
+    status: "1",
+  });
+
+  const HandleSubmit = (event) => {
+    axios
+      .post(`${BaseURL}specialKeyword/addSpecialKeyword`, data)
+      .then((res) => {
+        console.log("res", res);
+        window.location.reload(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
+
+  useEffect(() => {
+    axios.get(`${BaseURL}specialKeyword/showSpecialKeyword`).then((res) => {
+      setDatas(res.data.record);
+      console.log("res", res.data.record);
+    });
+  }, []);
   const [show, setShow] = useState(false);
   const [editShow, setEditShow] = useState(false);
   const [editItems, setEditItems] = useState({ name: "", status: true });
@@ -26,7 +57,7 @@ export default function KeyWord() {
             {/* <h4 className="card-title">Admin List</h4> */}
             <Button
               color="primary"
-              onClick={() =>handleShow()}
+              onClick={() => handleShow()}
               className="m-2 btn"
             >
               Add Keyword
@@ -42,47 +73,22 @@ export default function KeyWord() {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-top">
-                <td>1</td>
-                <td>Om Kakadiya</td>
-                <td>ACTIVE</td>
-                <td>
-                  {" "}
-                  <FiMoreVertical />
-                </td>
-              </tr>
-              <tr className="border-top">
-                <td>1</td>
-                <td>Om Kakadiya</td>
-                <td>ACTIVE</td>
-                <td>
-                  {" "}
-                  <FiMoreVertical />
-                </td>
-              </tr>
-              <tr className="border-top">
-                <td>1</td>
-                <td>Om Kakadiya</td>
-                <td>ACTIVE</td>
-                <td>
-                  {" "}
-                  <FiMoreVertical />
-                </td>
-              </tr>
-              <tr className="border-top">
-                <td>1</td>
-                <td>Om Kakadiya</td>
-                <td>ACTIVE</td>
-                <td>
-                  {" "}
-                  <FiMoreVertical />
-                </td>
-              </tr>
+              {datas.map((items) => {
+                return (
+                  <tr className="border-top" key={items.no}>
+                    {" "}
+                    {/* Add a unique key for each row */}
+                    <td>{items._id}</td>
+                    <td>{items.name}</td>
+                    <td>{items.status ? "ACTIVATE" : "DESABLE"}</td>
+                    <td>button</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </Table>
         </CardBody>
       </Card>
-
       {/* --------------------new model------------------------ */}
 
       <Modal
@@ -94,44 +100,92 @@ export default function KeyWord() {
         <Modal.Header closeButton>
           <Modal.Title>Add Keyword</Modal.Title>
         </Modal.Header>
-        <Modal.Body  style={{width:"500px"}}>
-          <Form > 
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+        <Modal.Body style={{ width: "500px" }}>
+          <Form>
+            <Form.Group className="mb-3" controlId="name">
               <Form.Label>Keyword</Form.Label>
-              <Form.Control placeholder="Enter Keyword" autoFocus />
+              <Form.Control
+                name="name"
+                onChange={(e) => setData({ ...data, name: e.target.value })}
+                placeholder="Enter Keyword"
+                autoFocus
+              />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3" controlId="title">
               <Form.Label>Keyword Title</Form.Label>
-              <Form.Control placeholder="Enter Keyword Title" autoFocus />
+              <Form.Control
+                name="title"
+                onChange={(e) => setData({ ...data, title: e.target.value })}
+                placeholder="Enter Keyword Title"
+                autoFocus
+              />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3" controlId="meta_title">
               <Form.Label>Meta Title</Form.Label>
-              <Form.Control placeholder="Enter Meta Title" autoFocus />
+              <Form.Control
+                name="meta_title"
+                onChange={(e) =>
+                  setData({ ...data, meta_title: e.target.value })
+                }
+                placeholder="Enter Meta Title"
+                autoFocus
+              />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3" controlId="meta_desc">
               <Form.Label>Meta Desc</Form.Label>
-              <Form.Control as="textarea" placeholder="Enter Description" />
+              <Form.Control
+                name="meta_desc"
+                onChange={(e) =>
+                  setData({ ...data, meta_desc: e.target.value })
+                }
+                as="textarea"
+                placeholder="Enter Description"
+              />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3" controlId="short_desc">
               <Form.Label>Short Desc</Form.Label>
-              <Form.Control as="textarea" placeholder="Enter Short Description" />
+              <Form.Control
+                name="short_desc"
+                onChange={(e) =>
+                  setData({ ...data, short_desc: e.target.value })
+                }
+                as="textarea"
+                placeholder="Enter Short Description"
+              />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3" controlId="long_desc">
               <Form.Label>Long Desc</Form.Label>
-              <Form.Control as="textarea" style={{ height: '100px' }} placeholder="Enter Long Description" />
+              <Form.Control
+                name="long_desc"
+                onChange={(e) =>
+                  setData({ ...data, long_desc: e.target.value })
+                }
+                as="textarea"
+                style={{ height: "100px" }}
+                placeholder="Enter Long Description"
+              />
             </Form.Group>
             <Form.Group
               className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
+              controlId="status"
+              name="status"
+              onChange={(e) => setData({ ...data, status: e.target.value })}
             >
               <Form.Label>Status</Form.Label>
               <Form.Control as="select">
-                <option value="">ACTIVE</option>
-                <option value="">DEACTIVE</option>
+                <option value="1">ACTIVE</option>
+                <option value="0">DEACTIVE</option>
               </Form.Control>
             </Form.Group>
           </Form>
-          <Button className="w-100" variant="primary" onClick={handleClose}>
+          <Button
+            className="w-100"
+            variant="primary"
+            onClick={() => {
+              handleClose();
+              HandleSubmit();
+            }}
+          >
             Submit
           </Button>
         </Modal.Body>
@@ -139,7 +193,7 @@ export default function KeyWord() {
 
       {/* ----------------- edit model ------------ */}
 
-      <Modal
+      {/* <Modal
         show={editShow}
         onHide={handleEditClose}
         aria-labelledby="contained-modal-title-vcenter"
@@ -182,7 +236,7 @@ export default function KeyWord() {
             Submit
           </Button>
         </Modal.Body>
-      </Modal>
+      </Modal> */}
     </div>
   );
 }
