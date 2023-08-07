@@ -33,6 +33,16 @@ const AddBackgroundCategory = lazy(() => import("../views/backgroundcategory/Add
 const BackgroundItem = lazy(() => import("../views/backgrounditem/BackgroundItem.js"));
 const AddBackgroundItem = lazy(() => import("../views/backgrounditem/AddBackgroundItem.js"));
 const ImportJson = lazy(() => import("../views/importJson/ImportJson.js"));
+const CustomOrders = lazy(() => import("../views/customorders/CustomOrders.js"));
+const Employees = lazy(() => import("../views/employees/Employees.js"));
+const Users = lazy(() => import("../views/users/Users.js"));
+const Package = lazy(() => import("../views/package/Package.js"));
+const PaymentSetting = lazy(() => import("../views/paymentsetting/PaymentSetting.js"));
+const TransactionLogs = lazy(() => import("../views/transactionlogs/TransactionLogs.js"));
+const NortificationSetting = lazy(() => import("../views/nortification/NortificationSetting.js"));
+const ShowMessage = lazy(() => import("../views/message/ShowMessage.js"));
+const Feedback = lazy(() => import("../views/feedback/Feedback.js"));
+const Contacts = lazy(() => import("../views/contact/Contacts.js"));
 const Alerts = lazy(() => import("../views/ui/Alerts"));
 const Badges = lazy(() => import("../views/ui/Badges"));
 const Buttons = lazy(() => import("../views/ui/Buttons"));
@@ -77,6 +87,16 @@ const ThemeRoutes = [
       { path: "/backgroundItem", exact: true, element: <BackgroundItem /> },
       { path: "/addBackgroundItem", exact: true, element: <AddBackgroundItem /> },
       { path: "/importJson", exact: true, element: <ImportJson /> },
+      { path: "/customorders", exact: true, element: <CustomOrders /> },
+      { path: "/employees", exact: true, element: <Employees /> },
+      { path: "/users", exact: true, element: <Users /> },
+      { path: "/package", exact: true, element: <Package /> },
+      { path: "/payment_setting", exact: true, element: <PaymentSetting /> },
+      { path: "/transactionlogs", exact: true, element: <TransactionLogs /> },
+      { path: "/nortification", exact: true, element: <NortificationSetting /> },
+      { path: "/showmessage", exact: true, element: <ShowMessage /> },
+      { path: "/feedback", exact: true, element: <Feedback /> },
+      { path: "/contacts", exact: true, element: <Contacts /> },
       { path: "/alerts", exact: true, element: <Alerts /> },
       { path: "/badges", exact: true, element: <Badges /> },
       { path: "/buttons", exact: true, element: <Buttons /> },

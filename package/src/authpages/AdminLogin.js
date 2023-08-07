@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import BaseURL from '../urls/BaseUrl'
 
 export default function AdminLogin() {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ export default function AdminLogin() {
   const HandleSubmit =  (event) => {
     event.preventDefault();
     axios
-      .post("http://192.168.29.222:8000/api/employee/login", data)
+      .post(`${BaseURL}employee/login`, data)
       .then((res) => {
         console.log("res", res);
         // localStorage.setItem("token", "done");

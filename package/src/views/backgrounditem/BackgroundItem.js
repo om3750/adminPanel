@@ -2,16 +2,17 @@ import React,{useState,useEffect} from "react";
 import { Button, Card, CardBody, Table } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 // import { FiMoreVertical } from "react-icons/fi";
+import BaseURL from '../../urls/BaseUrl'
+
 import axios from "axios";
 
 export default function BackgroundItem() {
-  const navigate = useNavigate();
-  
+  const navigate = useNavigate();  
 
   const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
 
   useEffect(() => {
-    axios.get('http://192.168.29.222:8000/api/background/bg_item')
+    axios.get(`${BaseURL}background/bg_item`)
       .then((res) => {
         setDatas(res.data.record);
         console.log('res', res.data.record);
@@ -47,7 +48,7 @@ export default function BackgroundItem() {
             <tbody>
             {datas.map((items) => {
                     return (
-                      <tr key={items.no}> {/* Add a unique key for each row */}
+                      <tr className="border-top" key={items.no}> {/* Add a unique key for each row */}
                         <td>{items._id}</td>
                         <td>{items.application}</td>
                         <td>{items.bg_name}</td>

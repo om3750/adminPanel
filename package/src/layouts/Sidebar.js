@@ -110,7 +110,7 @@ const Sidebar = () => {
               <span className="ms-3 d-inline-block">Admin</span>
             </Link>
           </NavItem>
-          <div className="h4 mx-3 mt-2 border-bottom border-secondary"></div>
+          <div className="h4 mx-3 mt-2 border-bottom border-grey"></div>
           <NavItem className="sidenav-bg">
             <Link
               onClick={scrollToTop}
@@ -126,7 +126,7 @@ const Sidebar = () => {
             </Link>
           </NavItem>
 
-          <div className="h4 mx-3 mt-2 border-bottom border-secondary"></div>
+          <div className="h4 mx-3 mt-2 border-bottom border-grey"></div>
           <NavItem className="sidenav-bg">
             <Link
               onClick={scrollToTop}
@@ -141,14 +141,14 @@ const Sidebar = () => {
               <span className="ms-3 d-inline-block">Fonts</span>
             </Link>
           </NavItem>
-          <div className="h4 mx-3 mt-2 border-bottom border-secondary"></div>
+          <div className="h4 mx-3 mt-2 border-bottom border-grey"></div>
 
           <NavItem className="sidenav-bg">
             <Link
               onClick={scrollToTop}
-              to="/"
+              to="/customorders"
               className={
-                location.pathname === "/customOrders"
+                location.pathname === "/customorders"
                   ? "text-primary nav-link py-3"
                   : "nav-link text-secondary py-3"
               }
@@ -157,26 +157,26 @@ const Sidebar = () => {
               <span className="ms-3 d-inline-block">Custom Orders</span>
             </Link>
           </NavItem>
-          <div className="h4 mx-3 mt-2 border-bottom border-secondary"></div>
+          <div className="h4 mx-3 mt-2 border-bottom border-grey"></div>
           {Sidelist.map((items) => {
-        const condition = items.path === location.pathname;
-        return (
-          <NavItem className="sidenav-bg" key={items.path}>
-            <Link
-              onClick={scrollToTop}
-              to={items.path}
-              className={
-                condition
-                  ? "text-primary nav-link py-3"
-                  : "nav-link text-secondary py-3"
-              }
-            >
-              <span className="ms-3 d-inline-block">{items.item}</span>
-            </Link>
-          </NavItem>
-        );
-      })}
-          <div className="h4 mx-3 mt-2 border-bottom border-secondary"></div>
+            const condition = items.path === location.pathname;
+            return (
+              <NavItem className="sidenav-bg" key={items.path}>
+                <Link
+                  onClick={scrollToTop}
+                  to={items.path}
+                  className={
+                    condition
+                      ? "text-primary nav-link py-3"
+                      : "nav-link text-secondary py-3"
+                  }
+                >
+                  <span className="ms-3 d-inline-block">{items.item}</span>
+                </Link>
+              </NavItem>
+            );
+          })}
+          <div className="h4 mx-3 mt-2 border-bottom border-grey"></div>
 
           <NavItem className="sidenav-bg">
             <Link
@@ -206,7 +206,7 @@ const Sidebar = () => {
               <span className="ms-3 d-inline-block">Sticker Item</span>
             </Link>
           </NavItem>
-          <div className="h4 mx-3 mt-2 border-bottom border-secondary"></div>
+          <div className="h4 mx-3 mt-2 border-bottom border-grey"></div>
           <NavItem className="sidenav-bg">
             <button
               className={
@@ -237,7 +237,7 @@ const Sidebar = () => {
               <span className="ms-3 d-inline-block">Background Item</span>
             </Link>
           </NavItem>
-          <div className="h4 mx-3 mt-2 border-bottom border-secondary"></div>
+          <div className="h4 mx-3 mt-2 border-bottom border-grey"></div>
           <NavItem className="sidenav-bg">
             <Link
               onClick={scrollToTop}
@@ -252,11 +252,11 @@ const Sidebar = () => {
               <span className="ms-3 d-inline-block">Import Json</span>
             </Link>
           </NavItem>
-          <div className="h4 mx-3 mt-2 border-bottom border-secondary"></div>
+          <div className="h4 mx-3 mt-2 border-bottom border-grey"></div>
           <NavItem className="sidenav-bg">
             <Link
               onClick={scrollToTop}
-              to="/"
+              to="/employees"
               className={
                 location.pathname === "/employees"
                   ? "text-primary nav-link py-3"
@@ -270,7 +270,7 @@ const Sidebar = () => {
           <NavItem className="sidenav-bg">
             <Link
               onClick={scrollToTop}
-              to="/"
+              to="/users"
               className={
                 location.pathname === "/users"
                   ? "text-primary nav-link py-3"
@@ -281,13 +281,13 @@ const Sidebar = () => {
               <span className="ms-3 d-inline-block">Users</span>
             </Link>
           </NavItem>
-          <div className="h4 mx-3 mt-2 border-bottom border-secondary"></div>
+          <div className="h4 mx-3 mt-2 border-bottom border-grey"></div>
           <NavItem className="sidenav-bg">
             <Link
               onClick={scrollToTop}
-              to="/"
+              to="/package"
               className={
-                location.pathname === "/subscriptionPackage"
+                location.pathname === "/package"
                   ? "text-primary nav-link py-3"
                   : "nav-link text-secondary py-3"
               }
@@ -299,9 +299,9 @@ const Sidebar = () => {
           <NavItem className="sidenav-bg">
             <Link
               onClick={scrollToTop}
-              to="/"
+              to="/payment_setting"
               className={
-                location.pathname === "/paymentSetting"
+                location.pathname === "/payment_setting"
                   ? "text-primary nav-link py-3"
                   : "nav-link text-secondary py-3"
               }
@@ -313,9 +313,9 @@ const Sidebar = () => {
           <NavItem className="sidenav-bg">
             <Link
               onClick={scrollToTop}
-              to="/"
+              to="/transactionlogs"
               className={
-                location.pathname === "/transactionLogs"
+                location.pathname === "/transactionlogs"
                   ? "text-primary nav-link py-3"
                   : "nav-link text-secondary py-3"
               }
@@ -324,13 +324,13 @@ const Sidebar = () => {
               <span className="ms-3 d-inline-block">Transaction Logs</span>
             </Link>
           </NavItem>
-          <div className="h4 mx-3 mt-2 border-bottom border-secondary"></div>
+          <div className="h4 mx-3 mt-2 border-bottom border-grey"></div>
           <NavItem className="sidenav-bg">
             <Link
               onClick={scrollToTop}
-              to="/"
+              to="/nortification"
               className={
-                location.pathname === "/nortificationSetting"
+                location.pathname === "/nortification"
                   ? "text-primary nav-link py-3"
                   : "nav-link text-secondary py-3"
               }
@@ -342,9 +342,9 @@ const Sidebar = () => {
           <NavItem className="sidenav-bg">
             <Link
               onClick={scrollToTop}
-              to="/"
+              to="/showmessage"
               className={
-                location.pathname === "/inAppMessage"
+                location.pathname === "/showmessage"
                   ? "text-primary nav-link py-3"
                   : "nav-link text-secondary py-3"
               }
@@ -353,11 +353,11 @@ const Sidebar = () => {
               <span className="ms-3 d-inline-block">In App Message</span>
             </Link>
           </NavItem>
-          <div className="h4 mx-3 mt-2 border-bottom border-secondary"></div>
+          <div className="h4 mx-3 mt-2 border-bottom border-grey"></div>
           <NavItem className="sidenav-bg">
             <Link
               onClick={scrollToTop}
-              to="/"
+              to="/feedback"
               className={
                 location.pathname === "/feedback"
                   ? "text-primary nav-link py-3"
@@ -371,7 +371,7 @@ const Sidebar = () => {
           <NavItem className="sidenav-bg">
             <Link
               onClick={scrollToTop}
-              to="/"
+              to="/contacts"
               className={
                 location.pathname === "/contacts"
                   ? "text-primary nav-link py-3"

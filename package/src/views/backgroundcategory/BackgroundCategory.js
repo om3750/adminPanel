@@ -3,13 +3,15 @@ import { Button, Card, CardBody, Table } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 // import { FiMoreVertical } from "react-icons/fi";
 import axios from "axios";
+import BaseURL from '../../urls/BaseUrl'
+
 
 export default function BackgroundCategory() {
   const navigate = useNavigate();
   const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
   
   useEffect(() => {
-    axios.get('http://192.168.29.222:8000/api/background/showallcat')
+    axios.get(`${BaseURL}background/showallcat`)
       .then((res) => {
         setDatas(res.data.record);
         console.log('res', res.data.record);
@@ -33,10 +35,10 @@ export default function BackgroundCategory() {
           <Table className="no-wrap mt-3 align-middle" responsive borderless>
             <thead>
               <tr>
-                <th>Font Id</th>
-                <th>Font Name</th>
-                <th>Extension</th>
-                <th>Font Thumb</th>
+                <th>background Id</th>
+                <th>Category Name</th>
+                <th>Background Image</th>
+                <th>Sequence Number</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
@@ -44,7 +46,7 @@ export default function BackgroundCategory() {
             <tbody>
             {datas.map((items) => {
                     return (
-                      <tr  key={items.no}>
+                      <tr className="border-top" key={items.no}>
                         <td>{items.sql_id}</td>
                         <td>{items.bg_category_name}</td>
                         <td><img style={{height:'100%',width:'100px'}} src={`http://192.168.29.222:8000/${items.bg_category_thumb}`} alt="Logo" /></td>

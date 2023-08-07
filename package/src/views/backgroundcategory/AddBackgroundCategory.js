@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Card, CardBody } from "reactstrap";
 import axios from "axios";
+import BaseURL from '../../urls/BaseUrl'
 import { useNavigate } from "react-router-dom";
 
 export default function AddBackgroundCategory() {
@@ -16,7 +17,7 @@ export default function AddBackgroundCategory() {
   const HandleSubmit =  (event) => {
     event.preventDefault();
     axios
-      .post("http://192.168.29.222:8000/api/background/bg_cat", data)
+      .post(`${BaseURL}background/bg_cat`, data)
       .then((res) => {
         console.log("res", res);
         
