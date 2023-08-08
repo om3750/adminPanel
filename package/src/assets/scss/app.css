@@ -1,6 +1,6 @@
 .pagination-container {
   display: flex;
-  justify-content: right;
+  justify-content: right !important;
   margin-top: 20px;
 }
 

@@ -2,11 +2,30 @@ import React, { useState, useEffect } from "react";
 import BaseURL from "../../urls/BaseUrl";
 import { Button, Card, CardBody, Table } from "reactstrap";
 import { useNavigate } from "react-router-dom";
-import { FiMoreVertical } from "react-icons/fi";
-import { Form, Modal } from "react-bootstrap";
 import axios from "axios";
+import "../../assets/scss/app.css"; // Import the external CSS file
+import { FiMoreVertical } from "react-icons/fi";
+import {
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  Dropdown,
+} from "reactstrap";
+// ... other imports
+import { Form, Modal } from "react-bootstrap";
+const ITEMS_PER_PAGE = 10; // Number of items to show per pagex`
 
 export default function Theme() {
+
+  const navigate = useNavigate();
+  const [dropdownOpen, setDropdownOpen] = useState([]);
+
+  const toggleDropdown = (index) => {
+    const newDropdownOpen = [...dropdownOpen];
+    newDropdownOpen[index] = !newDropdownOpen[index];
+    setDropdownOpen(newDropdownOpen);
+  };
+
   const [data, setData] = useState({
     name: "",
     status: "1",
@@ -44,6 +63,16 @@ export default function Theme() {
   };
 
   const handleEditClose = () => setEditShow(false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(datas.length / ITEMS_PER_PAGE);
+  const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
+  const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
+  const currentItems = datas.slice(indexOfFirstItem, indexOfLastItem);
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <div className="mainContent">
       <Card className="m-3">
@@ -68,7 +97,7 @@ export default function Theme() {
               </tr>
             </thead>
             <tbody>
-              {datas.map((items) => {
+              {currentItems.map((items,index) => {
                 return (
                   <tr className="border-top" key={items.no}>
                     {" "}
@@ -76,12 +105,30 @@ export default function Theme() {
                     <td>{items._id}</td>
                     <td>{items.name}</td>
                     <td>{items.status ? "ACTIVATE" : "DESABLE"}</td>
-                    <td>button</td>
+                    <td> <Dropdown
+                        isOpen={dropdownOpen[index]} // Use individual open state
+                        toggle={() => toggleDropdown(index)}
+                      >
+                        <DropdownToggle color="white">
+                          <FiMoreVertical />
+                        </DropdownToggle>
+                        <DropdownMenu>
+                          <DropdownItem>Update</DropdownItem>
+                          <DropdownItem>Delete</DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown></td>
                   </tr>
                 );
               })}
             </tbody>
           </Table>
+          <div className="pagination-container">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          </div>
         </CardBody>
       </Card>
       {/* --------------------new model------------------------ */}
@@ -199,5 +246,24 @@ export default function Theme() {
         </Modal.Body>
       </Modal> */}
     </div>
+  );
+}
+function Pagination({ currentPage, totalPages, onPageChange }) {
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+  return (
+    <ul className="pagination">
+      {pageNumbers.map((number) => (
+        <li
+          key={number}
+          className={`pagination-item ${
+            number === currentPage ? "active" : ""
+          }`}
+          onClick={() => onPageChange(number)}
+        >
+          {number}
+        </li>
+      ))}
+    </ul>
   );
 }
