@@ -12,6 +12,7 @@ const About = lazy(() => import("../views/About.js"));
 const Admin = lazy(() => import("../views/admin/Admin.js"));
 const Fonts = lazy(() => import("../views/fonts/Fonts.js"));
 const AddFonts = lazy(() => import("../views/fonts/AddFonts.js"));
+const UpdateFont = lazy(() => import("../views/fonts/UpdateFont.js"));
 const Category = lazy(() => import("../views/category/Category.js"));
 const AddCategory = lazy(() => import("../views/category/AddCategory.js"));
 const SubCategory = lazy(() => import("../views/subcategory/SubCategory.js"));
@@ -66,6 +67,7 @@ const ThemeRoutes = [
       { path: "/admin", exact: true, element: <Admin /> },
       { path: "/fonts", exact: true, element: <Fonts /> },
       { path: "/addfonts", exact: true, element: <AddFonts /> },
+      { path: "/updatefont", exact: true, element: <UpdateFont /> },
       { path: "/category", exact: true, element: <Category /> },
       { path: "/addcategory", exact: true, element: <AddCategory /> },
       { path: "/subcategory", exact: true, element: <SubCategory /> },

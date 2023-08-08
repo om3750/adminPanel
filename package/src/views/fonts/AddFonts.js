@@ -19,11 +19,11 @@ export default function AddFonts() {
   const HandleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post(`${BaseURL}background/addbgitem`, data)
+      .post(`${BaseURL}font/addFont`, data)
       .then((res) => {
         console.log("res", res);
         window.location.reload(false);
-        navigate("/backgroundCategory");
+        navigate("/fonts");
       })
       .catch((error) => {
         console.error(error);
