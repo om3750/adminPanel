@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import BaseURL from "../../urls/BaseUrl";
+import axios from "axios";
 import { Button, Card, CardBody, Table } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 // import { FiMoreVertical } from "react-icons/fi";
 
 export default function Category() {
   const navigate = useNavigate();
+
+  const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
+
+  useEffect(() => {
+    axios.get(`${BaseURL}TransactionLog/showTransactionLog`).then((res) => {
+      setDatas(res.data.record);
+      console.log("res", res.data.record);
+    });
+  }, []);
 
   return (
     <div className="mainContent">
@@ -28,15 +39,22 @@ export default function Category() {
             </thead>
             <tbody>
               <tr className="border-top">
-                <td>1</td>
-                <td>qwertyuioplkjhgfdscv</td>
-                <td>Crafty Art</td>
-                <td>Pay_zxcvbnmok</td>
-                <td>Mobile</td>
-                <td>Rs 99</td>
-                <td>Rs 99</td>
-                <td>2023-08-22 21:40:58</td>
-              </tr>              
+                {datas.map((items) => {
+                  return (
+                    <tr className="border-top" key={items.no}>
+                      {/* Add a unique key for each row */}
+                      <td>No.</td>
+                      <td>User Id</td>
+                      <td>User Name</td>
+                      <td>Transacion Id</td>
+                      <td>Platform</td>
+                      <td>Amount</td>
+                      <td>Paid</td>
+                      <td>Payment Time</td>
+                    </tr>
+                  );
+                })}
+              </tr>
             </tbody>
           </Table>
         </CardBody>

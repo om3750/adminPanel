@@ -1,0 +1,24 @@
+.pagination-container {
+  display: flex;
+  justify-content: right;
+  margin-top: 20px;
+}
+
+.pagination {
+  list-style: none;
+  display: flex;
+  gap: 10px;
+}
+
+.pagination-item {
+  cursor: pointer;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.pagination-item.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}

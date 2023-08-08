@@ -96,7 +96,7 @@ const Sidebar = () => {
               <span className="ms-3 d-inline-block">Dashboard</span>
             </Link>
           </NavItem>
-          <NavItem className="sidenav-bg">
+          {/* <NavItem className="sidenav-bg">
             <Link
               onClick={scrollToTop}
               to="/admin"
@@ -106,10 +106,10 @@ const Sidebar = () => {
                   : "nav-link text-secondary py-3"
               }
             >
-              {/* <i className={navi.icon}></i> */}
+              <i className={navi.icon}></i>
               <span className="ms-3 d-inline-block">Admin</span>
             </Link>
-          </NavItem>
+          </NavItem> */}
           {/* <div className="h4 mx-3 mt-2 border-bottom border-grey"></div>
           <NavItem className="sidenav-bg">
             <Link

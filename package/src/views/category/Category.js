@@ -1,20 +1,47 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import BaseURL from "../../urls/BaseUrl";
 import { Button, Card, CardBody, Table } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-// import { FiMoreVertical } from "react-icons/fi";
+import "../../assets/scss/app.css"; // Import the external CSS file
+import { FiMoreVertical } from "react-icons/fi";
+import {
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  Dropdown,
+} from "reactstrap";
+// ... other imports
+
+const ITEMS_PER_PAGE = 10; // Number of items to show per pagex`
 
 export default function Category() {
   const navigate = useNavigate();
-  const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
+  const [datas, setDatas] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     axios.get(`${BaseURL}category/showCategory`).then((res) => {
       setDatas(res.data.record);
-      console.log("res", res.data.record);
     });
   }, []);
+
+  const totalPages = Math.ceil(datas.length / ITEMS_PER_PAGE);
+  const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
+  const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
+  const currentItems = datas.slice(indexOfFirstItem, indexOfLastItem);
+
+  const [dropdownOpen, setDropdownOpen] = useState([]);
+
+  const toggleDropdown = (index) => {
+    const newDropdownOpen = [...dropdownOpen];
+    newDropdownOpen[index] = !newDropdownOpen[index];
+    setDropdownOpen(newDropdownOpen);
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div className="mainContent">
@@ -42,31 +69,74 @@ export default function Category() {
                 <th>Status</th>
                 <th>Action</th>
               </tr>
-            </thead>
+            </thead>{" "}
             <tbody>
-            {datas.map((items) => {
+              {currentItems.map((items, index) => {
                 return (
                   <tr className="border-top" key={items.no}>
                     {" "}
                     {/* Add a unique key for each row */}
                     <td>{items._id}</td>
                     <td>CraftyArt</td>
-                    <td>{items.category_name}</td>                    
+                    <td>{items.category_name}</td>
                     <td>{items.id_name}</td>
-                    <td><img
+                    <td>
+                      <img
                         style={{ height: "100%", width: "100px" }}
                         src={`http://192.168.29.222:8080/${items.category_thumb}`}
                         alt="Logo"
-                      /></td>
+                      />
+                    </td>
                     <td>{items.sequence_number}</td>
                     <td>{items.status ? "ACTIVATE" : "DESABLE"}</td>
+                    <td>
+                      <Dropdown
+                        isOpen={dropdownOpen[index]} // Use individual open state
+                        toggle={() => toggleDropdown(index)}
+                      >
+                        <DropdownToggle color="white">
+                          <FiMoreVertical />
+                        </DropdownToggle>
+                        <DropdownMenu>
+                          <DropdownItem>Update</DropdownItem>
+                          <DropdownItem>Delete</DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown>
+                    </td>
                   </tr>
                 );
               })}
             </tbody>
           </Table>
+          <div className="pagination-container">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          </div>
         </CardBody>
       </Card>
     </div>
+  );
+}
+
+function Pagination({ currentPage, totalPages, onPageChange }) {
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+  return (
+    <ul className="pagination">
+      {pageNumbers.map((number) => (
+        <li
+          key={number}
+          className={`pagination-item ${
+            number === currentPage ? "active" : ""
+          }`}
+          onClick={() => onPageChange(number)}
+        >
+          {number}
+        </li>
+      ))}
+    </ul>
   );
 }

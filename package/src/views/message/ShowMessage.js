@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import BaseURL from "../../urls/BaseUrl";
+import axios from "axios";
 import { Button, Card, CardBody, Table } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 // import { FiMoreVertical } from "react-icons/fi";
 
 export default function ShowMessage() {
   const navigate = useNavigate();
+  const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
 
+  useEffect(() => {
+    axios.get(`${BaseURL}TransactionLog/showTransactionLog`).then((res) => {
+      setDatas(res.data.record);
+      console.log("res", res.data.record);
+    });
+  }, []);
   return (
     <div className="mainContent">
       <Card className="m-3">
@@ -36,18 +45,23 @@ export default function ShowMessage() {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-top">
-                <td>8</td>
-                <td>image 🖼</td>
-                <td>Template</td>
-                <td>FALSE</td>
-                <td>FALSE</td>
-                <td>Diwali</td>
-                <td></td>
-                <td>None</td>
-                <td>Live</td>
-                <td>...</td>
-              </tr>
+              {datas.map((items) => {
+                return (
+                  <tr className="border-top" key={items.no}>
+                    {/* Add a unique key for each row */}
+                    <td>Id</td>
+                    <td>Image</td>
+                    <td>Type</td>
+                    <td>Is Banner</td>
+                    <td>Can Cancle</td>
+                    <td>Keyword</td>
+                    <td>Link</td>
+                    <td>Date Range</td>
+                    <td>Status</td>
+                    <td>Action</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </Table>
         </CardBody>

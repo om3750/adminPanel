@@ -2,12 +2,18 @@ import React, { useState, useEffect } from "react";
 import BaseURL from "../../urls/BaseUrl";
 import { Button, Card, CardBody, Table } from "reactstrap";
 import { useNavigate } from "react-router-dom";
-import { FiMoreVertical } from "react-icons/fi";
 import axios from "axios";
+import { FiMoreVertical } from "react-icons/fi";
+import {
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  Dropdown,
+} from "reactstrap";
 
 export default function Fonts() {
   const navigate = useNavigate();
-  const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
+  const [datas, setDatas] = useState([]);
 
   useEffect(() => {
     axios.get(`${BaseURL}font/showFont`).then((res) => {
@@ -16,12 +22,21 @@ export default function Fonts() {
     });
   }, []);
 
+  // Create a state array to track each dropdown's open status
+  const [dropdownOpen, setDropdownOpen] = useState([]);
+
+  // Function to toggle the dropdown at a specific index
+  const toggleDropdown = (index) => {
+    const newDropdownOpen = [...dropdownOpen];
+    newDropdownOpen[index] = !newDropdownOpen[index];
+    setDropdownOpen(newDropdownOpen);
+  };
+
   return (
     <div className="mainContent">
       <Card className="m-3">
         <CardBody>
           <div className="d-flex justify-content-between align-items-center mb-3">
-            {/* <h4 className="card-title">Admin List</h4> */}
             <Button
               color="primary"
               onClick={() => navigate("/addfonts")}
@@ -42,11 +57,9 @@ export default function Fonts() {
               </tr>
             </thead>
             <tbody>
-              {datas.map((items) => {
+              {datas.map((items, index) => {
                 return (
                   <tr className="border-top" key={items.no}>
-                    {" "}
-                    {/* Add a unique key for each row */}
                     <td>{items._id}</td>
                     <td>{items.name}</td>
                     <td>{items.extension}</td>
@@ -57,8 +70,22 @@ export default function Fonts() {
                         alt="Logo"
                       />
                     </td>
-                    <td>{items.status ? "ACTIVATE" : "DESABLE"}</td>{" "}
-                    <td>buttons</td>
+                    <td>{items.status ? "ACTIVATE" : "DESABLE"}</td>
+                    <td>
+                      <Dropdown
+                        direction="right"
+                        isOpen={dropdownOpen[index]} // Use individual open state
+                        toggle={() => toggleDropdown(index)}
+                      >
+                        <DropdownToggle color="white">
+                          <FiMoreVertical />
+                        </DropdownToggle>
+                        <DropdownMenu>
+                          <DropdownItem>Update</DropdownItem>
+                          <DropdownItem>Delete</DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown>
+                    </td>
                   </tr>
                 );
               })}

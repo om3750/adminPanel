@@ -10,13 +10,19 @@ export default function Package() {
   const navigate = useNavigate();
 
   const [data, setData] = useState({
-    name: "",
+    package_name: "",
+    desc: "",
+    validity: "",
+    price: "",
+    actual_price: "",
+    price_dollar: "",
+    actual_price_dollar: "",
     status: "1",
   });
 
   const HandleSubmit = (event) => {
     axios
-      .post(`${BaseURL}interest/addInterest`, data)
+      .post(`${BaseURL}subscription/addSubscription`, data)
       .then((res) => {
         console.log("res", res);
         window.location.reload(false);
@@ -28,7 +34,7 @@ export default function Package() {
 
   const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
   useEffect(() => {
-    axios.get(`${BaseURL}interest/showInterest`).then((res) => {
+    axios.get(`${BaseURL}subscription/showSubscription`).then((res) => {
       setDatas(res.data.record);
       console.log("res", res.data.record);
     });
@@ -70,15 +76,20 @@ export default function Package() {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-top">
-                <td>12</td>
-                <td>1 month</td>
-                <td>30</td>
-                <td>(299)(299) No offer</td>
-                <td>(4.99)(4.99) No offer</td>
-                <td>ACTIVE</td>
-                <td>Actions</td>
-              </tr>
+              {datas.map((items) => {
+                return (
+                  <tr className="border-top" key={items.no}>
+                    {/* Add a unique key for each row */}
+                    <td>{items._id}</td>
+                    <td>{items.package_name}</td>
+                    <td>{items.validity}</td>
+                    <td>{items.price}</td>
+                    <td>{items.price_dollar}</td>
+                    <td>{items.status ? "ACTIVE" : "DISABLE"}</td>
+                    <td>button</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </Table>
         </CardBody>
@@ -94,28 +105,26 @@ export default function Package() {
         </Modal.Header>
         <Modal.Body style={{ width: "500px" }}>
           <Form>
-            <Form.Group className="mb-3" controlId="name">
-              <Form.Label>Package Name</Form.Label>
+            <Form.Group className="mb-3" controlId="package_name">
+              <Form.Label className="mb-0">Package Name</Form.Label>
               <Form.Control
-                name="name"
-                onChange={(e) => setData({ ...data, name: e.target.value })}
+                name="package_name"
+                onChange={(e) => setData({ ...data, package_name: e.target.value })}
                 placeholder="Package Name"
                 autoFocus
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="title">
-              <Form.Label>Descreption</Form.Label>
+            <Form.Group className="mb-3" controlId="desc">
+              <Form.Label className="mb-0">Descreption</Form.Label>
               <Form.Control
-                name="descreption"
-                onChange={(e) =>
-                  setData({ ...data, descreption: e.target.value })
-                }
+                name="desc"
+                onChange={(e) => setData({ ...data, desc: e.target.value })}
                 placeholder="Descreption"
                 autoFocus
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="validity">
-              <Form.Label>Validity (Day)</Form.Label>
+              <Form.Label className="mb-0">Validity (Day)</Form.Label>
               <Form.Control
                 name="validity"
                 onChange={(e) => setData({ ...data, validity: e.target.value })}
@@ -125,65 +134,64 @@ export default function Package() {
             </Form.Group>
             <div className="row">
               <div className="col-lg-6">
-              <Form.Group className="mb-3" controlId="aprice">
-                <Form.Label>Actual Price ₹</Form.Label>
-                <Form.Control
-                  name="aprice"
-                  onChange={(e) =>
-                    setData({ ...data, aprice: e.target.value })
-                  }
-                  placeholder="Enter Price"
-                />
-              </Form.Group>
-            </div>
+                <Form.Group className="mb-3" controlId="actual_price">
+                  <Form.Label className="mb-0">Actual Price ₹</Form.Label>
+                  <Form.Control
+                    name="actual_price"
+                    onChange={(e) =>
+                      setData({ ...data, actual_price: e.target.value })
+                    }
+                    placeholder="Enter Actual Price"
+                  />
+                </Form.Group>
+              </div>
               <div className="col-lg-6">
-              <Form.Group className="mb-3" controlId="price">
-                <Form.Label>Price ₹</Form.Label>
-                <Form.Control
-                  name="price"
-                  onChange={(e) =>
-                    setData({ ...data, price: e.target.value })
-                  }
-                  placeholder="Enter Price"
-                />
-              </Form.Group>
-            </div>
+                <Form.Group className="mb-3" controlId="price">
+                  <Form.Label className="mb-0">Price ₹</Form.Label>
+                  <Form.Control
+                    name="price"
+                    onChange={(e) =>
+                      setData({ ...data, price: e.target.value })
+                    }
+                    placeholder="Enter Price"
+                  />
+                </Form.Group>
+              </div>
             </div>
             <div className="row">
               <div className="col-lg-6">
-              <Form.Group className="mb-3" controlId="aprice">
-                <Form.Label>Actual Price $</Form.Label>
-                <Form.Control
-                  name="aprice"
-                  onChange={(e) =>
-                    setData({ ...data, aprice: e.target.value })
-                  }
-                  placeholder="Enter Price"
-                />
-              </Form.Group>
-            </div>
+                <Form.Group className="mb-3" controlId="actual_price_dollar">
+                  <Form.Label className="mb-0">Actual Price $</Form.Label>
+                  <Form.Control
+                    name="actual_price_dollar"
+                    onChange={(e) =>
+                      setData({ ...data, actual_price_dollar: e.target.value })
+                    }
+                    placeholder="Enter Price"
+                  />
+                </Form.Group>
+              </div>
               <div className="col-lg-6">
-              <Form.Group className="mb-3" controlId="price">
-                <Form.Label>Price $</Form.Label>
-                <Form.Control
-                  name="price"
-                  onChange={(e) =>
-                    setData({ ...data, price: e.target.value })
-                  }
-                  placeholder="Enter Price"
-                />
-              </Form.Group>
+                <Form.Group className="mb-3" controlId="price_dollar">
+                  <Form.Label className="mb-0">Price $</Form.Label>
+                  <Form.Control
+                    name="price_dollar"
+                    onChange={(e) =>
+                      setData({ ...data, price_dollar: e.target.value })
+                    }
+                    placeholder="Enter Price"
+                  />
+                </Form.Group>
+              </div>
             </div>
-            </div>
-            
-            
+
             <Form.Group
               className="mb-3"
               controlId="status"
               name="status"
               onChange={(e) => setData({ ...data, status: e.target.value })}
             >
-              <Form.Label>Status</Form.Label>
+              <Form.Label className="mb-0">Status</Form.Label>
               <Form.Control as="select">
                 <option value="1">ACTIVE</option>
                 <option value="0">DEACTIVE</option>
@@ -191,7 +199,7 @@ export default function Package() {
             </Form.Group>
           </Form>
           <Button
-            className="w-100"
+            className="mt-2 w-100"
             variant="primary"
             onClick={() => {
               handleClose();

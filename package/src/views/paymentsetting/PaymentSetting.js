@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import BaseURL from "../../urls/BaseUrl";
+import axios from "axios";
 import { Button, Card, CardBody, Table } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 // import { FiMoreVertical } from "react-icons/fi";
 
 export default function PaymentSetting() {
+  const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
+
+  useEffect(() => {
+    axios.get(`${BaseURL}paymentSetting/showPaymentSetting`).then((res) => {
+      setDatas(res.data.record);
+      console.log("res", res.data.record);
+    });
+  }, []);
   return (
     <div className="mainContent">
       <Card className="m-3">
@@ -20,8 +30,8 @@ export default function PaymentSetting() {
                 <div className="mb-3form-group">
                   <label>RazorPay</label>
                   <select className="mb-3 form-control" name="application">
-                    <option value="">ENABLED</option>
-                    <option value="">DISABLED</option>
+                    <option value="1">ENABLED</option>
+                    <option value="0">DISABLED</option>
                   </select>
                 </div>
               </div>

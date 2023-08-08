@@ -1,10 +1,26 @@
 import React from "react";
 import { Button, Card, CardBody, Table } from "reactstrap";
 import { useNavigate } from "react-router-dom";
+import {
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  Dropdown,
+  Container,
+} from "reactstrap";
 import { FiMoreVertical } from "react-icons/fi";
 
 export default function Template() {
   const navigate = useNavigate();
+
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [dropdownOpen, setDropdownOpen] = React.useState(false);
+
+  const toggle = () => setDropdownOpen((prevState) => !prevState);
+  const Handletoggle = () => {
+    setIsOpen(!isOpen);
+  };
+
   // const [show, setShow] = useState(false);
   // const [editShow, setEditShow] = useState(false);
   // const [editItems, setEditItems] = useState({ name: "", status: true });
@@ -26,7 +42,7 @@ export default function Template() {
             {/* <h4 className="card-title">Admin List</h4> */}
             <Button
               color="primary"
-              onClick={() => navigate('/addtemplate')}
+              onClick={() => navigate("/addtemplate")}
               className="m-2 btn"
             >
               Add Template
@@ -61,62 +77,21 @@ export default function Template() {
                 <td>ACTIVE</td>
                 <td>ACTIVE</td>
                 <td>
-                  {" "}
-                  <FiMoreVertical />
-                </td>
-              </tr>
-              <tr className="border-top">
-                <td>1</td>
-                <td>Om Kakadiya</td>
-                <td>Om Kakadiya</td>
-                <td>Om Kakadiya</td>
-                <td>ACTIVE</td>
-                <td>ACTIVE</td>
-                <td>ACTIVE</td>
-                <td>ACTIVE</td>
-                <td>ACTIVE</td>
-                <td>ACTIVE</td>
-                <td>
-                  {" "}
-                  <FiMoreVertical />
-                </td>
-              </tr>
-              <tr className="border-top">
-                <td>1</td>
-                <td>Om Kakadiya</td>
-                <td>Om Kakadiya</td>
-                <td>Om Kakadiya</td>
-                <td>ACTIVE</td>
-                <td>ACTIVE</td>
-                <td>ACTIVE</td>
-                <td>ACTIVE</td>
-                <td>ACTIVE</td>
-                <td>ACTIVE</td>
-                <td>
-                  {" "}
-                  <FiMoreVertical />
-                </td>
-              </tr>
-              <tr className="border-top">
-                <td>1</td>
-                <td>Om Kakadiya</td>
-                <td>Om Kakadiya</td>
-                <td>Om Kakadiya</td>
-                <td>ACTIVE</td>
-                <td>ACTIVE</td>
-                <td>ACTIVE</td>
-                <td>ACTIVE</td>
-                <td>ACTIVE</td>
-                <td>ACTIVE</td>
-                <td>
-                  {" "}
-                  <FiMoreVertical />
+                    <Dropdown direction="right" isOpen={dropdownOpen} toggle={toggle}>
+                      <DropdownToggle color="white">
+                        <FiMoreVertical />
+                      </DropdownToggle>
+                      <DropdownMenu>
+                        <DropdownItem>Update</DropdownItem>
+                        <DropdownItem>Delete</DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
                 </td>
               </tr>
             </tbody>
           </Table>
         </CardBody>
-      </Card>    
+      </Card>
     </div>
   );
 }
