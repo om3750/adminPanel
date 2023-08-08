@@ -84,7 +84,7 @@ const Sidebar = () => {
         <Nav vertical className="sidebarNav">
           <NavItem className="sidenav-bg">
             <Link
-              onClick={scrollToTop}
+              
               to="/starter"
               className={
                 location.pathname === "/starter"
@@ -98,7 +98,7 @@ const Sidebar = () => {
           </NavItem>
           {/* <NavItem className="sidenav-bg">
             <Link
-              onClick={scrollToTop}
+              
               to="/admin"
               className={
                 location.pathname === "/admin"
@@ -113,7 +113,7 @@ const Sidebar = () => {
           {/* <div className="h4 mx-3 mt-2 border-bottom border-grey"></div>
           <NavItem className="sidenav-bg">
             <Link
-              onClick={scrollToTop}
+              
               to="/"
               className={
                 location.pathname === "/application"
@@ -129,7 +129,7 @@ const Sidebar = () => {
           <div className="h4 mx-3 mt-2 border-bottom border-grey"></div>
           <NavItem className="sidenav-bg">
             <Link
-              onClick={scrollToTop}
+              
               to="/fonts"
               className={
                 location.pathname === "/fonts"
@@ -145,7 +145,7 @@ const Sidebar = () => {
 
           <NavItem className="sidenav-bg">
             <Link
-              onClick={scrollToTop}
+              
               to="/customorders"
               className={
                 location.pathname === "/customorders"
@@ -163,7 +163,7 @@ const Sidebar = () => {
             return (
               <NavItem className="sidenav-bg" key={items.path}>
                 <Link
-                  onClick={scrollToTop}
+                  
                   to={items.path}
                   className={
                     condition
@@ -180,7 +180,7 @@ const Sidebar = () => {
 
           <NavItem className="sidenav-bg">
             <Link
-              onClick={scrollToTop}
+              
               to="/stickerCategory"
               className={
                 location.pathname === "/stickerCategory"
@@ -194,7 +194,7 @@ const Sidebar = () => {
           </NavItem>
           <NavItem className="sidenav-bg">
             <Link
-              onClick={scrollToTop}
+              
               to="/stickerItem"
               className={
                 location.pathname === "/stickerItem"
@@ -225,7 +225,7 @@ const Sidebar = () => {
           </NavItem>
           <NavItem className="sidenav-bg">
             <Link
-              onClick={scrollToTop}
+              
               to="/backgroundItem"
               className={
                 location.pathname === "/backgroundItem"
@@ -240,7 +240,7 @@ const Sidebar = () => {
           <div className="h4 mx-3 mt-2 border-bottom border-grey"></div>
           <NavItem className="sidenav-bg">
             <Link
-              onClick={scrollToTop}
+              
               to="/importJson"
               className={
                 location.pathname === "/importJson"
@@ -255,7 +255,7 @@ const Sidebar = () => {
           <div className="h4 mx-3 mt-2 border-bottom border-grey"></div>
           <NavItem className="sidenav-bg">
             <Link
-              onClick={scrollToTop}
+              
               to="/employees"
               className={
                 location.pathname === "/employees"
@@ -269,7 +269,7 @@ const Sidebar = () => {
           </NavItem>
           <NavItem className="sidenav-bg">
             <Link
-              onClick={scrollToTop}
+              
               to="/users"
               className={
                 location.pathname === "/users"
@@ -284,7 +284,7 @@ const Sidebar = () => {
           <div className="h4 mx-3 mt-2 border-bottom border-grey"></div>
           <NavItem className="sidenav-bg">
             <Link
-              onClick={scrollToTop}
+              
               to="/package"
               className={
                 location.pathname === "/package"
@@ -298,7 +298,7 @@ const Sidebar = () => {
           </NavItem>
           <NavItem className="sidenav-bg">
             <Link
-              onClick={scrollToTop}
+              
               to="/payment_setting"
               className={
                 location.pathname === "/payment_setting"
@@ -312,7 +312,7 @@ const Sidebar = () => {
           </NavItem>
           <NavItem className="sidenav-bg">
             <Link
-              onClick={scrollToTop}
+              
               to="/transactionlogs"
               className={
                 location.pathname === "/transactionlogs"
@@ -327,7 +327,7 @@ const Sidebar = () => {
           <div className="h4 mx-3 mt-2 border-bottom border-grey"></div>
           <NavItem className="sidenav-bg">
             <Link
-              onClick={scrollToTop}
+              
               to="/nortification"
               className={
                 location.pathname === "/nortification"
@@ -341,7 +341,7 @@ const Sidebar = () => {
           </NavItem>
           <NavItem className="sidenav-bg">
             <Link
-              onClick={scrollToTop}
+              
               to="/showmessage"
               className={
                 location.pathname === "/showmessage"
@@ -356,7 +356,7 @@ const Sidebar = () => {
           <div className="h4 mx-3 mt-2 border-bottom border-grey"></div>
           <NavItem className="sidenav-bg">
             <Link
-              onClick={scrollToTop}
+              
               to="/feedback"
               className={
                 location.pathname === "/feedback"
@@ -370,7 +370,7 @@ const Sidebar = () => {
           </NavItem>
           <NavItem className="sidenav-bg">
             <Link
-              onClick={scrollToTop}
+              
               to="/contacts"
               className={
                 location.pathname === "/contacts"

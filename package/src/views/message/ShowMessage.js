@@ -28,7 +28,7 @@ export default function ShowMessage() {
   const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
 
   useEffect(() => {
-    axios.get(`${BaseURL}TransactionLog/showTransactionLog`).then((res) => {
+    axios.get(`${BaseURL}inAppMessage/showInAppMessage`).then((res) => {
       setDatas(res.data.record);
       console.log("res", res.data.record);
     });
@@ -42,7 +42,15 @@ export default function ShowMessage() {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
+  const handleDelete = (id) => {
+    axios.post(`${BaseURL}inAppMessage/deleteInAppMessage/${id}`).then((res) => {
+      // After successful delete, you might want to refresh the data
+      // Fetch the updated list of fonts
+      axios.get(`${BaseURL}inAppMessage/showInAppMessage`).then((res) => {
+        setDatas(res.data.record);
+      });
+    });
+  };
   return (
     <div className="mainContent">
       <Card className="m-3">
@@ -95,7 +103,9 @@ export default function ShowMessage() {
                         </DropdownToggle>
                         <DropdownMenu>
                           <DropdownItem>Update</DropdownItem>
-                          <DropdownItem>Delete</DropdownItem>
+                          <DropdownItem onClick={() => {
+                              handleDelete(items._id);
+                            }}>Delete</DropdownItem>
                         </DropdownMenu>
                       </Dropdown></td>
                   </tr>
