@@ -77,7 +77,15 @@ export default function Style() {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
+const handleDelete = (id) => {
+    axios.post(`${BaseURL}specialKeyword/deleteSpecialKeyword/${id}`).then((res) => {
+      // After successful delete, you might want to refresh the data
+      // Fetch the updated list of fonts
+      axios.get(`${BaseURL}specialKeyword/showSpecialKeyword`).then((res) => {
+        setDatas(res.data.record);
+      });
+    });
+  };
 
   return (
     <div className="mainContent">
@@ -119,8 +127,10 @@ export default function Style() {
                           <FiMoreVertical />
                         </DropdownToggle>
                         <DropdownMenu>
-                          <DropdownItem>Update</DropdownItem>
-                          <DropdownItem>Delete</DropdownItem>
+                          <DropdownItem >Update</DropdownItem>
+                          <DropdownItem  onClick={() => {
+                              handleDelete(items._id);
+                            }}>Delete</DropdownItem>
                         </DropdownMenu>
                       </Dropdown></td>
                   </tr>

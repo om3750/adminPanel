@@ -71,6 +71,16 @@ export default function Style() {
     setCurrentPage(pageNumber);
   };
 
+  const handleDelete = (id) => {
+    axios.post(`${BaseURL}style/deleteStyle/${id}`).then((res) => {
+      // After successful delete, you might want to refresh the data
+      // Fetch the updated list of fonts
+      axios.get(`${BaseURL}style/showStyle`).then((res) => {
+        setDatas(res.data.record);
+      });
+    });
+  };
+
   return (
     <div className="mainContent">
       <Card className="m-3">
@@ -112,7 +122,9 @@ export default function Style() {
                         </DropdownToggle>
                         <DropdownMenu>
                           <DropdownItem>Update</DropdownItem>
-                          <DropdownItem>Delete</DropdownItem>
+                          <DropdownItem  onClick={() => {
+                              handleDelete(items._id);
+                            }}>Delete</DropdownItem>
                         </DropdownMenu>
                       </Dropdown></td>
                   </tr>

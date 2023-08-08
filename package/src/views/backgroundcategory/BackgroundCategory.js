@@ -44,6 +44,15 @@ export default function BackgroundCategory() {
     setCurrentPage(pageNumber);
   };
 
+  const handleDelete = (id) => {
+    axios.post(`${BaseURL}background/deleteCat/${id}`).then((res) => {
+      // After successful delete, you might want to refresh the data
+      // Fetch the updated list of fonts
+      axios.get(`${BaseURL}background/showallcat`).then((res) => {
+        setDatas(res.data.record);
+      });
+    });
+  };
   return (
     <div className="mainContent">
       <Card className="m-3">
@@ -93,7 +102,9 @@ export default function BackgroundCategory() {
                         </DropdownToggle>
                         <DropdownMenu>
                           <DropdownItem>Update</DropdownItem>
-                          <DropdownItem>Delete</DropdownItem>
+                          <DropdownItem onClick={() => {
+                              handleDelete(items._id);
+                            }}>Delete</DropdownItem>
                         </DropdownMenu>
                       </Dropdown></td>
                   </tr>

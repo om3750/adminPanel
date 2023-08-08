@@ -42,7 +42,15 @@ export default function Category() {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
+  const handleDelete = (categoryId) => {
+    axios.post(`${BaseURL}category/deleteCategory/${categoryId}`).then((res) => {
+      // After successful delete, you might want to refresh the data
+      // Fetch the updated list of fonts
+      axios.get(`${BaseURL}category/showCategory`).then((res) => {
+        setDatas(res.data.record);
+      });
+    });
+  };
   return (
     <div className="mainContent">
       <Card className="m-3">
@@ -69,12 +77,11 @@ export default function Category() {
                 <th>Status</th>
                 <th>Action</th>
               </tr>
-            </thead>{" "}
+            </thead>
             <tbody>
               {currentItems.map((items, index) => {
                 return (
                   <tr className="border-top" key={items.no}>
-                    {" "}
                     {/* Add a unique key for each row */}
                     <td>{items._id}</td>
                     <td>CraftyArt</td>
@@ -99,7 +106,9 @@ export default function Category() {
                         </DropdownToggle>
                         <DropdownMenu>
                           <DropdownItem>Update</DropdownItem>
-                          <DropdownItem>Delete</DropdownItem>
+                          <DropdownItem onClick={() => {
+                              handleDelete(items._id);
+                            }}>Delete</DropdownItem>
                         </DropdownMenu>
                       </Dropdown>
                     </td>

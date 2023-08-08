@@ -42,11 +42,12 @@ export default function Admin() {
   const [editItems, setEditItems] = useState({ name: "", status: true });
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  
   const handleEditShow = (items) => {
     setEditShow(true);
     setEditItems(items);
   };
-  
+
   return (
     <div className="mainContent">
       <Card className="m-3">

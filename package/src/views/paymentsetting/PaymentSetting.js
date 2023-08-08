@@ -19,11 +19,7 @@ export default function PaymentSetting() {
       <Card className="m-3">
         <CardBody>
           <h4 className="card-title mb-3">Payment Setting</h4>
-          <form
-            action="/category/add_category"
-            method="post"
-            enctype="multipart/form-data"
-          >
+          <form>
             {/* --------------------------------------------------------------- */}
             <div className="row">
               <div className="col-lg-4">

@@ -44,7 +44,15 @@ export default function StickerItem() {
     setCurrentPage(pageNumber);
   };
 
-
+  const handleDelete = (id) => {
+    axios.post(`${BaseURL}sticker/deleteStkItem/${id}`).then((res) => {
+      // After successful delete, you might want to refresh the data
+      // Fetch the updated list of fonts
+      axios.get(`${BaseURL}sticker/showStkItem`).then((res) => {
+        setDatas(res.data.record);
+      });
+    });
+  };
   return (
     <div className="mainContent">
       <Card className="m-3">
@@ -99,7 +107,9 @@ export default function StickerItem() {
                         </DropdownToggle>
                         <DropdownMenu>
                           <DropdownItem>Update</DropdownItem>
-                          <DropdownItem>Delete</DropdownItem>
+                          <DropdownItem onClick={() => {
+                              handleDelete(items._id);
+                            }}>Delete</DropdownItem>
                         </DropdownMenu>
                       </Dropdown></td>
                   </tr>
