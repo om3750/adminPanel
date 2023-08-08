@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import BaseURL from "../../urls/BaseUrl";
 import axios from "axios";
 import { Button, Card, CardBody, Table } from "reactstrap";
-import { useNavigate } from "react-router-dom";
-import { FiMoreVertical } from "react-icons/fi";
+// import { useNavigate } from "react-router-dom";
+// import { FiMoreVertical } from "react-icons/fi";
 import { Form, Modal } from "react-bootstrap";
 
 export default function Admin() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [data, setData] = useState({
     name: "",
@@ -16,7 +16,7 @@ export default function Admin() {
     user_type: "1",
   });
 
-  const HandleSubmit = (event) => {
+  const HandleSubmit = () => {
     axios
       .post(`${BaseURL}employee/createUser`, data)
       .then((res) => {
@@ -46,6 +46,7 @@ export default function Admin() {
     setEditShow(true);
     setEditItems(items);
   };
+  
   return (
     <div className="mainContent">
       <Card className="m-3">

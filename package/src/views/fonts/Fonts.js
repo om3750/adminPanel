@@ -45,7 +45,7 @@ export default function Fonts() {
               Add Font
             </Button>
           </div>
-          <Table className="no-wrap mt-3 align-middle" responsive borderless>
+          <Table  className="no-wrap mt-3 align-middle" responsive borderless>
             <thead>
               <tr>
                 <th>Font Id</th>
