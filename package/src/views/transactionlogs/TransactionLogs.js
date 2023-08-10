@@ -45,7 +45,7 @@ export default function Category() {
                 <th>No.</th>
                 <th>User Id</th>
                 <th>User Name</th>
-                <th>Transacion Id</th>
+                <th>Transaction Id</th>
                 <th>Platform</th>
                 <th>Amount</th>
                 <th>Paid</th>
@@ -55,16 +55,16 @@ export default function Category() {
             <tbody>
             {currentItems.map((items,index) => {
                   return (
-                    <tr className="border-top" key={items.no}>
+                    <tr className="border-top" key={items._id}>
                       {/* Add a unique key for each row */}
-                      <td>No.</td>
-                      <td>User Id</td>
-                      <td>User Name</td>
-                      <td>Transacion Id</td>
-                      <td>Platform</td>
-                      <td>Amount</td>
-                      <td>Paid</td>
-                      <td>Payment Time</td>
+                      <td>{items.sql_id}</td>
+                      <td>{items.user_id}</td>
+                      <td>{items.plan_id}</td>
+                      <td>{items.transaction_id}</td>
+                      <td>{items.from_where}</td>
+                      <td>Rs {items.price_amount}</td>
+                      <td>Rs {items.paid_amount}</td>
+                      <td>{items.created_at}</td>
                     </tr>
                   );
                 })}

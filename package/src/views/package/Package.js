@@ -48,6 +48,22 @@ export default function Package() {
       });
   };
 
+  const HandleEditSubmit = () => {
+    axios
+      .post(
+        `${BaseURL}subscription/updateSubscription/${editItems._id}`,
+        editItems
+      ) // Use editItems for the update data
+      .then((res) => {
+        console.log("res", res);
+        window.location.reload(false);
+        // navigate("/subcategory");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
   useEffect(() => {
     axios.get(`${BaseURL}subscription/showSubscription`).then((res) => {
@@ -76,13 +92,15 @@ export default function Package() {
   };
 
   const handleDelete = (id) => {
-    axios.post(`${BaseURL}subscription/deleteSubscription/${id}`).then((res) => {
-      // After successful delete, you might want to refresh the data
-      // Fetch the updated list of fonts
-      axios.get(`${BaseURL}subscription/showSubscription`).then((res) => {
-        setDatas(res.data.record);
+    axios
+      .post(`${BaseURL}subscription/deleteSubscription/${id}`)
+      .then((res) => {
+        // After successful delete, you might want to refresh the data
+        // Fetch the updated list of fonts
+        axios.get(`${BaseURL}subscription/showSubscription`).then((res) => {
+          setDatas(res.data.record);
+        });
       });
-    });
   };
 
   return (
@@ -112,7 +130,7 @@ export default function Package() {
               </tr>
             </thead>
             <tbody>
-              {currentItems.map((items,index) => {
+              {currentItems.map((items, index) => {
                 return (
                   <tr className="border-top" key={items.no}>
                     {/* Add a unique key for each row */}
@@ -122,7 +140,8 @@ export default function Package() {
                     <td>{items.price}</td>
                     <td>{items.price_dollar}</td>
                     <td>{items.status ? "ACTIVE" : "DISABLE"}</td>
-                    <td><Dropdown
+                    <td>
+                      <Dropdown
                         isOpen={dropdownOpen[index]} // Use individual open state
                         toggle={() => toggleDropdown(index)}
                       >
@@ -130,12 +149,19 @@ export default function Package() {
                           <FiMoreVertical />
                         </DropdownToggle>
                         <DropdownMenu>
-                          <DropdownItem>Update</DropdownItem>
-                          <DropdownItem onClick={() => {
+                          <DropdownItem onClick={() => handleEditShow(items)}>
+                            Update
+                          </DropdownItem>
+                          <DropdownItem
+                            onClick={() => {
                               handleDelete(items._id);
-                            }}>Delete</DropdownItem>
+                            }}
+                          >
+                            Delete
+                          </DropdownItem>
                         </DropdownMenu>
-                      </Dropdown></td>
+                      </Dropdown>
+                    </td>
                   </tr>
                 );
               })}
@@ -161,16 +187,18 @@ export default function Package() {
         </Modal.Header>
         <Modal.Body style={{ width: "500px" }}>
           <Form>
-            <Form.Group className="mb-3" controlId="package_name">
+            <Form.Group className="mb-3" >
               <Form.Label className="mb-0">Package Name</Form.Label>
               <Form.Control
                 name="package_name"
-                onChange={(e) => setData({ ...data, package_name: e.target.value })}
+                onChange={(e) =>
+                  setData({ ...data, package_name: e.target.value })
+                }
                 placeholder="Package Name"
                 autoFocus
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="desc">
+            <Form.Group className="mb-3">
               <Form.Label className="mb-0">Descreption</Form.Label>
               <Form.Control
                 name="desc"
@@ -179,7 +207,7 @@ export default function Package() {
                 autoFocus
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="validity">
+            <Form.Group className="mb-3">
               <Form.Label className="mb-0">Validity (Day)</Form.Label>
               <Form.Control
                 name="validity"
@@ -190,7 +218,7 @@ export default function Package() {
             </Form.Group>
             <div className="row">
               <div className="col-lg-6">
-                <Form.Group className="mb-3" controlId="actual_price">
+                <Form.Group className="mb-3" >
                   <Form.Label className="mb-0">Actual Price ₹</Form.Label>
                   <Form.Control
                     name="actual_price"
@@ -202,7 +230,7 @@ export default function Package() {
                 </Form.Group>
               </div>
               <div className="col-lg-6">
-                <Form.Group className="mb-3" controlId="price">
+                <Form.Group className="mb-3">
                   <Form.Label className="mb-0">Price ₹</Form.Label>
                   <Form.Control
                     name="price"
@@ -216,7 +244,7 @@ export default function Package() {
             </div>
             <div className="row">
               <div className="col-lg-6">
-                <Form.Group className="mb-3" controlId="actual_price_dollar">
+                <Form.Group className="mb-3">
                   <Form.Label className="mb-0">Actual Price $</Form.Label>
                   <Form.Control
                     name="actual_price_dollar"
@@ -228,7 +256,7 @@ export default function Package() {
                 </Form.Group>
               </div>
               <div className="col-lg-6">
-                <Form.Group className="mb-3" controlId="price_dollar">
+                <Form.Group className="mb-3">
                   <Form.Label className="mb-0">Price $</Form.Label>
                   <Form.Control
                     name="price_dollar"
@@ -269,50 +297,146 @@ export default function Package() {
 
       {/* ----------------- edit model ------------ */}
 
-      {/* <Modal
+      <Modal
         show={editShow}
         onHide={handleEditClose}
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>Edit Keyword</Modal.Title>
+          <Modal.Title>Edit Subcategory</Modal.Title>
         </Modal.Header>
-        <Modal.Body style={{width:"500px"}}>
+        <Modal.Body style={{ width: "500px" }}>
           <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Keyword Name</Form.Label>
+            <Form.Group className="mb-3">
+              <Form.Label className="mb-0">Package Name</Form.Label>
               <Form.Control
-                onChange={(e) => {
-                  setEditItems({ ...editItems, name: e.target.value });
-                }}
-                value={editItems.name}
-                placeholder="Enter New Keyword Name"
+                name="package_name"
+                onChange={(e) =>
+                  setEditItems({ ...editItems, package_name: e.target.value })
+                }
+                value={editItems.package_name}
+                placeholder="Package Name"
                 autoFocus
               />
             </Form.Group>
-            <Form.Group
-              className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
-            >
-              <Form.Label>Status</Form.Label>
+            <Form.Group className="mb-3">
+              <Form.Label className="mb-0">Package Name</Form.Label>
               <Form.Control
-                as="select"
-                value={editItems.status}
-                onClick={(e) =>
-                  setEditItems({ ...editItems, status: e.target.value })
+                name="desc"
+                value={editItems.desc}
+                onChange={(e) =>
+                  setEditItems({ ...editItems, desc: e.target.value })
                 }
-              >
-                <option value={true}>ACTIVE</option>
-                <option value={false}>DISABLE</option>
-              </Form.Control>
+                placeholder="Description"
+                autoFocus
+              />
             </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label className="mb-0">Validity (Day)</Form.Label>
+              <Form.Control
+                name="validity"
+                value={editItems.validity}
+                onChange={(e) =>
+                  setEditItems({ ...editItems, validity: e.target.value })
+                }
+                placeholder="validity"
+                autoFocus
+              />
+            </Form.Group>
+            <div className="row">
+              <div className="col-lg-6">
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-0">Actual Price ₹</Form.Label>
+                  <Form.Control
+                    name="actual_price"
+                    value={editItems.actual_price}
+                    onChange={(e) =>
+                      setEditItems({ ...editItems, actual_price: e.target.value })
+                    }
+                    placeholder="actual price"
+                    autoFocus
+                  />
+                </Form.Group>
+              </div>
+              <div className="col-lg-6">
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-0">Price ₹</Form.Label>
+                  <Form.Control
+                    name="price"
+                    value={editItems.price}
+                    onChange={(e) =>
+                      setEditItems({ ...editItems, price: e.target.value })
+                    }
+                    placeholder="price"
+                    autoFocus
+                  />
+                </Form.Group>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-lg-6">
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-0">Actual Price $</Form.Label>
+                  <Form.Control
+                    name="actual_price_dollar"
+                    value={editItems.actual_price_dollar}
+                    onChange={(e) =>
+                      setEditItems({
+                        ...data,
+                        actual_price_dollar: e.target.value,
+                      })
+                    }
+                    placeholder="actual price dollar"
+                    autoFocus
+                  />
+                </Form.Group>
+              </div>
+              <div className="col-lg-6">
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-0">Price $</Form.Label>
+                  <Form.Control
+                    name="price_dollar"
+                    value={editItems.actual_price_dollar}
+                    onChange={(e) =>
+                      setEditItems({ ...editItems, price_dollar: e.target.value })
+                    }
+                    placeholder="Enter Price"
+                  />
+                </Form.Group>
+              </div>
+
+              <Form.Group className="mb-3">
+                <Form.Label>Type</Form.Label>
+                <Form.Control
+                  name="user_type"
+                  onChange={(e) =>
+                    setEditItems({ ...editItems, user_type: e.target.value })
+                  }
+                  value={editItems.user_type}
+                  as="select"
+                >
+                  <option value="">-- Select Type --</option>
+                  <option value="0">designer</option>
+                  <option value="1">programmer</option>
+                  <option value="2">employeer</option>
+                  <option value="3">sco</option>
+                </Form.Control>
+              </Form.Group>
+            </div>
           </Form>
-          <Button className="w-100" variant="primary" onClick={handleEditClose}>
+          <Button
+            className="w-100"
+            variant="primary"
+            onClick={() => {
+              handleEditClose();
+              HandleEditSubmit();
+            }}
+          >
             Submit
           </Button>
         </Modal.Body>
-      </Modal> */}
+      </Modal>
     </div>
   );
 }

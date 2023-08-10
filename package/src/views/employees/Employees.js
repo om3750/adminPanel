@@ -45,6 +45,19 @@ export default function Employees() {
       });
   };
 
+  const HandleEditSubmit = () => {
+    axios
+      .post(`${BaseURL}employee/updateUser/${editItems._id}`, editItems) // Use editItems for the update data
+      .then((res) => {
+        console.log("res", res);
+        window.location.reload(false);
+        // navigate("/subcategory");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
 
   useEffect(() => {
@@ -82,6 +95,9 @@ export default function Employees() {
       });
     });
   };
+
+  const handleEditClose = () => setEditShow(false);
+
   return (
     <div className="mainContent">
       <Card className="m-3">
@@ -107,15 +123,24 @@ export default function Employees() {
               </tr>
             </thead>
             <tbody>
-              {currentItems.map((items,index) => {
+              {currentItems.map((items, index) => {
                 return (
                   <tr className="border-top" key={items.no}>
                     {/* Add a unique key for each row */}
                     <td>{items._id}</td>
                     <td>{items.name}</td>
                     <td>{items.email}</td>
-                    <td>{items.user_type}</td>
-                    <td><Dropdown
+                    <td>
+                      {items.user_type === 1
+                        ? "designer"
+                        : items.user_type === 2
+                        ? "programmer"
+                        : items.user_type === 3
+                        ? "employeer"
+                        : "SCO"}
+                    </td>
+                    <td>
+                      <Dropdown
                         isOpen={dropdownOpen[index]} // Use individual open state
                         toggle={() => toggleDropdown(index)}
                       >
@@ -123,12 +148,19 @@ export default function Employees() {
                           <FiMoreVertical />
                         </DropdownToggle>
                         <DropdownMenu>
-                          <DropdownItem>Update</DropdownItem>
-                          <DropdownItem onClick={() => {
+                          <DropdownItem onClick={() => handleEditShow(items)}>
+                            Update
+                          </DropdownItem>
+                          <DropdownItem
+                            onClick={() => {
                               handleDelete(items._id);
-                            }}>Delete</DropdownItem>
+                            }}
+                          >
+                            Delete
+                          </DropdownItem>
                         </DropdownMenu>
-                      </Dropdown></td>
+                      </Dropdown>
+                    </td>
                   </tr>
                 );
               })}
@@ -222,7 +254,7 @@ export default function Employees() {
         </Modal.Body>
       </Modal>
       {/* ----------------- edit model ------------ */}
-      {/* <Modal
+      <Modal
         show={editShow}
         onHide={handleEditClose}
         aria-labelledby="contained-modal-title-vcenter"
@@ -254,28 +286,60 @@ export default function Employees() {
                 autoFocus
               />
             </Form.Group>
-            <Form.Group
-              className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
-            >
-              <Form.Label>Status</Form.Label>
+            <Form.Group className="mb-3" controlId="email">
+              <Form.Label>Email</Form.Label>
               <Form.Control
-                as="select"
-                value={editItems.status}
-                onClick={(e) =>
-                  setEditItems({ ...editItems, status: e.target.value })
+                name="email"
+                value={editItems.email}
+                onChange={(e) =>
+                  setEditItems({ ...data, email: e.target.value })
                 }
+                placeholder="Enter Email ID"
+                autoFocus
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="password">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                name="password"
+                type="password"
+                onChange={(e) =>
+                  setEditItems({ ...data, password: e.target.value })
+                }
+                placeholder="Enter Password"
+                autoFocus
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="user_type">
+              <Form.Label>Type</Form.Label>
+              <Form.Control
+                name="user_type"
+                onChange={(e) =>
+                  setEditItems({ ...data, user_type: e.target.value })
+                }
+                value={editItems.user_type}
+                as="select"
               >
-                <option value={true}>ACTIVE</option>
-                <option value={false}>DISABLE</option>
+                <option value="">-- Select Type --</option>
+                <option value="0">designer</option>
+                <option value="1">programmer</option>
+                <option value="2">employeer</option>
+                <option value="3">sco</option>
               </Form.Control>
             </Form.Group>
           </Form>
-          <Button className="w-100" variant="primary" onClick={handleEditClose}>
+          <Button
+            className="w-100"
+            variant="primary"
+            onClick={() => {
+              handleEditClose();
+              HandleEditSubmit();
+            }}
+          >
             Submit
           </Button>
         </Modal.Body>
-      </Modal> */}
+      </Modal>
     </div>
   );
 }
