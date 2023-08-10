@@ -41,7 +41,20 @@ export default function Tags() {
       });
   };
 
-  const navigate = useNavigate();
+  const HandleEditSubmit = () => {
+    axios
+      .post(`${BaseURL}searchTags/updateSearchTag/${editItems._id}`,editItems) // Use editItems for the update data
+      .then((res) => {
+        console.log("res", res);
+        window.location.reload(false);
+        // navigate("/subcategory");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  // const navigate = useNavigate();
   const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
   useEffect(() => {
     axios.get(`${BaseURL}searchTags/showSearchTag`).then((res) => {
@@ -117,8 +130,9 @@ export default function Tags() {
                           <FiMoreVertical />
                         </DropdownToggle>
                         <DropdownMenu>
-                          <DropdownItem>Update</DropdownItem>
-                          <DropdownItem  onClick={() => {
+                        <DropdownItem onClick={() => handleEditShow(items)}>
+                            Update
+                          </DropdownItem>                          <DropdownItem  onClick={() => {
                               handleDelete(items._id);
                             }}>Delete</DropdownItem>
                         </DropdownMenu>
@@ -196,7 +210,7 @@ export default function Tags() {
         </Modal.Body>
       </Modal>
       {/* ----------------- edit model ------------ */}
-      {/* <Modal
+      <Modal
         show={editShow}
         onHide={handleEditClose}
         aria-labelledby="contained-modal-title-vcenter"
@@ -245,11 +259,14 @@ export default function Tags() {
               </Form.Control>
             </Form.Group>
           </Form>
-          <Button className="w-100" variant="primary" onClick={handleEditClose}>
+          <Button className="w-100" variant="primary" onClick={() => {
+              handleEditClose();
+              HandleEditSubmit();
+            }}>
             Submit
           </Button>
         </Modal.Body>
-      </Modal> */}
+      </Modal>
     </div>
   );
 }

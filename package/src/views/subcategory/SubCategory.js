@@ -36,7 +36,7 @@ export default function SubCategory() {
       .then((res) => {
         console.log("res", res);
         window.location.reload(false);
-        navigate("/subategory");
+        // navigate("/subategory");
       })
       .catch((error) => {
         console.error(error);
@@ -44,11 +44,11 @@ export default function SubCategory() {
   };
   const HandleEditSubmit = () => {
     axios
-      .post(`${BaseURL}subCat/updateSubCat/${editItems._id}`, editItems) // Use editItems for the update data
+      .post(`${BaseURL}subCat/updateSubCat/${editItems._id}`,editItems) // Use editItems for the update data
       .then((res) => {
         console.log("res", res);
         window.location.reload(false);
-        navigate("/subcategory");
+        // navigate("/subcategory");
       })
       .catch((error) => {
         console.error(error);
@@ -120,7 +120,7 @@ export default function SubCategory() {
             <tbody>
               {currentItems.map((items, index) => {
                 return (
-                  <tr className="border-top" key={items.no}>
+                  <tr className="border-top" key={items._id}>
                     {/* Add a unique key for each row */}
                     <td>{items._id}</td>
                     <td>{items.name}</td>

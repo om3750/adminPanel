@@ -41,6 +41,19 @@ export default function Interest() {
       });
   };
 
+  const HandleEditSubmit = () => {
+    axios
+      .post(`${BaseURL}interest/updateInterest/${editItems._id}`, editItems) // Use editItems for the update data
+      .then((res) => {
+        console.log("res", res);
+        window.location.reload(false);
+        // navigate("/subcategory");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
   useEffect(() => {
     axios.get(`${BaseURL}interest/showInterest`).then((res) => {
@@ -116,10 +129,16 @@ export default function Interest() {
                         <FiMoreVertical />
                       </DropdownToggle>
                       <DropdownMenu>
-                        <DropdownItem>Update</DropdownItem>
-                        <DropdownItem onClick={() => {
-                              handleDelete(items._id);
-                            }}>Delete</DropdownItem>
+                        <DropdownItem onClick={() => handleEditShow(items)}>
+                          Update
+                        </DropdownItem>
+                        <DropdownItem
+                          onClick={() => {
+                            handleDelete(items._id);
+                          }}
+                        >
+                          Delete
+                        </DropdownItem>
                       </DropdownMenu>
                     </Dropdown>{" "}
                   </tr>
@@ -195,7 +214,7 @@ export default function Interest() {
         </Modal.Body>
       </Modal>
       {/* ----------------- edit model ------------ */}
-      {/* <Modal
+      <Modal
         show={editShow}
         onHide={handleEditClose}
         aria-labelledby="contained-modal-title-vcenter"
@@ -244,11 +263,14 @@ export default function Interest() {
               </Form.Control>
             </Form.Group>
           </Form>
-          <Button className="w-100" variant="primary" onClick={handleEditClose}>
+          <Button className="w-100" variant="primary" onClick={() => {
+              handleEditClose();
+              HandleEditSubmit();
+            }}>
             Submit
           </Button>
         </Modal.Body>
-      </Modal> */}
+      </Modal>
     </div>
   );
 }

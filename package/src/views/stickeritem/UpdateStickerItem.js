@@ -2,31 +2,27 @@ import React, { useState } from "react";
 import { Card, CardBody } from "reactstrap";
 import axios from "axios";
 import BaseURL from "../../urls/BaseUrl";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-export default function AddStickerCategory() {
+export default function UpdateStickerItem() {
   const navigate = useNavigate();
+  const { state } = useLocation();
+
   const [data, setData] = useState({
-    stk_category_name: "",
-    stk_category_thumb: "",
-    sequence_number: "",
-    status: "1",
+    stk_category_name: state.stk_category_name,
+    // stk_category_thumb: "",
+    sequence_number: state.sequence_number,
+    status: state.status,
   });
   // console.log('state',data);
 
   const HandleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post(`${BaseURL}sticker/addstkcat`, data)
+      .post(`${BaseURL}sticker/updateitem/${state._id}`, data)
       .then((res) => {
         console.log("res", res);
-
-        // localStorage.setItem("token", "done");
-        // localStorage.setItem("token", res.data.token);
-        // localStorage.setItem('user',res.data.token);
-        // console.log(token);
-        // handleClose();
-        window.location.reload(false);
+        // window.location.reload(false);
         navigate("/stickerCategory");
       })
       .catch((error) => {
@@ -37,7 +33,7 @@ export default function AddStickerCategory() {
     <div className="mainContent">
       <Card className="m-3">
         <CardBody>
-          <h4 className="card-title">Add Sticker Category</h4>
+          <h4 className="card-title">Update Sticker Category</h4>
           <form>
             <div>
               <div className="form-group">
@@ -47,6 +43,7 @@ export default function AddStickerCategory() {
                   className=" my-3 form-control"
                   name="stk_category_name"
                   placeholder="Category Name"
+                  value={data.stk_category_name}
                   onChange={(e) =>
                     setData({ ...data, stk_category_name: e.target.value })
                   }
@@ -65,6 +62,12 @@ export default function AddStickerCategory() {
                 }
               />
             </div>
+            <div>
+              <img
+                src={`http://192.168.29.222:8080/${state.stk_category_thumb}`}
+                alt="image"
+              ></img>
+            </div>
             <div className="form-group">
               <label>Sequence Number</label>
               <input
@@ -72,6 +75,7 @@ export default function AddStickerCategory() {
                 className=" my-3 form-control"
                 name="sequence_number"
                 placeholder="Sequence Number"
+                value={data.sequence_number}
                 onChange={(e) =>
                   setData({ ...data, sequence_number: e.target.value })
                 }
@@ -86,12 +90,14 @@ export default function AddStickerCategory() {
                 id=""
                 onChange={(e) => setData({ ...data, status: e.target.value })}
               >
-                <option value="1">LIVE</option>
-                <option value="0">NOT LIVE</option>
+                <option value="true">LIVE</option>
+                <option value="false">NOT LIVE</option>
               </select>
             </div>
 
-            <button onClick={HandleSubmit} className="my-3 btn btn-primary">Submit</button>
+            <button onClick={HandleSubmit} className="my-3 btn btn-primary">
+              Submit
+            </button>
           </form>
         </CardBody>
       </Card>

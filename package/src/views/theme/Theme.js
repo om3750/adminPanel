@@ -43,6 +43,19 @@ export default function Theme() {
       });
   };
 
+  const HandleEditSubmit = () => {
+    axios
+      .post(`${BaseURL}theme/updateTheme/${editItems._id}`,editItems) // Use editItems for the update data
+      .then((res) => {
+        console.log("res", res);
+        window.location.reload(false);
+        // navigate("/subcategory");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
 
   useEffect(() => {
@@ -121,8 +134,9 @@ export default function Theme() {
                           <FiMoreVertical />
                         </DropdownToggle>
                         <DropdownMenu>
-                          <DropdownItem>Update</DropdownItem>
-                          <DropdownItem  onClick={() => {
+                        <DropdownItem onClick={() => handleEditShow(items)}>
+                            Update
+                          </DropdownItem>                          <DropdownItem  onClick={() => {
                               handleDelete(items._id);
                             }}>Delete</DropdownItem>
                         </DropdownMenu>
@@ -201,7 +215,7 @@ export default function Theme() {
 
       {/* ----------------- edit model ------------ */}
 
-      {/* <Modal
+      <Modal
         show={editShow}
         onHide={handleEditClose}
         aria-labelledby="contained-modal-title-vcenter"
@@ -250,11 +264,14 @@ export default function Theme() {
               </Form.Control>
             </Form.Group>
           </Form>
-          <Button className="w-100" variant="primary" onClick={handleEditClose}>
+          <Button className="w-100" variant="primary" onClick={() => {
+              handleEditClose();
+              HandleEditSubmit();
+            }}>
             Submit
           </Button>
         </Modal.Body>
-      </Modal> */}
+      </Modal>
     </div>
   );
 }

@@ -42,6 +42,19 @@ export default function Language() {
       });
   };
 
+  const HandleEditSubmit = () => {
+    axios
+      .post(`${BaseURL}language/updateLanguage/${editItems._id}`, editItems) // Use editItems for the update data
+      .then((res) => {
+        console.log("res", res);
+        window.location.reload(false);
+        // navigate("/subcategory");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
   useEffect(() => {
     axios.get(`${BaseURL}language/showLanguage`).then((res) => {
@@ -103,7 +116,7 @@ export default function Language() {
               </tr>
             </thead>
             <tbody>
-            {currentItems.map((items,index) => {
+              {currentItems.map((items, index) => {
                 return (
                   <tr className="border-top" key={items.no}>
                     {" "}
@@ -111,7 +124,8 @@ export default function Language() {
                     <td>{items._id}</td>
                     <td>{items.name}</td>
                     <td>{items.status ? "ACTIVATE" : "DESABLE"}</td>
-                    <td><Dropdown
+                    <td>
+                      <Dropdown
                         isOpen={dropdownOpen[index]} // Use individual open state
                         toggle={() => toggleDropdown(index)}
                       >
@@ -119,12 +133,19 @@ export default function Language() {
                           <FiMoreVertical />
                         </DropdownToggle>
                         <DropdownMenu>
-                          <DropdownItem>Update</DropdownItem>
-                          <DropdownItem onClick={() => {
+                          <DropdownItem onClick={() => handleEditShow(items)}>
+                            Update
+                          </DropdownItem>
+                          <DropdownItem
+                            onClick={() => {
                               handleDelete(items._id);
-                            }}>Delete</DropdownItem>
+                            }}
+                          >
+                            Delete
+                          </DropdownItem>
                         </DropdownMenu>
-                      </Dropdown></td>
+                      </Dropdown>
+                    </td>
                   </tr>
                 );
               })}
@@ -195,7 +216,7 @@ export default function Language() {
         </Modal.Body>
       </Modal>
       {/* ----------------- edit model ------------ */}
-      {/* <Modal
+      <Modal
         show={editShow}
         onHide={handleEditClose}
         aria-labelledby="contained-modal-title-vcenter"
@@ -244,11 +265,14 @@ export default function Language() {
               </Form.Control>
             </Form.Group>
           </Form>
-          <Button className="w-100" variant="primary" onClick={handleEditClose}>
+          <Button className="w-100" variant="primary" onClick={() => {
+              handleEditClose();
+              HandleEditSubmit();
+            }}>
             Submit
           </Button>
         </Modal.Body>
-      </Modal> */}
+      </Modal>
     </div>
   );
 }

@@ -106,7 +106,9 @@ export default function StickerItem() {
                           <FiMoreVertical />
                         </DropdownToggle>
                         <DropdownMenu>
-                          <DropdownItem>Update</DropdownItem>
+                          <DropdownItem onClick={() => {
+                              navigate("/updateStickerItem", { state: items });
+                            }}>Update</DropdownItem>
                           <DropdownItem onClick={() => {
                               handleDelete(items._id);
                             }}>Delete</DropdownItem>

@@ -16,7 +16,6 @@ import { Form, Modal } from "react-bootstrap";
 const ITEMS_PER_PAGE = 10; // Number of items to show per pagex`
 
 export default function Style() {
-
   const [dropdownOpen, setDropdownOpen] = useState([]);
 
   const toggleDropdown = (index) => {
@@ -24,7 +23,6 @@ export default function Style() {
     newDropdownOpen[index] = !newDropdownOpen[index];
     setDropdownOpen(newDropdownOpen);
   };
-
 
   const [data, setData] = useState({
     name: "",
@@ -42,6 +40,19 @@ export default function Style() {
       .then((res) => {
         console.log("res", res);
         window.location.reload(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const HandleEditSubmit = () => {
+    axios
+      .post(`${BaseURL}specialKeyword/updateSpecialKeyword/${editItems._id}`,editItems) // Use editItems for the update data
+      .then((res) => {
+        console.log("res", res);
+        window.location.reload(false);
+        // navigate("/subcategory");
       })
       .catch((error) => {
         console.error(error);
@@ -77,14 +88,16 @@ export default function Style() {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-const handleDelete = (id) => {
-    axios.post(`${BaseURL}specialKeyword/deleteSpecialKeyword/${id}`).then((res) => {
-      // After successful delete, you might want to refresh the data
-      // Fetch the updated list of fonts
-      axios.get(`${BaseURL}specialKeyword/showSpecialKeyword`).then((res) => {
-        setDatas(res.data.record);
+  const handleDelete = (id) => {
+    axios
+      .post(`${BaseURL}specialKeyword/deleteSpecialKeyword/${id}`)
+      .then((res) => {
+        // After successful delete, you might want to refresh the data
+        // Fetch the updated list of fonts
+        axios.get(`${BaseURL}specialKeyword/showSpecialKeyword`).then((res) => {
+          setDatas(res.data.record);
+        });
       });
-    });
   };
 
   return (
@@ -106,20 +119,30 @@ const handleDelete = (id) => {
               <tr>
                 <th>No.</th>
                 <th>Name</th>
+                <th>Title</th>
+                <th>Meta Title</th>
+                <th>Meta description</th>
+                <th>Short description</th>
+                <th>Long description</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {currentItems.map((items,index) => {
+              {currentItems.map((items, index) => {
                 return (
-                  <tr className="border-top" key={items.no}>
-                    {" "}
+                  <tr className="border-top" key={items._id}>
                     {/* Add a unique key for each row */}
                     <td>{items._id}</td>
                     <td>{items.name}</td>
+                    <td>{items.title}</td>
+                    <td>{items.meta_title}</td>
+                    <td>{items.meta_desc}</td>
+                    <td>{items.short_desc}</td>
+                    <td>{items.long_desc}</td>
                     <td>{items.status ? "ACTIVATE" : "DESABLE"}</td>
-                    <td> <Dropdown
+                    <td>
+                      <Dropdown
                         isOpen={dropdownOpen[index]} // Use individual open state
                         toggle={() => toggleDropdown(index)}
                       >
@@ -127,12 +150,19 @@ const handleDelete = (id) => {
                           <FiMoreVertical />
                         </DropdownToggle>
                         <DropdownMenu>
-                          <DropdownItem >Update</DropdownItem>
-                          <DropdownItem  onClick={() => {
+                          <DropdownItem onClick={() => handleEditShow(items)}>
+                            Update
+                          </DropdownItem>{" "}
+                          <DropdownItem
+                            onClick={() => {
                               handleDelete(items._id);
-                            }}>Delete</DropdownItem>
+                            }}
+                          >
+                            Delete
+                          </DropdownItem>
                         </DropdownMenu>
-                      </Dropdown></td>
+                      </Dropdown>
+                    </td>
                   </tr>
                 );
               })}
@@ -251,7 +281,7 @@ const handleDelete = (id) => {
 
       {/* ----------------- edit model ------------ */}
 
-      {/* <Modal
+      <Modal
         show={editShow}
         onHide={handleEditClose}
         aria-labelledby="contained-modal-title-vcenter"
@@ -260,7 +290,7 @@ const handleDelete = (id) => {
         <Modal.Header closeButton>
           <Modal.Title>Edit Keyword</Modal.Title>
         </Modal.Header>
-        <Modal.Body style={{width:"500px"}}>
+        <Modal.Body style={{ width: "500px" }}>
           <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Keyword Name</Form.Label>
@@ -271,6 +301,67 @@ const handleDelete = (id) => {
                 value={editItems.name}
                 placeholder="Enter New Keyword Name"
                 autoFocus
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="title">
+              <Form.Label>Keyword Title</Form.Label>
+              <Form.Control
+                name="title"
+                value={editItems.title}
+                onChange={(e) =>
+                  setEditItems({ ...editItems, title: e.target.value })
+                }
+                placeholder="Enter Keyword Title"
+                autoFocus
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="meta_title">
+              <Form.Label>Meta Title</Form.Label>
+              <Form.Control
+                name="meta_title"
+                value={editItems.meta_title}
+                onChange={(e) =>
+                  setEditItems({ ...editItems, meta_title: e.target.value })
+                }
+                placeholder="Enter Meta Title"
+                autoFocus
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="meta_desc">
+              <Form.Label>Meta Desc</Form.Label>
+              <Form.Control
+                name="meta_desc"
+                value={editItems.meta_desc}
+                onChange={(e) =>
+                  setEditItems({ ...editItems, meta_desc: e.target.value })
+                }
+                as="textarea"
+                placeholder="Enter Description"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="short_desc">
+              <Form.Label>Short Desc</Form.Label>
+              <Form.Control
+                name="short_desc"
+                value={editItems.short_desc}
+                onChange={(e) =>
+                  setEditItems({ ...editItems, short_desc: e.target.value })
+                }
+                as="textarea"
+                placeholder="Enter Short Description"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="long_desc">
+              <Form.Label>Long Desc</Form.Label>
+              <Form.Control
+                name="long_desc"
+                value={editItems.long_desc}
+                onChange={(e) =>
+                  setEditItems({ ...editItems, long_desc: e.target.value })
+                }
+                as="textarea"
+                style={{ height: "100px" }}
+                placeholder="Enter Long Description"
               />
             </Form.Group>
             <Form.Group
@@ -290,11 +381,14 @@ const handleDelete = (id) => {
               </Form.Control>
             </Form.Group>
           </Form>
-          <Button className="w-100" variant="primary" onClick={handleEditClose}>
+          <Button className="w-100" variant="primary" onClick={() => {
+              handleEditClose();
+              HandleEditSubmit();
+            }}>
             Submit
           </Button>
         </Modal.Body>
-      </Modal> */}
+      </Modal>
     </div>
   );
 }

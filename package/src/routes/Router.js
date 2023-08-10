@@ -28,8 +28,10 @@ const Template = lazy(() => import("../views/template/Template.js"));
 const AddTemplate = lazy(() => import("../views/template/AddTemplate.js"));
 const StickerCategory = lazy(() => import("../views/stickercategory/StickerCategory.js"));
 const AddStickerCategory = lazy(() => import("../views/stickercategory/AddStickerCategory.js"));
+const UpdateStickerCategory = lazy(() => import("../views/stickercategory/UpdateStickerCategory.js"));
 const StickerItem = lazy(() => import("../views/stickeritem/StickerItem.js"));
 const AddStickerItem = lazy(() => import("../views/stickeritem/AddStickerItem.js"));
+const UpdateStickerItem = lazy(() => import("../views/stickeritem/UpdateStickerItem.js"));
 const BackgroundCategory = lazy(() => import("../views/backgroundcategory/BackgroundCategory.js"));
 const AddBackgroundCategory = lazy(() => import("../views/backgroundcategory/AddBackgroundCategory.js"));
 const BackgroundItem = lazy(() => import("../views/backgrounditem/BackgroundItem.js"));
@@ -84,8 +86,10 @@ const ThemeRoutes = [
       { path: "/addtemplate", exact: true, element: <AddTemplate /> },
       { path: "/stickerCategory", exact: true, element: <StickerCategory /> },
       { path: "/addStickerCategory", exact: true, element: <AddStickerCategory /> },
+      { path: "/updateStickerCategory", exact: true, element: <UpdateStickerCategory /> },
       { path: "/stickerItem", exact: true, element: <StickerItem /> },
       { path: "/addStickerItem", exact: true, element: <AddStickerItem /> },
+      { path: "/updateStickerItem", exact: true, element: <UpdateStickerItem /> },
       { path: "/backgroundCategory", exact: true, element: <BackgroundCategory /> },
       { path: "/addBackgroundCategory", exact: true, element: <AddBackgroundCategory /> },
       { path: "/backgroundItem", exact: true, element: <BackgroundItem /> },

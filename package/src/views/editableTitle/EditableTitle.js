@@ -42,6 +42,21 @@ export default function EditableTitle() {
       });
   };
 
+  const HandleEditSubmit = () => {
+    axios
+      .post(
+        `${BaseURL}editableMode/updateEditableMode/${editItems._id}`,
+        editItems
+      ) // Use editItems for the update data
+      .then((res) => {
+        console.log("res", res);
+        window.location.reload(false);
+        // navigate("/subcategory");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
   useEffect(() => {
     axios.get(`${BaseURL}editableMode/showEditableMode`).then((res) => {
@@ -70,13 +85,15 @@ export default function EditableTitle() {
   };
 
   const handleDelete = (id) => {
-    axios.post(`${BaseURL}editableMode/deleteEditableMode/${id}`).then((res) => {
-      // After successful delete, you might want to refresh the data
-      // Fetch the updated list of fonts
-      axios.get(`${BaseURL}editableMode/showEditableMode`).then((res) => {
-        setDatas(res.data.record);
+    axios
+      .post(`${BaseURL}editableMode/deleteEditableMode/${id}`)
+      .then((res) => {
+        // After successful delete, you might want to refresh the data
+        // Fetch the updated list of fonts
+        axios.get(`${BaseURL}editableMode/showEditableMode`).then((res) => {
+          setDatas(res.data.record);
+        });
       });
-    });
   };
   return (
     <div className="mainContent">
@@ -103,7 +120,7 @@ export default function EditableTitle() {
               </tr>
             </thead>
             <tbody>
-              {currentItems.map((items,index) => {
+              {currentItems.map((items, index) => {
                 return (
                   <tr className="border-top" key={items.no}>
                     {" "}
@@ -112,7 +129,8 @@ export default function EditableTitle() {
                     <td>{items.name}</td>
                     <td>{items.brand_id}</td>
                     <td>{items.status ? "ACTIVATE" : "DESABLE"}</td>
-                    <td><Dropdown
+                    <td>
+                      <Dropdown
                         isOpen={dropdownOpen[index]} // Use individual open state
                         toggle={() => toggleDropdown(index)}
                       >
@@ -120,12 +138,19 @@ export default function EditableTitle() {
                           <FiMoreVertical />
                         </DropdownToggle>
                         <DropdownMenu>
-                          <DropdownItem>Update</DropdownItem>
-                          <DropdownItem onClick={() => {
+                          <DropdownItem onClick={() => handleEditShow(items)}>
+                            Update
+                          </DropdownItem>
+                          <DropdownItem
+                            onClick={() => {
                               handleDelete(items._id);
-                            }}>Delete</DropdownItem>
+                            }}
+                          >
+                            Delete
+                          </DropdownItem>
                         </DropdownMenu>
-                      </Dropdown></td>
+                      </Dropdown>
+                    </td>
                   </tr>
                 );
               })}
@@ -179,7 +204,6 @@ export default function EditableTitle() {
                 autoFocus
               />
             </Form.Group>
-           
           </Form>
           <Button
             className="w-100"
@@ -194,7 +218,7 @@ export default function EditableTitle() {
         </Modal.Body>
       </Modal>
       {/* ----------------- edit model ------------ */}
-      {/* <Modal
+      <Modal
         show={editShow}
         onHide={handleEditClose}
         aria-labelledby="contained-modal-title-vcenter"
@@ -226,6 +250,17 @@ export default function EditableTitle() {
                 autoFocus
               />
             </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Subcategory Name</Form.Label>
+              <Form.Control
+                onChange={(e) => {
+                  setEditItems({ ...editItems, brand_id: e.target.value });
+                }}
+                value={editItems.brand_id}
+                placeholder="Enter New Brand Name"
+                autoFocus
+              />
+            </Form.Group>
             <Form.Group
               className="mb-3"
               controlId="exampleForm.ControlTextarea1"
@@ -243,11 +278,18 @@ export default function EditableTitle() {
               </Form.Control>
             </Form.Group>
           </Form>
-          <Button className="w-100" variant="primary" onClick={handleEditClose}>
+          <Button
+            className="w-100"
+            variant="primary"
+            onClick={() => {
+              handleEditClose();
+              HandleEditSubmit();
+            }}
+          >
             Submit
           </Button>
         </Modal.Body>
-      </Modal> */}
+      </Modal>
     </div>
   );
 }
