@@ -24,7 +24,7 @@ export default function UpdateFont() {
       .post(`${BaseURL}font/updateFont/${state._id}`, data)
       .then((res) => {
         console.log("res", res);
-        window.location.reload(false);
+        // window.location.reload(false);
         navigate("/fonts");
       })
       .catch((error) => {
@@ -61,7 +61,7 @@ export default function UpdateFont() {
               />
             </div>
             <div className=" my-3">
-              <img src={state.thumb} alt="image"></img>
+              <img src={`http://192.168.29.222:8080/${state.thumb}`} alt="image"></img>
             </div>
             <div className="form-group">
               <label>Font File</label>

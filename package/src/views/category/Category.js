@@ -43,13 +43,15 @@ export default function Category() {
     setCurrentPage(pageNumber);
   };
   const handleDelete = (categoryId) => {
-    axios.post(`${BaseURL}category/deleteCategory/${categoryId}`).then((res) => {
-      // After successful delete, you might want to refresh the data
-      // Fetch the updated list of fonts
-      axios.get(`${BaseURL}category/showCategory`).then((res) => {
-        setDatas(res.data.record);
+    axios
+      .post(`${BaseURL}category/deleteCategory/${categoryId}`)
+      .then((res) => {
+        // After successful delete, you might want to refresh the data
+        // Fetch the updated list of fonts
+        axios.get(`${BaseURL}category/showCategory`).then((res) => {
+          setDatas(res.data.record);
+        });
       });
-    });
   };
   return (
     <div className="mainContent">
@@ -105,10 +107,20 @@ export default function Category() {
                           <FiMoreVertical />
                         </DropdownToggle>
                         <DropdownMenu>
-                          <DropdownItem>Update</DropdownItem>
-                          <DropdownItem onClick={() => {
+                          <DropdownItem
+                            onClick={() => {
+                              navigate("/updateCategory", { state: items });
+                            }}
+                          >
+                            Update
+                          </DropdownItem>
+                          <DropdownItem
+                            onClick={() => {
                               handleDelete(items._id);
-                            }}>Delete</DropdownItem>
+                            }}
+                          >
+                            Delete
+                          </DropdownItem>
                         </DropdownMenu>
                       </Dropdown>
                     </td>

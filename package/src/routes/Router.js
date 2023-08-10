@@ -15,6 +15,7 @@ const AddFonts = lazy(() => import("../views/fonts/AddFonts.js"));
 const UpdateFont = lazy(() => import("../views/fonts/UpdateFont.js"));
 const Category = lazy(() => import("../views/category/Category.js"));
 const AddCategory = lazy(() => import("../views/category/AddCategory.js"));
+const UpdateCategory = lazy(() => import("../views/category/UpdateCategory.js"));
 const SubCategory = lazy(() => import("../views/subcategory/SubCategory.js"));
 const Style = lazy(() => import("../views/style/Style.js"));
 const Theme = lazy(() => import("../views/theme/Theme.js"));
@@ -70,6 +71,7 @@ const ThemeRoutes = [
       { path: "/updatefont", exact: true, element: <UpdateFont /> },
       { path: "/category", exact: true, element: <Category /> },
       { path: "/addcategory", exact: true, element: <AddCategory /> },
+      { path: "/updateCategory", exact: true, element: <UpdateCategory /> },
       { path: "/subcategory", exact: true, element: <SubCategory /> },
       { path: "/style", exact: true, element: <Style /> },
       { path: "/theme", exact: true, element: <Theme /> },

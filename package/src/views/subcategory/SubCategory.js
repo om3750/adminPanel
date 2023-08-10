@@ -36,7 +36,19 @@ export default function SubCategory() {
       .then((res) => {
         console.log("res", res);
         window.location.reload(false);
-        navigate("/backgroundCategory");
+        navigate("/subategory");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  const HandleEditSubmit = () => {
+    axios
+      .post(`${BaseURL}subCat/updateSubCat/${editItems._id}`, editItems) // Use editItems for the update data
+      .then((res) => {
+        console.log("res", res);
+        window.location.reload(false);
+        navigate("/subcategory");
       })
       .catch((error) => {
         console.error(error);
@@ -59,7 +71,7 @@ export default function SubCategory() {
   const handleShow = () => setShow(true);
   const handleEditShow = (items) => {
     setEditShow(true);
-    setEditItems(items);
+    setEditItems({ ...editItems, ...items }); // Merge the existing editItems state with the selected subcategory's information
   };
 
   const handleEditClose = () => setEditShow(false);
@@ -109,7 +121,6 @@ export default function SubCategory() {
               {currentItems.map((items, index) => {
                 return (
                   <tr className="border-top" key={items.no}>
-                    {" "}
                     {/* Add a unique key for each row */}
                     <td>{items._id}</td>
                     <td>{items.name}</td>
@@ -123,13 +134,19 @@ export default function SubCategory() {
                           <FiMoreVertical />
                         </DropdownToggle>
                         <DropdownMenu>
-                          <DropdownItem>Update</DropdownItem>
-                          <DropdownItem  onClick={() => {
+                          <DropdownItem onClick={() => handleEditShow(items)}>
+                            Update
+                          </DropdownItem>
+                          <DropdownItem
+                            onClick={() => {
                               handleDelete(items._id);
-                            }}>Delete</DropdownItem>
+                            }}
+                          >
+                            Delete
+                          </DropdownItem>
                         </DropdownMenu>
                       </Dropdown>
-                    </td>{" "}
+                    </td>
                   </tr>
                 );
               })}
@@ -205,7 +222,7 @@ export default function SubCategory() {
 
       {/* ----------------- edit model ------------ */}
 
-      {/* <Modal
+      <Modal
         show={editShow}
         onHide={handleEditClose}
         aria-labelledby="contained-modal-title-vcenter"
@@ -254,11 +271,18 @@ export default function SubCategory() {
               </Form.Control>
             </Form.Group>
           </Form>
-          <Button className="w-100" variant="primary" onClick={handleEditClose}>
+          <Button
+            className="w-100"
+            variant="primary"
+            onClick={() => {
+              handleEditClose();
+              HandleEditSubmit();
+            }}
+          >
             Submit
           </Button>
         </Modal.Body>
-      </Modal> */}
+      </Modal>
     </div>
   );
 }

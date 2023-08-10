@@ -2,31 +2,32 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import BaseURL from "../../urls/BaseUrl";
 import { Button, Card, CardBody, Table } from "reactstrap";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FiMoreVertical } from "react-icons/fi";
 
-export default function AddFonts() {
+export default function UpdateCategory() {
   const navigate = useNavigate();
-  const [cat, setCat] = useState([]); // Provide an empty array as the initial value
-
+  // const [cat, setCat] = useState([]); // Provide an empty array as the initial value
+const {state} = useLocation();
+console.log('state', state);
   const [data, setData] = useState({
-    category_name: "",
-    id_name: "",
+    category_name: state.category_name,
+    id_name: state.id_name,
     category_thumb: "",
-    size: "",
-    app_id: "",
-    sequence_number: "1",
-    status: "1",
+    size: state.size,
+    app_id: 1,
+    sequence_number: state.sequence_number,
+    status: state.sequence_number,
   });
 
   const HandleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post(`${BaseURL}category/addCategory`, data)
+      .post(`${BaseURL}category/updateCategory/${state._id}`, data)
       .then((res) => {
         console.log("res", res);
-        window.location.reload(false);
-        navigate("/backgroundCategory");
+        // window.location.reload(false);
+        navigate("/category");
       })
       .catch((error) => {
         console.error(error);
@@ -37,7 +38,7 @@ export default function AddFonts() {
     <div className="mainContent">
       <Card className="m-3">
         <CardBody>
-          <h4 className="card-title">Add Category</h4>
+          <h4 className="card-title">Update Category</h4>
           <form>
             <div className="row">
               <div className="col-lg-6">
@@ -45,6 +46,7 @@ export default function AddFonts() {
                   <label>Category Name</label>
                   <input
                     type="text"
+                    value={data.category_name}
                     className=" mb-3 form-control"
                     name="category_name"
                     onChange={(e) =>
@@ -60,6 +62,7 @@ export default function AddFonts() {
                   <label>Id Name</label>
                   <input
                     type="text"
+                    value={data.id_name}
                     className=" mb-3 form-control"
                     name="id_name"
                     onChange={(e) =>
@@ -76,6 +79,7 @@ export default function AddFonts() {
                 type="text"
                 className=" mb-3 form-control"
                 name="size"
+                value={data.size}
                 onChange={(e) => setData({ ...data, size: e.target.value })}
                 placeholder="Enter category size"
               />
@@ -92,16 +96,21 @@ export default function AddFonts() {
               />
             </div>
 
+            <div>
+            <img src={`http://192.168.29.222:8080/${state.category_thumb}`} alt="image"></img>
+            </div>
+
             <div className="form-group">
               <label>Application</label>
 
               <select
                 className=" mb-3 form-control"
                 name="app_id"
+                value={data.app_id}
                 onChange={(e) => setData({ ...data, app_id: e.target.value })}
               >
                 <option value="">--Select Application--</option>
-                <option value="">Crafty Art</option>
+                <option value="1">Crafty Art</option>
               </select>
             </div>
 
@@ -111,6 +120,7 @@ export default function AddFonts() {
                 type="text"
                 className=" mb-3 form-control"
                 name="sequence_number"
+                value={data.sequence_number}
                 onChange={(e) =>
                   setData({ ...data, sequence_number: e.target.value })
                 }
