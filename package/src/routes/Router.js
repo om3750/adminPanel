@@ -34,6 +34,7 @@ const AddStickerItem = lazy(() => import("../views/stickeritem/AddStickerItem.js
 const UpdateStickerItem = lazy(() => import("../views/stickeritem/UpdateStickerItem.js"));
 const BackgroundCategory = lazy(() => import("../views/backgroundcategory/BackgroundCategory.js"));
 const AddBackgroundCategory = lazy(() => import("../views/backgroundcategory/AddBackgroundCategory.js"));
+const UpdateBackgroundCategory = lazy(() => import("../views/backgroundcategory/UpdateBackgroundCategory.js"));
 const BackgroundItem = lazy(() => import("../views/backgrounditem/BackgroundItem.js"));
 const AddBackgroundItem = lazy(() => import("../views/backgrounditem/AddBackgroundItem.js"));
 const ImportJson = lazy(() => import("../views/importJson/ImportJson.js"));
@@ -92,6 +93,7 @@ const ThemeRoutes = [
       { path: "/updateStickerItem", exact: true, element: <UpdateStickerItem /> },
       { path: "/backgroundCategory", exact: true, element: <BackgroundCategory /> },
       { path: "/addBackgroundCategory", exact: true, element: <AddBackgroundCategory /> },
+      { path: "/updateBackgroundCategory", exact: true, element: <UpdateBackgroundCategory /> },
       { path: "/backgroundItem", exact: true, element: <BackgroundItem /> },
       { path: "/addBackgroundItem", exact: true, element: <AddBackgroundItem /> },
       { path: "/importJson", exact: true, element: <ImportJson /> },

@@ -101,7 +101,9 @@ export default function BackgroundCategory() {
                           <FiMoreVertical />
                         </DropdownToggle>
                         <DropdownMenu>
-                          <DropdownItem>Update</DropdownItem>
+                          <DropdownItem onClick={() => {
+                              navigate('/updateBackgroundCategory',{state:items})
+                            }}>Update</DropdownItem>
                           <DropdownItem onClick={() => {
                               handleDelete(items._id);
                             }}>Delete</DropdownItem>

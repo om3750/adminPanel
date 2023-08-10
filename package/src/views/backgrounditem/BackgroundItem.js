@@ -84,11 +84,10 @@ export default function BackgroundItem() {
               {currentItems.map((items,index) => {
                 return (
                   <tr className="border-top" key={items.no}>
-                    {" "}
                     {/* Add a unique key for each row */}
                     <td>{items._id}</td>
                     <td>{items.application}</td>
-                    <td>{items.bg_name}</td>
+                    <td>{items.bg_name.replace(".jpg", "")}</td>
                     <td>
                       <img
                         style={{ height: "100%", width: "100px" }}

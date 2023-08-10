@@ -48,7 +48,7 @@ export default function CustomOrders() {
                     <td>{items.stk_name}</td>
                     <td>{items.number}</td>
                     <td>{items.is_premium ? "Yes" : "No"}</td>
-                    <td>{items.status ? "ACTIVATE" : "DESABLE"}</td>
+                    <td>{items.status ? "ACTIVATE" : "DISABLE"}</td>
                     <td>{items.seq}</td>
                   </tr>
                 );
