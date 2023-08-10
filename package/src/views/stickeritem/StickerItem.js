@@ -97,7 +97,6 @@ export default function StickerItem() {
                     </td>
                     <td>{items.is_premium ? "Yes" : "No"}</td>
                     <td>{items.status ? "ACTIVATE" : "DESABLE"}</td>
-                    <td>{items.seq}</td>
                     <td><Dropdown
                         isOpen={dropdownOpen[index]} // Use individual open state
                         toggle={() => toggleDropdown(index)}

@@ -9,9 +9,9 @@ export default function AddStickerItem() {
   const [cat, setCat] = useState([]); // Provide an empty array as the initial value
 
   const [data, setData] = useState({
-    bg_thumb: "",
-    bg_image: "",
-    bg_cat_id: "",
+    sticker_thumb: "",
+    sticker_image: "",
+    sticker_type: "",
     bg_type: "",
     is_premium: "1",
     status: "1",
@@ -44,26 +44,24 @@ export default function AddStickerItem() {
         <CardBody>
           <h4 className="card-title">Add Sticker</h4>
           <form
-            action="/category/add_category"
-            method="post"
-            enctype="multipart/form-data"
+           
           >
             <div className="form-group">
               <label>Sticker Thumbs</label>
               <input
                 type="file"
-                className=" my-3 form-control"
-                name="bg_thumb"
-                onChange={(e) => setData({ ...data, bg_thumb: e.target.value })}
+                className=" mb-3 form-control"
+                name="sticker_thumb"
+                onChange={(e) => setData({ ...data, sticker_thumb: e.target.value })}
               />
             </div>
             <div className="form-group">
               <label>Category Images</label>
               <input
                 type="file"
-                className=" my-3 form-control"
-                name="bg_image"
-                onChange={(e) => setData({ ...data, bg_image: e.target.value })}
+                className=" mb-3 form-control"
+                name="sticker_image"
+                onChange={(e) => setData({ ...data, sticker_image: e.target.value })}
               />
             </div>
 
@@ -71,17 +69,17 @@ export default function AddStickerItem() {
               <label>Select Category</label>
 
               <select
-                className=" my-3 form-control"
+                className=" mb-3 form-control"
+                name="sticker_type"
                 onChange={(e) =>
-                  setData({ ...data, bg_cat_id: e.target.value })
+                  setData({ ...data, sticker_type: e.target.value })
                 }
-                name="bg_cat_id"
               >
                 <option value="">--Select Category--</option>
                 {Array.isArray(cat) && cat.length > 0 ? (
                   cat.map((items) => (
                     <option key={items._id} value={items._id}>
-                      {items.bg_category_name}
+                      {items.stk_category_name}
                     </option>
                   ))
                 ) : (
@@ -93,16 +91,15 @@ export default function AddStickerItem() {
               <label>Sticker Type</label>
 
               <select
-                className=" my-3 form-control"
+                className=" mb-3 form-control"
                 onChange={(e) => setData({ ...data, bg_type: e.target.value })}
                 name="bg_type"
               >
-                <option value="">--Select Category--</option>
-                <option value="1">Image</option>
-                <option value="2">Gradient</option>
-                <option value="3">Mix</option>
-                <option value="4">Big</option>
-                <option value="5">Contrast</option>
+                <option value="">--Select Type--</option>
+                <option value="1">Colored</option>
+                <option value="2">White</option>
+                <option value="3">Shape</option>
+              
               </select>
             </div>
 
@@ -110,7 +107,7 @@ export default function AddStickerItem() {
               <label>Premium Item</label>
 
               <select
-                className=" my-3 form-control"
+                className=" mb-3 form-control"
                 onChange={(e) =>
                   setData({ ...data, is_premium: e.target.value })
                 }
