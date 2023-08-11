@@ -122,8 +122,7 @@ export default function EditableTitle() {
             <tbody>
               {currentItems.map((items, index) => {
                 return (
-                  <tr className="border-top" key={items.no}>
-                    {" "}
+                  <tr className="border-top" key={items._id}>
                     {/* Add a unique key for each row */}
                     <td>{items._id}</td>
                     <td>{items.name}</td>

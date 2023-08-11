@@ -21,7 +21,7 @@ export default function AddFonts() {
     axios
       .post(`${BaseURL}font/addFont`, data)
       .then((res) => {
-        console.log("res", res);
+        // console.log("res", res);
         window.location.reload(false);
         navigate("/fonts");
       })

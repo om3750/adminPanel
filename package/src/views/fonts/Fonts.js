@@ -82,7 +82,7 @@ export default function Fonts() {
             <tbody>
               {datas.map((items, index) => {
                 return (
-                  <tr className="border-top" key={items.no}>
+                  <tr className="border-top" key={items._id}>
                     <td>{items._id}</td>
                     <td>{items.name}</td>
                     <td>{items.extension}</td>

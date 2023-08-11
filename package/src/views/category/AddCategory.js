@@ -25,8 +25,8 @@ export default function AddFonts() {
       .post(`${BaseURL}category/addCategory`, data)
       .then((res) => {
         console.log("res", res);
-        window.location.reload(false);
-        navigate("/backgroundCategory");
+        // window.location.reload(false);
+        navigate("/category");
       })
       .catch((error) => {
         console.error(error);

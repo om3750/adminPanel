@@ -30,6 +30,10 @@ const Header = () => {
   const showMobilemenu = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
   };
+
+  const uname = localStorage.getItem("uname");
+  const umail = localStorage.getItem("umail");
+
   return (
     <Navbar className="bg-body-tertiary" dark expand="md">
       <div className="d-flex align-items-center">
@@ -85,8 +89,8 @@ const Header = () => {
                     />
                   </div>
                   <div>
-                    <div className="text-start fw-bold">Infiapp Solution</div>
-                    <div className="text-start">infiappsolution@gmail.com</div>
+                    <div className="text-start fw-bold">{uname}</div>
+                    <div className="text-start">{umail}</div>
                   </div>
                 </div>
               </div>

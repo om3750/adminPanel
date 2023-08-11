@@ -115,12 +115,12 @@ export default function Interest() {
             <tbody>
               {currentItems.map((items, index) => {
                 return (
-                  <tr className="border-top" key={items.no}>
-                    {" "}
+                  <tr className="border-top" key={items._id}>
                     {/* Add a unique key for each row */}
                     <td>{items._id}</td>
                     <td>{items.name}</td>
-                    <td>{items.status ? "ACTIVATE" : "DESABLE"}</td>
+                    <td>{items.status ? "ACTIVATE" : "DISABLE"}</td>
+                    <td>
                     <Dropdown
                       isOpen={dropdownOpen[index]} // Use individual open state
                       toggle={() => toggleDropdown(index)}
@@ -134,13 +134,14 @@ export default function Interest() {
                         </DropdownItem>
                         <DropdownItem
                           onClick={() => {
-                            handleDelete(items._id);
+                            handleDelete(items._id)
                           }}
                         >
                           Delete
                         </DropdownItem>
                       </DropdownMenu>
-                    </Dropdown>{" "}
+                    </Dropdown>
+                    </td>
                   </tr>
                 );
               })}

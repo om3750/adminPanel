@@ -25,10 +25,13 @@ export default function AdminLogin() {
         console.log("res", res);
         // localStorage.setItem("token", "done");
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("uname", res.data.name);
+        localStorage.setItem("umail", res.data.email);
         // localStorage.setItem('user',res.data.token);
         console.log(token);
         handleClose();
         window.location.reload(false);
+        
         navigate("/");
       })
       .catch((error) => {
