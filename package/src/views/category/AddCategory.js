@@ -19,6 +19,8 @@ export default function AddFonts() {
     status: "1",
   });
 
+  // console.log("data", data);
+
   const HandleSubmit = (event) => {
     event.preventDefault();
     axios
