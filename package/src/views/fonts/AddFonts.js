@@ -68,8 +68,8 @@ export default function AddFonts() {
                 }
                 id=""
               >
-                <option value="true">LIVE</option>
-                <option value="false">NOT LIVE</option>
+                <option value="1">LIVE</option>
+                <option value="0">NOT LIVE</option>
               </select>
             </div>
 
