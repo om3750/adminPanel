@@ -7,33 +7,65 @@ import { FiMoreVertical } from "react-icons/fi";
 
 export default function AddFonts() {
   const navigate = useNavigate();
-  const [cat, setCat] = useState([]); // Provide an empty array as the initial value
+  // const [cat, setCat] = useState([]); // Provide an empty array as the initial value
 
   const [data, setData] = useState({
     category_name: "",
     id_name: "",
-    category_thumb: "",
+    category_thumb: null,
     size: "",
     app_id: "",
-    sequence_number: "1",
+    sequence_number: "",
     status: "1",
   });
 
-  // console.log("data", data);
+  console.log("data", data);
+
+  // const HandleSubmit = (event) => {
+  //   event.preventDefault();
+  //   axios
+  //     .post(`${BaseURL}category/addCategory`, data)
+  //     .then((res) => {
+  //       console.log("res", res);
+  //       // window.location.reload(false);
+  //       navigate("/category");
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // };
+
 
   const HandleSubmit = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
+    
+    const formData = new FormData();
+  
+    // Append all form fields to the FormData
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
+  
     axios
-      .post(`${BaseURL}category/addCategory`, data)
-      .then((res) => {
-        console.log("res", res);
-        // window.location.reload(false);
-        navigate("/category");
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    .post(`${BaseURL}category/addCategory`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    .then((res) => {
+      console.log("res", res);
+      navigate("/category");
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
+  const handleFileChange = (e) => {
+    // Set the actual file object when the input value changes
+    setData({ ...data, category_thumb: e.target.files[0] });
   };
+  
 
   return (
     <div className="mainContent">
@@ -86,11 +118,9 @@ export default function AddFonts() {
               <label>Category Thumb</label>
               <input
                 type="file"
-                className=" mb-3 form-control"
+                className="mb-3 form-control"
                 name="category_thumb"
-                onChange={(e) =>
-                  setData({ ...data, category_thumb: e.target.value })
-                }
+                onChange={handleFileChange} // Use the handleFileChange function
               />
             </div>
 
@@ -133,7 +163,12 @@ export default function AddFonts() {
               </select>
             </div>
 
-            <button onClick={HandleSubmit} className="my-3 btn btn-primary">
+            <button
+              onClick={() => {
+                HandleSubmit();
+              }}
+              className="my-3 btn btn-primary"
+            >
               Submit
             </button>
           </form>
