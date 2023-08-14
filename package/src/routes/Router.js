@@ -26,6 +26,7 @@ const Language = lazy(() => import("../views/language/Language.js"));
 const EditableTitle = lazy(() => import("../views/editableTitle/EditableTitle.js"));
 const Template = lazy(() => import("../views/template/Template.js"));
 const AddTemplate = lazy(() => import("../views/template/AddTemplate.js"));
+const UpdateTemplate = lazy(() => import("../views/template/UpdateTemplate.js"));
 const StickerCategory = lazy(() => import("../views/stickercategory/StickerCategory.js"));
 const AddStickerCategory = lazy(() => import("../views/stickercategory/AddStickerCategory.js"));
 const UpdateStickerCategory = lazy(() => import("../views/stickercategory/UpdateStickerCategory.js"));
@@ -85,6 +86,7 @@ const ThemeRoutes = [
       { path: "/editableTitle", exact: true, element: <EditableTitle /> },
       { path: "/template", exact: true, element: <Template /> },
       { path: "/addtemplate", exact: true, element: <AddTemplate /> },
+      { path: "/updatetemplate", exact: true, element: <UpdateTemplate /> },
       { path: "/stickerCategory", exact: true, element: <StickerCategory /> },
       { path: "/addStickerCategory", exact: true, element: <AddStickerCategory /> },
       { path: "/updateStickerCategory", exact: true, element: <UpdateStickerCategory /> },

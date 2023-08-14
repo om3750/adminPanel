@@ -21,17 +21,37 @@ console.log('state', state);
   });
 
   const HandleSubmit = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
+    
+    const formData = new FormData();
+  
+    // Append all form fields to the FormData
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
+  
     axios
-      .post(`${BaseURL}category/updateCategory/${state._id}`, data)
-      .then((res) => {
-        console.log("res", res);
-        // window.location.reload(false);
-        navigate("/category");
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    .post(`${BaseURL}category/updateCategory/${state._id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    .then((res) => {
+      console.log("res", res);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+    navigate("/category");
+            window.location.reload(false);
+
+
+};
+
+
+  const handleFileChange = (e) => {
+    // Set the actual file object when the input value changes
+    setData({ ...data, category_thumb: e.target.files[0] });
   };
 
   return (
@@ -90,9 +110,7 @@ console.log('state', state);
                 type="file"
                 className=" mb-3 form-control"
                 name="category_thumb"
-                onChange={(e) =>
-                  setData({ ...data, category_thumb: e.target.value })
-                }
+                onChange={handleFileChange}
               />
             </div>
 

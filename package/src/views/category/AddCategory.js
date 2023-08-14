@@ -54,11 +54,14 @@ export default function AddFonts() {
     })
     .then((res) => {
       console.log("res", res);
-      navigate("/category");
     })
     .catch((error) => {
       console.error(error);
     });
+    navigate("/category");
+            window.location.reload(false);
+
+
 };
 
   const handleFileChange = (e) => {

@@ -18,16 +18,36 @@ export default function AddFonts() {
 
   const HandleSubmit = (event) => {
     event.preventDefault();
+
+    const formData = new FormData();
+
+    // Append all form fields to the FormData
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
+
     axios
-      .post(`${BaseURL}font/addFont`, data)
+      .post(`${BaseURL}font/addFont`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((res) => {
-        // console.log("res", res);
-        window.location.reload(false);
-        navigate("/fonts");
+        console.log("res", res);
       })
       .catch((error) => {
         console.error(error);
       });
+    navigate("/fonts");
+  };
+
+  const handleThumbChange = (e) => {
+    // Set the actual file object when the input value changes
+    setData({ ...data, thumb: e.target.files[0] });
+  };
+  const handlePathChange = (e) => {
+    // Set the actual file object when the input value changes
+    setData({ ...data, path: e.target.files[0] });
   };
 
   return (
@@ -42,9 +62,7 @@ export default function AddFonts() {
                 type="file"
                 className=" my-3 form-control"
                 name="thumb"
-                onChange={(e) =>
-                  setData({ ...data, thumb: e.target.value })
-                }
+                onChange={handleThumbChange} // Use the handleFileChange function
               />
             </div>
             <div className="form-group">
@@ -53,9 +71,7 @@ export default function AddFonts() {
                 type="file"
                 className=" my-3 form-control"
                 name="path"
-                onChange={(e) =>
-                  setData({ ...data, path: e.target.value })
-                }
+                onChange={handlePathChange} // Use the handleFileChange function
               />
             </div>
             <div className="form-group">
@@ -63,9 +79,7 @@ export default function AddFonts() {
               <select
                 className="form-control"
                 name="status"
-                onChange={(e) =>
-                  setData({ ...data, status: e.target.value })
-                }
+                onChange={(e) => setData({ ...data, status: e.target.value })}
                 id=""
               >
                 <option value="1">LIVE</option>
@@ -73,7 +87,9 @@ export default function AddFonts() {
               </select>
             </div>
 
-            <button onClick={HandleSubmit} className="my-3 btn btn-primary">Submit</button>
+            <button onClick={HandleSubmit} className="my-3 btn btn-primary">
+              Submit
+            </button>
           </form>
         </CardBody>
       </Card>

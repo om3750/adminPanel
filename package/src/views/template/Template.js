@@ -82,7 +82,9 @@ export default function Template() {
                         <FiMoreVertical />
                       </DropdownToggle>
                       <DropdownMenu>
-                        <DropdownItem>Update</DropdownItem>
+                        <DropdownItem onClick={()=>{
+                          navigate('/updatetemplate');
+                        }}>Update</DropdownItem>
                         <DropdownItem>Delete</DropdownItem>
                       </DropdownMenu>
                     </Dropdown>

@@ -15,24 +15,33 @@ export default function AddStickerCategory() {
   // console.log('state',data);
 
   const HandleSubmit = (event) => {
-    event.preventDefault();
+    const formData = new FormData();
+
+    // Append all form fields to the FormData
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
+
     axios
-      .post(`${BaseURL}sticker/addstkcat`, data)
+      .post(`${BaseURL}sticker/addstkcat`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((res) => {
         console.log("res", res);
-
-        // localStorage.setItem("token", "done");
-        // localStorage.setItem("token", res.data.token);
-        // localStorage.setItem('user',res.data.token);
-        // console.log(token);
-        // handleClose();
-        window.location.reload(false);
-        navigate("/stickerCategory");
       })
       .catch((error) => {
         console.error(error);
       });
+    navigate("/stickerCategory");
   };
+
+  const handleFileChange = (e) => {
+    // Set the actual file object when the input value changes
+    setData({ ...data, stk_category_thumb: e.target.files[0] });
+  };
+
   return (
     <div className="mainContent">
       <Card className="m-3">
@@ -60,9 +69,7 @@ export default function AddStickerCategory() {
                 type="file"
                 className=" my-3 form-control"
                 name="stk_category_thumb"
-                onChange={(e) =>
-                  setData({ ...data, stk_category_thumb: e.target.value })
-                }
+                onChange={handleFileChange}
               />
             </div>
             <div className="form-group">
@@ -91,7 +98,9 @@ export default function AddStickerCategory() {
               </select>
             </div>
 
-            <button onClick={HandleSubmit} className="my-3 btn btn-primary">Submit</button>
+            <button onClick={HandleSubmit} className="my-3 btn btn-primary">
+              Submit
+            </button>
           </form>
         </CardBody>
       </Card>
