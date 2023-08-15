@@ -9,6 +9,8 @@ import { FiMoreVertical } from "react-icons/fi";
 export default function UpdateFont() {
   const navigate = useNavigate();
   const { state } = useLocation();
+  const [isUploading, setIsUploading] = useState(false); // State for tracking uploading status
+
   console.log("state", state);
 
   const [data, setData] = useState({
@@ -19,30 +21,32 @@ export default function UpdateFont() {
   });
 
   const HandleSubmit = (event) => {
-    // event.preventDefault();
-    
+    event.preventDefault();
+    setIsUploading(true); // Start uploading, show spinner
+
     const formData = new FormData();
-  
+
     // Append all form fields to the FormData
     for (const key in data) {
       formData.append(key, data[key]);
     }
-  
-    axios
-    .post(`${BaseURL}font/updateFont/${state._id}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-    .then((res) => {
-      console.log("res", res);
-      navigate("/fonts");
 
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-    
+    axios
+      .post(`${BaseURL}font/updateFont/${state._id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        console.log("res", res);
+        setIsUploading(false); // Upload complete, hide spinner
+
+        navigate("/fonts");
+      })
+      .catch((error) => {
+        console.error(error);
+        setIsUploading(false); // Upload failed, hide spinner
+      });
   };
   const handleThumbChange = (e) => {
     // Set the actual file object when the input value changes
@@ -81,7 +85,11 @@ export default function UpdateFont() {
               />
             </div>
             <div className=" my-3">
-              <img src={`http://192.168.29.222:8080/${state.thumb}`} alt="image"></img>
+              <img
+                src={`http://192.168.29.222:8080/${state.thumb}`}
+                width={"220px"}
+                alt="image"
+              ></img>
             </div>
             <div className="form-group">
               <label>Font File</label>
@@ -97,7 +105,7 @@ export default function UpdateFont() {
               <label>Status</label>
               <select
                 className="form-control"
-                name="status"   
+                name="status"
                 value={data.status}
                 onChange={(e) => setData({ ...data, status: e.target.value })}
                 id=""
@@ -107,9 +115,17 @@ export default function UpdateFont() {
               </select>
             </div>
 
+            {isUploading ? (
+            <div className="text-center mt-3">
+              <div className="spinner-border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : (
             <button onClick={HandleSubmit} className="my-3 btn btn-primary">
               Submit
             </button>
+          )}
           </div>
         </CardBody>
       </Card>

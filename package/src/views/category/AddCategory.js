@@ -8,6 +8,8 @@ import { FiMoreVertical } from "react-icons/fi";
 export default function AddFonts() {
   // const [cat, setCat] = useState([]); // Provide an empty array as the initial value
 const navigate = useNavigate();
+const [isUploading, setIsUploading] = useState(false); // State for tracking uploading status
+
   const [data, setData] = useState({
     category_name: "",
     id_name: "",
@@ -23,6 +25,8 @@ const navigate = useNavigate();
 
   const HandleSubmit = () => {
     //  event.preventDefault();
+    setIsUploading(true); // Start uploading, show spinner
+
 
     const formData = new FormData();
 
@@ -39,12 +43,16 @@ const navigate = useNavigate();
       })
       .then((res) => {
         console.log("res", res);
+        setIsUploading(false); // Upload complete, hide spinner
+
+        navigate("/category");
         // Only navigate when the API call is successful
       })
       .catch((error) => {
         console.error("error", error);
+        setIsUploading(false); // Upload complete, hide spinner
+
       });
-    // navigate("/category");
   };
 
   const handleFileChange = (e) => {
@@ -147,35 +155,17 @@ const navigate = useNavigate();
               </select>
             </div>
 
-            <button
-              onClick={() => {
-                const formData = new FormData();
-
-                // Append all form fields to the FormData
-                for (const key in data) {
-                  formData.append(key, data[key]);
-                }
-            
-                axios
-                  .post(`${BaseURL}category/addCategory`, formData, {
-                    headers: {
-                      "Content-Type": "multipart/form-data",
-                    },
-                  })
-                  .then((res) => {
-                    console.log("res", res);
-                    navigate("/category");
-
-                    // Only navigate when the API call is successful
-                  })
-                  .catch((error) => {
-                    console.error("error", error);
-                  });
-              }}
-              className="my-3 btn btn-primary"
-            >
+            {isUploading ? (
+            <div className="text-center mt-3">
+              <div className="spinner-border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : (
+            <button onClick={HandleSubmit} className="my-3 btn btn-primary">
               Submit
             </button>
+          )}
         </CardBody>
       </Card>
     </div>

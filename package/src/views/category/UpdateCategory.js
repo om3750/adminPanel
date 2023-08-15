@@ -7,6 +7,8 @@ import { FiMoreVertical } from "react-icons/fi";
 
 export default function UpdateCategory() {
   const navigate = useNavigate();
+  const [isUploading, setIsUploading] = useState(false); // State for tracking uploading status
+
   // const [cat, setCat] = useState([]); // Provide an empty array as the initial value
 const {state} = useLocation();
 console.log('state', state);
@@ -22,6 +24,8 @@ console.log('state', state);
 
   const HandleSubmit = (event) => {
     // event.preventDefault();
+    setIsUploading(true); // Start uploading, show spinner
+
     
     const formData = new FormData();
   
@@ -38,10 +42,14 @@ console.log('state', state);
     })
     .then((res) => {
       console.log("res", res);
+      setIsUploading(false); // Upload complete, hide spinner
+
       navigate("/category");
 
     })
     .catch((error) => {
+      setIsUploading(false); // Upload complete, hide spinner
+
       console.error(error);
     });
 
@@ -114,7 +122,7 @@ console.log('state', state);
             </div>
 
             <div>
-            <img src={`http://192.168.29.222:8080/${state.category_thumb}`} alt="image"></img>
+            <img src={`http://192.168.29.222:8080/${state.category_thumb}`} width={'220px'}  alt="image"></img>
             </div>
 
             <div className="form-group">
@@ -158,9 +166,17 @@ console.log('state', state);
               </select>
             </div>
 
+            {isUploading ? (
+            <div className="text-center mt-3">
+              <div className="spinner-border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : (
             <button onClick={HandleSubmit} className="my-3 btn btn-primary">
               Submit
             </button>
+          )}
         </CardBody>
       </Card>
     </div>

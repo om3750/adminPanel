@@ -77,7 +77,7 @@ export default function UpdateStickerItem() {
             <div>
               <img
                 src={`http://192.168.29.222:8080/${state.stk_category_thumb}`}
-                alt="image"
+                alt="image" width={'220px'} 
               ></img>
             </div>
             <div className="form-group">

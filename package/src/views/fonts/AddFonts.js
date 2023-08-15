@@ -8,7 +8,9 @@ import { FiMoreVertical } from "react-icons/fi";
 
 export default function AddFonts() {
   const navigate = useNavigate();
-  const [cat, setCat] = useState([]); // Provide an empty array as the initial value
+  // const [cat, setCat] = useState([]); // Provide an empty array as the initial value
+  const [isUploading, setIsUploading] = useState(false); // State for tracking uploading status
+
 
   const [data, setData] = useState({
     thumb: "",
@@ -18,6 +20,7 @@ export default function AddFonts() {
 
   const HandleSubmit = (event) => {
     event.preventDefault();
+    setIsUploading(true); // Start uploading, show spinner
 
     const formData = new FormData();
 
@@ -34,10 +37,14 @@ export default function AddFonts() {
       })
       .then((res) => {
         console.log("res", res);
+        setIsUploading(false); // Upload complete, hide spinner
+
         navigate("/fonts");
       })
       .catch((error) => {
         console.error(error);
+        setIsUploading(false); // Upload failed, hide spinner
+
       });
   };
 
@@ -86,9 +93,17 @@ export default function AddFonts() {
               </select>
             </div>
 
+            {isUploading ? (
+            <div className="text-center mt-3">
+              <div className="spinner-border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : (
             <button onClick={HandleSubmit} className="my-3 btn btn-primary">
               Submit
             </button>
+          )}
         </CardBody>
       </Card>
     </div>
