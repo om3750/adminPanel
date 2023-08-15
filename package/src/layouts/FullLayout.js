@@ -5,7 +5,7 @@ import { Container } from "reactstrap";
 
 const FullLayout = () => {
   return (
-    <main>
+    <main className="overflow-hidden" >
       <div className="pageWrapper d-lg-flex" style={{ height: "100vh" }}>
         {/********Sidebar**********/}
         <aside
@@ -13,7 +13,7 @@ const FullLayout = () => {
           id="sidebarArea"
           style={{ height: "100%", overflow: "auto" }}
         >
-          <Sidebar className />
+          <Sidebar />
         </aside>
         {/********Content Area**********/}
         <div

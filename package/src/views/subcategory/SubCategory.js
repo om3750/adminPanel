@@ -184,7 +184,6 @@ export default function SubCategory() {
           <Modal.Title>Add Subcategory</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ width: "400px" }}>
-          <Form>
             <Form.Group className="mb-3" controlId="name">
               <Form.Label>Subcategory Name</Form.Label>
               <Form.Control
@@ -206,7 +205,6 @@ export default function SubCategory() {
                 <option value="">DEACTIVE</option>
               </Form.Control>
             </Form.Group>
-          </Form>
           <Button
             className="w-100"
             variant="primary"
@@ -242,7 +240,6 @@ export default function SubCategory() {
           <Modal.Title>Edit Subcategory</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ width: "400px" }}>
-          <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Subcategory Name</Form.Label>
               <Form.Control
@@ -270,7 +267,6 @@ export default function SubCategory() {
                 <option value={false}>DISABLE</option>
               </Form.Control>
             </Form.Group>
-          </Form>
           <Button
             className="w-100"
             variant="primary"

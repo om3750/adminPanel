@@ -8,25 +8,28 @@ export default function AddBackgroundCategory() {
   const navigate = useNavigate();
   const [data, setData] = useState({
     bg_category_name: "",
-    bg_category_thumb: "",
+    bg_category_thumb: null,
     sequence_number: "",
     status: "1",
   });
   // console.log('state',data);
 
-  const HandleSubmit =  (event) => {
-    event.preventDefault();
+  const HandleSubmit = (event) => {
+    const formData = new FormData();
+
+    // Append all form fields to the FormData
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
+
     axios
-      .post(`${BaseURL}background/bg_cat`, data)
+      .post(`${BaseURL}background/bgCat`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((res) => {
         console.log("res", res);
-        
-        // localStorage.setItem("token", "done");
-        // localStorage.setItem("token", res.data.token);
-        // localStorage.setItem('user',res.data.token);
-        // console.log(token);
-        // handleClose();
-        window.location.reload(false);
         navigate("/backgroundCategory");
       })
       .catch((error) => {
@@ -34,12 +37,16 @@ export default function AddBackgroundCategory() {
       });
   };
 
+  const handleFileChange = (e) => {
+    // Set the actual file object when the input value changes
+    setData({ ...data, bg_category_thumb: e.target.files[0] });
+  };
+
   return (
     <div className="mainContent">
       <Card className="m-3">
         <CardBody>
           <h4 className="card-title">Add Background Category</h4>
-          <form>
             <div>
               <div className="form-group">
                 <label>Background Category Name</label>
@@ -52,14 +59,13 @@ export default function AddBackgroundCategory() {
                 />
               </div>
             </div>
-
             <div className="form-group">
               <label>Background Category Thumb</label>
               <input
                 type="file"
                 className=" my-3 form-control"
                 name="bg_category_thumb"
-                onChange={(e) => setData({ ...data, bg_category_thumb: e.target.value })}
+                onChange={handleFileChange}
               />
             </div>
             <div className="form-group">
@@ -72,22 +78,18 @@ export default function AddBackgroundCategory() {
                 onChange={(e) => setData({ ...data, sequence_number: e.target.value })}
               />
             </div>
-
             <div className="form-group">
               <label>Status</label>
               <select
                 className="form-control"
                 name="status"
-                id=""
                 onChange={(e) => setData({ ...data, status: e.target.value })}
               >
                 <option value="1">LIVE</option>
                 <option value="0">NOT LIVE</option>
               </select>
             </div>
-
             <button onClick={HandleSubmit} className="my-3 btn btn-primary">Submit</button>
-          </form>
         </CardBody>
       </Card>
     </div>

@@ -195,7 +195,6 @@ export default function Employees() {
           <Modal.Title>Add Employees</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ width: "400px" }}>
-          <Form>
             <Form.Group className="mb-3" controlId="name">
               <Form.Label>Name</Form.Label>
               <Form.Control
@@ -240,7 +239,6 @@ export default function Employees() {
                 <option value="3">sco</option>
               </Form.Control>
             </Form.Group>
-          </Form>
           <Button
             className="w-100"
             variant="primary"
@@ -274,7 +272,6 @@ export default function Employees() {
           <Modal.Title>Edit Subcategory</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ width: "400px" }}>
-          <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Subcategory Name</Form.Label>
               <Form.Control
@@ -327,7 +324,6 @@ export default function Employees() {
                 <option value="3">sco</option>
               </Form.Control>
             </Form.Group>
-          </Form>
           <Button
             className="w-100"
             variant="primary"

@@ -189,7 +189,6 @@ export default function Style() {
           <Modal.Title>Add Keyword</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ width: "500px" }}>
-          <Form>
             <Form.Group className="mb-3" controlId="name">
               <Form.Label>Keyword</Form.Label>
               <Form.Control
@@ -265,7 +264,6 @@ export default function Style() {
                 <option value="0">DEACTIVE</option>
               </Form.Control>
             </Form.Group>
-          </Form>
           <Button
             className="w-100"
             variant="primary"
@@ -291,7 +289,6 @@ export default function Style() {
           <Modal.Title>Edit Keyword</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ width: "500px" }}>
-          <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Keyword Name</Form.Label>
               <Form.Control
@@ -380,7 +377,6 @@ export default function Style() {
                 <option value={false}>DISABLE</option>
               </Form.Control>
             </Form.Group>
-          </Form>
           <Button className="w-100" variant="primary" onClick={() => {
               handleEditClose();
               HandleEditSubmit();

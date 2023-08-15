@@ -12,7 +12,6 @@ import {
   Dropdown,
 } from "reactstrap";
 // ... other imports
-import { Form, Modal } from "react-bootstrap";
 const ITEMS_PER_PAGE = 10; // Number of items to show per pagex`
 
 export default function BackgroundItem() {

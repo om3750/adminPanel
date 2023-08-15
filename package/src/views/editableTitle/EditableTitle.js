@@ -184,7 +184,6 @@ export default function EditableTitle() {
           <Modal.Title>Add Title</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ width: "400px" }}>
-          <Form>
             <Form.Group className="mb-3" controlId="name">
               <Form.Label>Title Name</Form.Label>
               <Form.Control
@@ -203,7 +202,6 @@ export default function EditableTitle() {
                 autoFocus
               />
             </Form.Group>
-          </Form>
           <Button
             className="w-100"
             variant="primary"
@@ -237,7 +235,6 @@ export default function EditableTitle() {
           <Modal.Title>Edit Subcategory</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ width: "400px" }}>
-          <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Subcategory Name</Form.Label>
               <Form.Control
@@ -276,7 +273,6 @@ export default function EditableTitle() {
                 <option value={false}>DISABLE</option>
               </Form.Control>
             </Form.Group>
-          </Form>
           <Button
             className="w-100"
             variant="primary"

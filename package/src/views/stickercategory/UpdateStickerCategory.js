@@ -10,7 +10,7 @@ export default function UpdateStickerCategory() {
 
   const [data, setData] = useState({
     stk_category_name: state.stk_category_name,
-    // stk_category_thumb: "",
+    stk_category_thumb: null,
     sequence_number: state.sequence_number,
     status: '1',
   });
@@ -25,7 +25,7 @@ export default function UpdateStickerCategory() {
     }
 
     axios
-      .post(`${BaseURL}sticker/updateStkCat${state._id}`, formData, {
+      .post(`${BaseURL}sticker/updateStkCat/${state._id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -54,7 +54,7 @@ export default function UpdateStickerCategory() {
                 <label>Sticker Category Name</label>
                 <input
                   type="text"
-                  className=" my-3 form-control"
+                  className=" mb-3 form-control"
                   name="stk_category_name"
                   placeholder="Category Name"
                   value={data.stk_category_name}
@@ -70,7 +70,7 @@ export default function UpdateStickerCategory() {
               <label>Sticker Category Thumb</label>
               <input
                 type="file"
-                className=" my-3 form-control"
+                className=" mb-3 form-control"
                 name="stk_category_thumb"
 
                 onChange={handleFileChange}
@@ -78,13 +78,13 @@ export default function UpdateStickerCategory() {
               />
             </div>
             <div>
-            <img src={`http://192.168.29.222:8080/${state.stk_category_thumb}`} alt="image"></img>
+            <img src={`http://192.168.29.222:8080/${state.stk_category_thumb}`} width="200" alt="image"></img>
             </div>
             <div className="form-group">
               <label>Sequence Number</label>
               <input
                 type="text"
-                className=" my-3 form-control"
+                className=" mb-3 form-control"
                 name="sequence_number"
                 placeholder="Sequence Number"
                 value={data.sequence_number}
@@ -100,7 +100,6 @@ export default function UpdateStickerCategory() {
               <select
                 className="form-control"
                 name="status"
-                id=""
                 onChange={(e) => setData({ ...data, status: e.target.value })}
               >
                 <option value="true">LIVE</option>
@@ -108,7 +107,7 @@ export default function UpdateStickerCategory() {
               </select>
             </div>
 
-            <button onClick={HandleSubmit} className="my-3 btn btn-primary">Submit</button>
+            <button onClick={HandleSubmit} className="mb-3 btn btn-primary">Submit</button>
         </CardBody>
       </Card>
     </div>

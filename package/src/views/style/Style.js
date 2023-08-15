@@ -183,7 +183,6 @@ export default function Style() {
           <Modal.Title>Add Style</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ width: "400px" }}>
-          <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Style Name</Form.Label>
               <Form.Control
@@ -205,7 +204,6 @@ export default function Style() {
                 <option value="0">DEACTIVE</option>
               </Form.Control>
             </Form.Group>
-          </Form>
           <Button
             className="w-100"
             variant="primary"
@@ -241,7 +239,6 @@ export default function Style() {
           <Modal.Title>Edit Subcategory</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ width: "400px" }}>
-          <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Subcategory Name</Form.Label>
               <Form.Control
@@ -269,7 +266,6 @@ export default function Style() {
                 <option value={false}>DISABLE</option>
               </Form.Control>
             </Form.Group>
-          </Form>
           <Button className="w-100" variant="primary" onClick={() => {
               handleEditClose();
               HandleEditSubmit();

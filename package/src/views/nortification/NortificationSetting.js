@@ -9,7 +9,6 @@ export default function NortificationSetting() {
       <Card className="m-3">
         <CardBody>
           {/* <h4 className="card-title mb-3">Payment Setting</h4> */}
-          <form>
             {/* --------------------------------------------------------------- */}
             <div className="mb-3 form-group">
               <label>Onesignal Api Key</label>
@@ -31,13 +30,11 @@ export default function NortificationSetting() {
               />
             </div>
             <button className="mb-3 btn btn-primary">Submit</button>
-          </form>
         </CardBody>
       </Card>
       <Card className="m-3">
         <CardBody>
           {/* <h4 className="card-title mb-3">Payment Setting</h4> */}
-          <form>
             {/* --------------------------------------------------------------- */}
             <div className="mb-3 form-group">
               <label>Title</label>
@@ -99,7 +96,6 @@ export default function NortificationSetting() {
               </button>
             </div>
             <button className="mb-3 btn float-right btn-primary">Submit</button>
-          </form>
         </CardBody>
       </Card>
     </div>

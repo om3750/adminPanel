@@ -46,7 +46,6 @@ export default function AddBackgroundItem() {
       <Card className="m-3">
         <CardBody>
           <h4 className="card-title">Add Background</h4>
-          <form>
             <div className="form-group">
               <label>Background Thumbs</label>
               <input
@@ -136,7 +135,6 @@ export default function AddBackgroundItem() {
             <button onClick={HandleSubmit} className="my-3 btn btn-primary">
               Submit
             </button>
-          </form>
         </CardBody>
       </Card>
     </div>

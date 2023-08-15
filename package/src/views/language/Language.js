@@ -179,7 +179,6 @@ export default function Language() {
           <Modal.Title>Add Language</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ width: "400px" }}>
-          <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Language Name</Form.Label>
               <Form.Control
@@ -201,7 +200,6 @@ export default function Language() {
                 <option value="0">DEACTIVE</option>
               </Form.Control>
             </Form.Group>
-          </Form>
           <Button
             className="w-100"
             variant="primary"
@@ -235,7 +233,6 @@ export default function Language() {
           <Modal.Title>Edit Subcategory</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ width: "400px" }}>
-          <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Subcategory Name</Form.Label>
               <Form.Control
@@ -263,7 +260,6 @@ export default function Language() {
                 <option value={false}>DISABLE</option>
               </Form.Control>
             </Form.Group>
-          </Form>
           <Button className="w-100" variant="primary" onClick={() => {
               handleEditClose();
               HandleEditSubmit();

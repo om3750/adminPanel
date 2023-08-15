@@ -10,31 +10,45 @@ export default function UpdateBackgroundCategory() {
 
   const [data, setData] = useState({
     bg_category_name: state.bg_category_name,
-    // stk_category_thumb: "",
+    bg_category_thumb: null,
     sequence_number: state.sequence_number,
-    status: state.status,
+    status: '1',
   });
   // console.log('state',data);
 
   const HandleSubmit = (event) => {
-    event.preventDefault();
+    const formData = new FormData();
+
+    // Append all form fields to the FormData
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
+
     axios
-      .post(`${BaseURL}background/updateBgCat/${state._id}`, data)
+      .post(`${BaseURL}background/updateBgCat/${state._id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((res) => {
         console.log("res", res);
-        // window.location.reload(false);
         navigate("/backgroundCategory");
       })
       .catch((error) => {
         console.error(error);
       });
   };
+
+  const handleFileChange = (e) => {
+    // Set the actual file object when the input value changes
+    setData({ ...data, bg_category_thumb: e.target.files[0] });
+  };
+
   return (
     <div className="mainContent">
       <Card className="m-3">
         <CardBody>
           <h4 className="card-title">Update Background Category</h4>
-          <form>
             <div>
               <div className="form-group">
                 <label>Background Category Name</label>
@@ -57,11 +71,10 @@ export default function UpdateBackgroundCategory() {
               <input
                 type="file"
                 className=" my-3 form-control"
-                name="stk_category_thumb"
+                name="bg_category_thumb"
 
-                onChange={(e) =>
-                  setData({ ...data, stk_category_thumb: e.target.value })
-                }
+                onChange={handleFileChange}
+
               />
             </div>
             <div>
@@ -96,7 +109,6 @@ export default function UpdateBackgroundCategory() {
             </div>
 
             <button onClick={HandleSubmit} className="my-3 btn btn-primary">Submit</button>
-          </form>
         </CardBody>
       </Card>
     </div>

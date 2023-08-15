@@ -19,7 +19,6 @@ export default function PaymentSetting() {
       <Card className="m-3">
         <CardBody>
           <h4 className="card-title mb-3">Payment Setting</h4>
-          <form>
             {/* --------------------------------------------------------------- */}
             <div className="row">
               <div className="col-lg-4">
@@ -141,7 +140,6 @@ export default function PaymentSetting() {
               </div>              
             </div>
             <button className="mb-3 btn btn-primary">Submit</button>
-          </form>
         </CardBody>
       </Card>
     </div>

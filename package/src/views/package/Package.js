@@ -186,7 +186,6 @@ export default function Package() {
           <Modal.Title>Add Package</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ width: "500px" }}>
-          <Form>
             <Form.Group className="mb-3" >
               <Form.Label className="mb-0">Package Name</Form.Label>
               <Form.Control
@@ -281,7 +280,6 @@ export default function Package() {
                 <option value="0">DEACTIVE</option>
               </Form.Control>
             </Form.Group>
-          </Form>
           <Button
             className="mt-2 w-100"
             variant="primary"
@@ -307,7 +305,6 @@ export default function Package() {
           <Modal.Title>Edit Subcategory</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ width: "500px" }}>
-          <Form>
             <Form.Group className="mb-3">
               <Form.Label className="mb-0">Package Name</Form.Label>
               <Form.Control
@@ -424,7 +421,6 @@ export default function Package() {
                 </Form.Control>
               </Form.Group>
             </div>
-          </Form>
           <Button
             className="w-100"
             variant="primary"

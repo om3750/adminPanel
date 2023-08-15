@@ -176,7 +176,6 @@ export default function Theme() {
           <Modal.Title>Add Theme</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ width: "400px" }}>
-          <Form>
             <Form.Group className="mb-3" controlId="name">
               <Form.Label>Style Name</Form.Label>
               <Form.Control
@@ -198,7 +197,6 @@ export default function Theme() {
                 <option value="0">DEACTIVE</option>
               </Form.Control>
             </Form.Group>
-          </Form>
           <Button
             className="w-100"
             variant="primary"
@@ -234,7 +232,6 @@ export default function Theme() {
           <Modal.Title>Edit Subcategory</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ width: "400px" }}>
-          <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Subcategory Name</Form.Label>
               <Form.Control
@@ -262,7 +259,6 @@ export default function Theme() {
                 <option value={false}>DISABLE</option>
               </Form.Control>
             </Form.Group>
-          </Form>
           <Button className="w-100" variant="primary" onClick={() => {
               handleEditClose();
               HandleEditSubmit();

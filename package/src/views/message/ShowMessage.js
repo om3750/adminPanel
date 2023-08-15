@@ -43,13 +43,15 @@ export default function ShowMessage() {
     setCurrentPage(pageNumber);
   };
   const handleDelete = (id) => {
-    axios.post(`${BaseURL}inAppMessage/deleteInAppMessage/${id}`).then((res) => {
-      // After successful delete, you might want to refresh the data
-      // Fetch the updated list of fonts
-      axios.get(`${BaseURL}inAppMessage/showInAppMessage`).then((res) => {
-        setDatas(res.data.record);
+    axios
+      .post(`${BaseURL}inAppMessage/deleteInAppMessage/${id}`)
+      .then((res) => {
+        // After successful delete, you might want to refresh the data
+        // Fetch the updated list of fonts
+        axios.get(`${BaseURL}inAppMessage/showInAppMessage`).then((res) => {
+          setDatas(res.data.record);
+        });
       });
-    });
   };
   return (
     <div className="mainContent">
@@ -81,20 +83,28 @@ export default function ShowMessage() {
               </tr>
             </thead>
             <tbody>
-              {currentItems.map((items,index) => {
+              {currentItems.map((items, index) => {
                 return (
                   <tr className="border-top" key={items.no}>
                     {/* Add a unique key for each row */}
-                    <td>Id</td>
-                    <td>Image</td>
-                    <td>Type</td>
-                    <td>Is Banner</td>
-                    <td>Can Cancle</td>
-                    <td>Keyword</td>
-                    <td>Link</td>
-                    <td>Date Range</td>
-                    <td>Status</td>
-                    <td><Dropdown
+                    <td>{items._id}</td>
+                    <td>
+                      <img
+                        style={{ height: "100%", width: "100px" }}
+                        src={`http://192.168.29.222:8080/${items.image}`}
+                        alt="Logo"
+                      />
+                    </td>
+
+                    <td>{items.open_type}</td>
+                    <td>{items.is_banner}</td>
+                    <td>{items.can_cancle}</td>
+                    <td>{items.keyword}</td>
+                    <td>{items.link}</td>
+                    <td>none</td>
+                    <td>{items.status ? "ACTIVE" : " DISABLE"}</td>
+                    <td>
+                      <Dropdown
                         isOpen={dropdownOpen[index]} // Use individual open state
                         toggle={() => toggleDropdown(index)}
                       >
@@ -103,11 +113,16 @@ export default function ShowMessage() {
                         </DropdownToggle>
                         <DropdownMenu>
                           <DropdownItem>Update</DropdownItem>
-                          <DropdownItem onClick={() => {
+                          <DropdownItem
+                            onClick={() => {
                               handleDelete(items._id);
-                            }}>Delete</DropdownItem>
+                            }}
+                          >
+                            Delete
+                          </DropdownItem>
                         </DropdownMenu>
-                      </Dropdown></td>
+                      </Dropdown>
+                    </td>
                   </tr>
                 );
               })}
