@@ -93,6 +93,7 @@ export default function Category() {
                       <img
                         style={{ height: "100%", width: "100px" }}
                         src={`http://192.168.29.222:8080/${items.category_thumb}`}
+                        // src={`http://192.168.0.107:8080/${items.category_thumb}`}
                         alt="Logo"
                       />
                     </td>

@@ -8,7 +8,7 @@ export default function AddStickerCategory() {
   const navigate = useNavigate();
   const [data, setData] = useState({
     stk_category_name: "",
-    stk_category_thumb: "",
+    stk_category_thumb: null,
     sequence_number: "",
     status: "1",
   });
@@ -30,11 +30,11 @@ export default function AddStickerCategory() {
       })
       .then((res) => {
         console.log("res", res);
+        navigate("/stickerCategory");
       })
       .catch((error) => {
         console.error(error);
       });
-    navigate("/stickerCategory");
   };
 
   const handleFileChange = (e) => {
@@ -47,7 +47,6 @@ export default function AddStickerCategory() {
       <Card className="m-3">
         <CardBody>
           <h4 className="card-title">Add Sticker Category</h4>
-          <form>
             <div>
               <div className="form-group">
                 <label>Sticker Category Name</label>
@@ -101,7 +100,6 @@ export default function AddStickerCategory() {
             <button onClick={HandleSubmit} className="my-3 btn btn-primary">
               Submit
             </button>
-          </form>
         </CardBody>
       </Card>
     </div>

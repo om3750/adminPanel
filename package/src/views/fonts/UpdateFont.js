@@ -13,25 +13,45 @@ export default function UpdateFont() {
 
   const [data, setData] = useState({
     name: state.name,
-    thumb: "",
-    path: "",
+    thumb: null,
+    path: null,
     status: state.status,
   });
 
   const HandleSubmit = (event) => {
     // event.preventDefault();
+    
+    const formData = new FormData();
+  
+    // Append all form fields to the FormData
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
+  
     axios
-      .post(`${BaseURL}font/updateFont/${state._id}`, data)
-      .then((res) => {
-        console.log("res", res);
-        // window.location.reload(false);
-        navigate("/fonts");
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+    .post(`${BaseURL}font/updateFont/${state._id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    .then((res) => {
+      console.log("res", res);
+      navigate("/fonts");
 
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+    
+  };
+  const handleThumbChange = (e) => {
+    // Set the actual file object when the input value changes
+    setData({ ...data, thumb: e.target.files[0] });
+  };
+  const handlePathChange = (e) => {
+    // Set the actual file object when the input value changes
+    setData({ ...data, path: e.target.files[0] });
+  };
   return (
     <div className="mainContent">
       <Card className="m-3">
@@ -57,7 +77,7 @@ export default function UpdateFont() {
                 type="file"
                 className=" my-3 form-control"
                 name="thumb"
-                onChange={(e) => setData({ ...data, thumb: e.target.value })}
+                onChange={handleThumbChange}
               />
             </div>
             <div className=" my-3">
@@ -69,7 +89,7 @@ export default function UpdateFont() {
                 type="file"
                 className=" mt-3 form-control"
                 name="path"
-                onChange={(e) => setData({ ...data, path: e.target.value })}
+                onChange={handlePathChange}
               />
               {state.path}
             </div>

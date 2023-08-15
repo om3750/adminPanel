@@ -34,11 +34,11 @@ export default function AddFonts() {
       })
       .then((res) => {
         console.log("res", res);
+        navigate("/fonts");
       })
       .catch((error) => {
         console.error(error);
       });
-    navigate("/fonts");
   };
 
   const handleThumbChange = (e) => {
@@ -55,7 +55,6 @@ export default function AddFonts() {
       <Card className="m-3">
         <CardBody>
           <h4 className="card-title">Add Font</h4>
-          <form>
             <div className="form-group">
               <label>Font Thumbs</label>
               <input
@@ -90,7 +89,6 @@ export default function AddFonts() {
             <button onClick={HandleSubmit} className="my-3 btn btn-primary">
               Submit
             </button>
-          </form>
         </CardBody>
       </Card>
     </div>

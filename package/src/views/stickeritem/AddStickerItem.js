@@ -9,8 +9,8 @@ export default function AddStickerItem() {
   const [cat, setCat] = useState([]); // Provide an empty array as the initial value
 
   const [data, setData] = useState({
-    sticker_thumb: "",
-    sticker_image: "",
+    sticker_thumb: null,
+    sticker_image: null,
     sticker_type: "",
     bg_type: "",
     is_premium: "1",
@@ -18,17 +18,35 @@ export default function AddStickerItem() {
   });
 
   const HandleSubmit = (event) => {
-    event.preventDefault();
+    const formData = new FormData();
+
+    // Append all form fields to the FormData
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
+
     axios
-      .post(`${BaseURL}background/addbgitem`, data)
+      .post(`${BaseURL}sticker/addstkcat`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((res) => {
         console.log("res", res);
-        window.location.reload(false);
-        navigate("/backgroundCategory");
+        navigate("/stickerCategory");
       })
       .catch((error) => {
         console.error(error);
       });
+  };
+
+  const handleThumbChange = (e) => {
+    // Set the actual file object when the input value changes
+    setData({ ...data, sticker_thumb: e.target.files[0] });
+  };
+  const handleImageChange = (e) => {
+    // Set the actual file object when the input value changes
+    setData({ ...data, sticker_image: e.target.files[0] });
   };
 
   useEffect(() => {
@@ -52,8 +70,7 @@ export default function AddStickerItem() {
                 type="file"
                 className=" mb-3 form-control"
                 name="sticker_thumb"
-                onChange={(e) => setData({ ...data, sticker_thumb: e.target.value })}
-              />
+                onChange={handleThumbChange}              />
             </div>
             <div className="form-group">
               <label>Category Images</label>
@@ -61,7 +78,7 @@ export default function AddStickerItem() {
                 type="file"
                 className=" mb-3 form-control"
                 name="sticker_image"
-                onChange={(e) => setData({ ...data, sticker_image: e.target.value })}
+                onChange={handleImageChange}
               />
             </div>
 

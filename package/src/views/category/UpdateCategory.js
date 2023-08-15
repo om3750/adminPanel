@@ -13,7 +13,7 @@ console.log('state', state);
   const [data, setData] = useState({
     category_name: state.category_name,
     id_name: state.id_name,
-    category_thumb: "",
+    category_thumb: null,
     size: state.size,
     app_id: 1,
     sequence_number: state.sequence_number,
@@ -38,12 +38,12 @@ console.log('state', state);
     })
     .then((res) => {
       console.log("res", res);
+      navigate("/category");
+
     })
     .catch((error) => {
       console.error(error);
     });
-    navigate("/category");
-            window.location.reload(false);
 
 
 };
@@ -59,7 +59,6 @@ console.log('state', state);
       <Card className="m-3">
         <CardBody>
           <h4 className="card-title">Update Category</h4>
-          <form>
             <div className="row">
               <div className="col-lg-6">
                 <div className="form-group">
@@ -162,7 +161,6 @@ console.log('state', state);
             <button onClick={HandleSubmit} className="my-3 btn btn-primary">
               Submit
             </button>
-          </form>
         </CardBody>
       </Card>
     </div>

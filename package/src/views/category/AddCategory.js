@@ -6,9 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { FiMoreVertical } from "react-icons/fi";
 
 export default function AddFonts() {
-  const navigate = useNavigate();
   // const [cat, setCat] = useState([]); // Provide an empty array as the initial value
-
+const navigate = useNavigate();
   const [data, setData] = useState({
     category_name: "",
     id_name: "",
@@ -21,61 +20,43 @@ export default function AddFonts() {
 
   console.log("data", data);
 
-  // const HandleSubmit = (event) => {
-  //   event.preventDefault();
-  //   axios
-  //     .post(`${BaseURL}category/addCategory`, data)
-  //     .then((res) => {
-  //       console.log("res", res);
-  //       // window.location.reload(false);
-  //       navigate("/category");
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // };
 
+  const HandleSubmit = () => {
+    //  event.preventDefault();
 
-  const HandleSubmit = (event) => {
-    // event.preventDefault();
-    
     const formData = new FormData();
-  
+
     // Append all form fields to the FormData
     for (const key in data) {
       formData.append(key, data[key]);
     }
-  
+
     axios
-    .post(`${BaseURL}category/addCategory`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-    .then((res) => {
-      console.log("res", res);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-    navigate("/category");
-            window.location.reload(false);
-
-
-};
+      .post(`${BaseURL}category/addCategory`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        console.log("res", res);
+        // Only navigate when the API call is successful
+      })
+      .catch((error) => {
+        console.error("error", error);
+      });
+    // navigate("/category");
+  };
 
   const handleFileChange = (e) => {
     // Set the actual file object when the input value changes
     setData({ ...data, category_thumb: e.target.files[0] });
   };
-  
 
   return (
     <div className="mainContent">
       <Card className="m-3">
         <CardBody>
           <h4 className="card-title">Add Category</h4>
-          <form>
             <div className="row">
               <div className="col-lg-6">
                 <div className="form-group">
@@ -168,13 +149,33 @@ export default function AddFonts() {
 
             <button
               onClick={() => {
-                HandleSubmit();
+                const formData = new FormData();
+
+                // Append all form fields to the FormData
+                for (const key in data) {
+                  formData.append(key, data[key]);
+                }
+            
+                axios
+                  .post(`${BaseURL}category/addCategory`, formData, {
+                    headers: {
+                      "Content-Type": "multipart/form-data",
+                    },
+                  })
+                  .then((res) => {
+                    console.log("res", res);
+                    navigate("/category");
+
+                    // Only navigate when the API call is successful
+                  })
+                  .catch((error) => {
+                    console.error("error", error);
+                  });
               }}
               className="my-3 btn btn-primary"
             >
               Submit
             </button>
-          </form>
         </CardBody>
       </Card>
     </div>
