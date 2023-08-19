@@ -66,7 +66,7 @@ export default function Theme() {
   }, []);
   const [show, setShow] = useState(false);
   const [editShow, setEditShow] = useState(false);
-  const [editItems, setEditItems] = useState({ name: "", status: true });
+  const [editItems, setEditItems] = useState({ name: "", status: '1' });
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -251,12 +251,12 @@ export default function Theme() {
               <Form.Control
                 as="select"
                 value={editItems.status}
-                onClick={(e) =>
+                onChange={(e) =>
                   setEditItems({ ...editItems, status: e.target.value })
                 }
               >
-                <option value={true}>ACTIVE</option>
-                <option value={false}>DISABLE</option>
+                <option value={1}>ACTIVE</option>
+                <option value={0}>DISABLE</option>
               </Form.Control>
             </Form.Group>
           <Button className="w-100" variant="primary" onClick={() => {

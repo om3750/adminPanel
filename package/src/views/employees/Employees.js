@@ -233,10 +233,10 @@ export default function Employees() {
                 as="select"
               >
                 <option value="">-- Select Type --</option>
-                <option value="0">designer</option>
-                <option value="1">programmer</option>
-                <option value="2">employeer</option>
-                <option value="3">sco</option>
+                <option value="1">designer</option>
+                <option value="2">programmer</option>
+                <option value="3">employeer</option>
+                <option value="4">sco</option>
               </Form.Control>
             </Form.Group>
           <Button
@@ -289,7 +289,7 @@ export default function Employees() {
                 name="email"
                 value={editItems.email}
                 onChange={(e) =>
-                  setEditItems({ ...data, email: e.target.value })
+                  setEditItems({ ...editItems, email: e.target.value })
                 }
                 placeholder="Enter Email ID"
                 autoFocus
@@ -301,7 +301,7 @@ export default function Employees() {
                 name="password"
                 type="password"
                 onChange={(e) =>
-                  setEditItems({ ...data, password: e.target.value })
+                  setEditItems({ ...editItems, password: e.target.value })
                 }
                 placeholder="Enter Password"
                 autoFocus
@@ -312,16 +312,16 @@ export default function Employees() {
               <Form.Control
                 name="user_type"
                 onChange={(e) =>
-                  setEditItems({ ...data, user_type: e.target.value })
+                  setEditItems({ ...editItems, user_type: e.target.value })
                 }
                 value={editItems.user_type}
                 as="select"
               >
                 <option value="">-- Select Type --</option>
-                <option value="0">designer</option>
-                <option value="1">programmer</option>
-                <option value="2">employeer</option>
-                <option value="3">sco</option>
+                <option value="1">designer</option>
+                <option value="2">programmer</option>
+                <option value="3">employeer</option>
+                <option value="4">sco</option>
               </Form.Control>
             </Form.Group>
           <Button

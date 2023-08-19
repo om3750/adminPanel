@@ -108,8 +108,8 @@ export default function UpdateBackgroundCategory() {
               id=""
               onChange={(e) => setData({ ...data, status: e.target.value })}
             >
-              <option value="true">LIVE</option>
-              <option value="false">NOT LIVE</option>
+              <option value="1">ACTIVE</option>
+              <option value="0">DISABLE</option>
             </select>
           </div>
           {isUploading ? (
@@ -122,7 +122,7 @@ export default function UpdateBackgroundCategory() {
             <button onClick={HandleSubmit} className="my-3 btn btn-primary">
               Submit
             </button>
-          )}{" "}
+          )}
         </CardBody>
       </Card>
     </div>

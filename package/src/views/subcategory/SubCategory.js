@@ -65,7 +65,7 @@ export default function SubCategory() {
   }, []);
   const [show, setShow] = useState(false);
   const [editShow, setEditShow] = useState(false);
-  const [editItems, setEditItems] = useState({ name: "", status: true });
+  const [editItems, setEditItems] = useState({ name: "", status: '' });
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -201,8 +201,8 @@ export default function SubCategory() {
             >
               <Form.Label>Status</Form.Label>
               <Form.Control as="select">
-                <option value="">ACTIVE</option>
-                <option value="">DEACTIVE</option>
+                <option value="1">ACTIVE</option>
+                <option value="0">DEACTIVE</option>
               </Form.Control>
             </Form.Group>
           <Button
@@ -258,13 +258,13 @@ export default function SubCategory() {
               <Form.Label>Status</Form.Label>
               <Form.Control
                 as="select"
-                value={editItems.status}
-                onClick={(e) =>
+                onChange={(e) =>
                   setEditItems({ ...editItems, status: e.target.value })
                 }
+                value={editItems.status}
               >
-                <option value={true}>ACTIVE</option>
-                <option value={false}>DISABLE</option>
+                <option value='1'>ACTIVE</option>
+                <option value='0'>DISABLE</option>
               </Form.Control>
             </Form.Group>
           <Button

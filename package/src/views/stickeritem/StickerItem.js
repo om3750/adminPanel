@@ -85,12 +85,12 @@ export default function StickerItem() {
                   <tr className="border-top" key={items._id}>
                     {/* Add a unique key for each row */}
                     <td>{items._id}</td>
-                    <td>{items.application}</td>
-                    <td>{items.stk_name}</td>
+                    <td>{items.sticker_type}</td>
+                    <td>{items.sticker_name}</td>
                     <td>
                       <img
                         style={{ height: "100%", width: "100px" }}
-                        src={`http://192.168.29.222:8080/${items.stk_image}`}
+                        src={`http://192.168.29.222:8080/${items.sticker_image}`}
                         alt="Logo"
                       />
                     </td>

@@ -49,7 +49,6 @@ console.log('state', state);
     })
     .catch((error) => {
       setIsUploading(false); // Upload complete, hide spinner
-
       console.error(error);
     });
 

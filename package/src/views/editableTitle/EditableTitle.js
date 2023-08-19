@@ -66,7 +66,7 @@ export default function EditableTitle() {
   }, []);
   const [show, setShow] = useState(false);
   const [editShow, setEditShow] = useState(false);
-  const [editItems, setEditItems] = useState({ name: "", status: true });
+  const [editItems, setEditItems] = useState({ name: "", status: '1' });
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleEditShow = (items) => {
@@ -115,7 +115,7 @@ export default function EditableTitle() {
                 <th>No.</th>
                 <th>Name</th>
                 <th>brand_id</th>
-                <th>Status</th>
+                {/* <th>Status</th> */}
                 <th>Action</th>
               </tr>
             </thead>
@@ -127,7 +127,7 @@ export default function EditableTitle() {
                     <td>{items._id}</td>
                     <td>{items.name}</td>
                     <td>{items.brand_id}</td>
-                    <td>{items.status ? "ACTIVATE" : "DESABLE"}</td>
+                    {/* <td>{items.status ? "ACTIVATE" : "DISABLE"}</td> */}
                     <td>
                       <Dropdown
                         isOpen={dropdownOpen[index]} // Use individual open state
@@ -164,6 +164,11 @@ export default function EditableTitle() {
           </div>
         </CardBody>
       </Card>
+
+
+
+
+
       <Modal
         show={show}
         onHide={handleClose}
@@ -257,7 +262,7 @@ export default function EditableTitle() {
                 autoFocus
               />
             </Form.Group>
-            <Form.Group
+            {/* <Form.Group
               className="mb-3"
               controlId="exampleForm.ControlTextarea1"
             >
@@ -265,14 +270,14 @@ export default function EditableTitle() {
               <Form.Control
                 as="select"
                 value={editItems.status}
-                onClick={(e) =>
+                onChange={(e) =>
                   setEditItems({ ...editItems, status: e.target.value })
                 }
               >
-                <option value={true}>ACTIVE</option>
-                <option value={false}>DISABLE</option>
+                <option value='1'>ACTIVE</option>
+                <option value='0'>DISABLE</option>
               </Form.Control>
-            </Form.Group>
+            </Form.Group> */}
           <Button
             className="w-100"
             variant="primary"

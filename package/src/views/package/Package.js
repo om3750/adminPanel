@@ -73,7 +73,16 @@ export default function Package() {
   }, []);
   const [show, setShow] = useState(false);
   const [editShow, setEditShow] = useState(false);
-  const [editItems, setEditItems] = useState({ name: "", status: true });
+  const [editItems, setEditItems] = useState({
+    package_name: "",
+    desc: "",
+    validity: "",
+    price: "",
+    actual_price: "",
+    price_dollar: "",
+    actual_price_dollar: "",
+    status: "1",
+  });
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleEditShow = (items) => {
@@ -186,100 +195,98 @@ export default function Package() {
           <Modal.Title>Add Package</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ width: "500px" }}>
-            <Form.Group className="mb-3" >
-              <Form.Label className="mb-0">Package Name</Form.Label>
-              <Form.Control
-                name="package_name"
-                onChange={(e) =>
-                  setData({ ...data, package_name: e.target.value })
-                }
-                placeholder="Package Name"
-                autoFocus
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label className="mb-0">Descreption</Form.Label>
-              <Form.Control
-                name="desc"
-                onChange={(e) => setData({ ...data, desc: e.target.value })}
-                placeholder="Descreption"
-                autoFocus
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label className="mb-0">Validity (Day)</Form.Label>
-              <Form.Control
-                name="validity"
-                onChange={(e) => setData({ ...data, validity: e.target.value })}
-                placeholder="Validity"
-                autoFocus
-              />
-            </Form.Group>
-            <div className="row">
-              <div className="col-lg-6">
-                <Form.Group className="mb-3" >
-                  <Form.Label className="mb-0">Actual Price ₹</Form.Label>
-                  <Form.Control
-                    name="actual_price"
-                    onChange={(e) =>
-                      setData({ ...data, actual_price: e.target.value })
-                    }
-                    placeholder="Enter Actual Price"
-                  />
-                </Form.Group>
-              </div>
-              <div className="col-lg-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="mb-0">Price ₹</Form.Label>
-                  <Form.Control
-                    name="price"
-                    onChange={(e) =>
-                      setData({ ...data, price: e.target.value })
-                    }
-                    placeholder="Enter Price"
-                  />
-                </Form.Group>
-              </div>
+          <Form.Group className="mb-3">
+            <Form.Label className="mb-0">Package Name</Form.Label>
+            <Form.Control
+              name="package_name"
+              onChange={(e) =>
+                setData({ ...data, package_name: e.target.value })
+              }
+              placeholder="Package Name"
+              autoFocus
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label className="mb-0">Descreption</Form.Label>
+            <Form.Control
+              name="desc"
+              onChange={(e) => setData({ ...data, desc: e.target.value })}
+              placeholder="Descreption"
+              autoFocus
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label className="mb-0">Validity (Day)</Form.Label>
+            <Form.Control
+              name="validity"
+              onChange={(e) => setData({ ...data, validity: e.target.value })}
+              placeholder="Validity"
+              autoFocus
+            />
+          </Form.Group>
+          <div className="row">
+            <div className="col-lg-6">
+              <Form.Group className="mb-3">
+                <Form.Label className="mb-0">Actual Price ₹</Form.Label>
+                <Form.Control
+                  name="actual_price"
+                  onChange={(e) =>
+                    setData({ ...data, actual_price: e.target.value })
+                  }
+                  placeholder="Enter Actual Price"
+                />
+              </Form.Group>
             </div>
-            <div className="row">
-              <div className="col-lg-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="mb-0">Actual Price $</Form.Label>
-                  <Form.Control
-                    name="actual_price_dollar"
-                    onChange={(e) =>
-                      setData({ ...data, actual_price_dollar: e.target.value })
-                    }
-                    placeholder="Enter Price"
-                  />
-                </Form.Group>
-              </div>
-              <div className="col-lg-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="mb-0">Price $</Form.Label>
-                  <Form.Control
-                    name="price_dollar"
-                    onChange={(e) =>
-                      setData({ ...data, price_dollar: e.target.value })
-                    }
-                    placeholder="Enter Price"
-                  />
-                </Form.Group>
-              </div>
+            <div className="col-lg-6">
+              <Form.Group className="mb-3">
+                <Form.Label className="mb-0">Price ₹</Form.Label>
+                <Form.Control
+                  name="price"
+                  onChange={(e) => setData({ ...data, price: e.target.value })}
+                  placeholder="Enter Price"
+                />
+              </Form.Group>
             </div>
+          </div>
+          <div className="row">
+            <div className="col-lg-6">
+              <Form.Group className="mb-3">
+                <Form.Label className="mb-0">Actual Price $</Form.Label>
+                <Form.Control
+                  name="actual_price_dollar"
+                  onChange={(e) =>
+                    setData({ ...data, actual_price_dollar: e.target.value })
+                  }
+                  placeholder="Enter Price"
+                />
+              </Form.Group>
+            </div>
+            <div className="col-lg-6">
+              <Form.Group className="mb-3">
+                <Form.Label className="mb-0">Price $</Form.Label>
+                <Form.Control
+                  name="price_dollar"
+                  onChange={(e) =>
+                    setData({ ...data, price_dollar: e.target.value })
+                  }
+                  placeholder="Enter Price"
+                />
+              </Form.Group>
+            </div>
+          </div>
 
-            <Form.Group
-              className="mb-3"
-              controlId="status"
-              name="status"
-              onChange={(e) => setData({ ...data, status: e.target.value })}
-            >
-              <Form.Label className="mb-0">Status</Form.Label>
-              <Form.Control as="select">
-                <option value="1">ACTIVE</option>
-                <option value="0">DEACTIVE</option>
-              </Form.Control>
-            </Form.Group>
+          <Form.Group
+            className="mb-3"
+            controlId="status"
+            name="status"
+            onChange={(e) => setData({ ...data, status: e.target.value })}
+          >
+            <Form.Label className="mb-0">Status</Form.Label>
+            <Form.Control as="select">
+              <option value="1">ACTIVE</option>
+              <option value="0">DEACTIVE</option>
+            </Form.Control>
+          </Form.Group>
           <Button
             className="mt-2 w-100"
             variant="primary"
@@ -305,122 +312,120 @@ export default function Package() {
           <Modal.Title>Edit Subcategory</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ width: "500px" }}>
-            <Form.Group className="mb-3">
-              <Form.Label className="mb-0">Package Name</Form.Label>
-              <Form.Control
-                name="package_name"
-                onChange={(e) =>
-                  setEditItems({ ...editItems, package_name: e.target.value })
-                }
-                value={editItems.package_name}
-                placeholder="Package Name"
-                autoFocus
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label className="mb-0">Package Name</Form.Label>
-              <Form.Control
-                name="desc"
-                value={editItems.desc}
-                onChange={(e) =>
-                  setEditItems({ ...editItems, desc: e.target.value })
-                }
-                placeholder="Description"
-                autoFocus
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label className="mb-0">Validity (Day)</Form.Label>
-              <Form.Control
-                name="validity"
-                value={editItems.validity}
-                onChange={(e) =>
-                  setEditItems({ ...editItems, validity: e.target.value })
-                }
-                placeholder="validity"
-                autoFocus
-              />
-            </Form.Group>
-            <div className="row">
-              <div className="col-lg-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="mb-0">Actual Price ₹</Form.Label>
-                  <Form.Control
-                    name="actual_price"
-                    value={editItems.actual_price}
-                    onChange={(e) =>
-                      setEditItems({ ...editItems, actual_price: e.target.value })
-                    }
-                    placeholder="actual price"
-                    autoFocus
-                  />
-                </Form.Group>
-              </div>
-              <div className="col-lg-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="mb-0">Price ₹</Form.Label>
-                  <Form.Control
-                    name="price"
-                    value={editItems.price}
-                    onChange={(e) =>
-                      setEditItems({ ...editItems, price: e.target.value })
-                    }
-                    placeholder="price"
-                    autoFocus
-                  />
-                </Form.Group>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-lg-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="mb-0">Actual Price $</Form.Label>
-                  <Form.Control
-                    name="actual_price_dollar"
-                    value={editItems.actual_price_dollar}
-                    onChange={(e) =>
-                      setEditItems({
-                        ...data,
-                        actual_price_dollar: e.target.value,
-                      })
-                    }
-                    placeholder="actual price dollar"
-                    autoFocus
-                  />
-                </Form.Group>
-              </div>
-              <div className="col-lg-6">
-                <Form.Group className="mb-3">
-                  <Form.Label className="mb-0">Price $</Form.Label>
-                  <Form.Control
-                    name="price_dollar"
-                    value={editItems.actual_price_dollar}
-                    onChange={(e) =>
-                      setEditItems({ ...editItems, price_dollar: e.target.value })
-                    }
-                    placeholder="Enter Price"
-                  />
-                </Form.Group>
-              </div>
-
+          <Form.Group className="mb-3">
+            <Form.Label className="mb-0">Package Name</Form.Label>
+            <Form.Control
+              name="package_name"
+              onChange={(e) =>
+                setEditItems({ ...editItems, package_name: e.target.value })
+              }
+              value={editItems.package_name}
+              placeholder="Package Name"
+              autoFocus
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label className="mb-0">Package Name</Form.Label>
+            <Form.Control
+              name="desc"
+              value={editItems.desc}
+              onChange={(e) =>
+                setEditItems({ ...editItems, desc: e.target.value })
+              }
+              placeholder="Description"
+              autoFocus
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label className="mb-0">Validity (Day)</Form.Label>
+            <Form.Control
+              name="validity"
+              value={editItems.validity}
+              onChange={(e) =>
+                setEditItems({ ...editItems, validity: e.target.value })
+              }
+              placeholder="validity"
+              autoFocus
+            />
+          </Form.Group>
+          <div className="row">
+            <div className="col-lg-6">
               <Form.Group className="mb-3">
-                <Form.Label>Type</Form.Label>
+                <Form.Label className="mb-0">Actual Price ₹</Form.Label>
                 <Form.Control
-                  name="user_type"
+                  name="actual_price"
+                  value={editItems.actual_price}
                   onChange={(e) =>
-                    setEditItems({ ...editItems, user_type: e.target.value })
+                    setEditItems({ ...editItems, actual_price: e.target.value })
                   }
-                  value={editItems.user_type}
-                  as="select"
-                >
-                  <option value="">-- Select Type --</option>
-                  <option value="0">designer</option>
-                  <option value="1">programmer</option>
-                  <option value="2">employeer</option>
-                  <option value="3">sco</option>
-                </Form.Control>
+                  placeholder="actual price"
+                  autoFocus
+                />
               </Form.Group>
             </div>
+            <div className="col-lg-6">
+              <Form.Group className="mb-3">
+                <Form.Label className="mb-0">Price ₹</Form.Label>
+                <Form.Control
+                  name="price"
+                  value={editItems.price}
+                  onChange={(e) =>
+                    setEditItems({ ...editItems, price: e.target.value })
+                  }
+                  placeholder="price"
+                  autoFocus
+                />
+              </Form.Group>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-lg-6">
+              <Form.Group className="mb-3">
+                <Form.Label className="mb-0">Actual Price $</Form.Label>
+                <Form.Control
+                  name="actual_price_dollar"
+                  value={editItems.actual_price_dollar}
+                  onChange={(e) =>
+                    setEditItems({
+                      ...editItems,
+                      actual_price_dollar: e.target.value,
+                    })
+                  }
+                  placeholder="actual price dollar"
+                  autoFocus
+                />
+              </Form.Group>
+            </div>
+            <div className="col-lg-6">
+              <Form.Group className="mb-3">
+                <Form.Label className="mb-0">Price $</Form.Label>
+                <Form.Control
+                  name="price_dollar"
+                  value={editItems.price_dollar}
+                  onChange={(e) =>
+                    setEditItems({ ...editItems, price_dollar: e.target.value })
+                  }
+                  placeholder="Enter Price"
+                />
+              </Form.Group>
+            </div>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Type</Form.Label>
+              <Form.Control
+                name="status"
+                onChange={(e) =>
+                  setEditItems({ ...editItems, status: e.target.value })
+                }
+                value={editItems.status}
+                as="select"
+              >
+                <option value="">-- Select Type --</option>
+                <option value="0">DISABLE</option>
+                <option value="1">ACTIVE</option>
+              </Form.Control>
+            </Form.Group>
+          </div>
           <Button
             className="w-100"
             variant="primary"

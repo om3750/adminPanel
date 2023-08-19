@@ -85,7 +85,7 @@ export default function BackgroundItem() {
                   <tr className="border-top" key={items.no}>
                     {/* Add a unique key for each row */}
                     <td>{items._id}</td>
-                    <td>{items.application}</td>
+                    <td>{items.bg_category_name}</td>
                     <td>{items.bg_name.replace(".jpg", "")}</td>
                     <td>
                       <img
@@ -96,7 +96,9 @@ export default function BackgroundItem() {
                     </td>
                     <td>{items.is_premium ? "Yes" : "No"}</td>
                     <td>{items.status ? "ACTIVATE" : "DESABLE"}</td>
-                    <td><Dropdown
+                    <td>
+                      <Dropdown
+                        direction="left" // Set the direction to "left"
                         isOpen={dropdownOpen[index]} // Use individual open state
                         toggle={() => toggleDropdown(index)}
                       >

@@ -35,7 +35,6 @@ export default function AddStickerCategory() {
       .then((res) => {
         console.log("res", res);
         setIsUploading(false); // Upload failed, hide spinner
-
         navigate("/stickerCategory");
       })
       .catch((error) => {
@@ -96,7 +95,6 @@ export default function AddStickerCategory() {
             <select
               className="form-control"
               name="status"
-              id=""
               onChange={(e) => setData({ ...data, status: e.target.value })}
             >
               <option value="1">LIVE</option>

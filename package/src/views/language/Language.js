@@ -64,7 +64,7 @@ export default function Language() {
   }, []);
   const [show, setShow] = useState(false);
   const [editShow, setEditShow] = useState(false);
-  const [editItems, setEditItems] = useState({ name: "", status: true });
+  const [editItems, setEditItems] = useState({ name: "", status: '1' });
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleEditShow = (items) => {
@@ -230,17 +230,17 @@ export default function Language() {
         }}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Edit Subcategory</Modal.Title>
+          <Modal.Title>Edit Language</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ width: "400px" }}>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Subcategory Name</Form.Label>
+              <Form.Label>Language Name</Form.Label>
               <Form.Control
                 onChange={(e) => {
                   setEditItems({ ...editItems, name: e.target.value });
                 }}
                 value={editItems.name}
-                placeholder="Enter New Subcategory Name"
+                placeholder="Enter New Language Name"
                 autoFocus
               />
             </Form.Group>
@@ -252,12 +252,12 @@ export default function Language() {
               <Form.Control
                 as="select"
                 value={editItems.status}
-                onClick={(e) =>
+                onChange={(e) =>
                   setEditItems({ ...editItems, status: e.target.value })
                 }
               >
-                <option value={true}>ACTIVE</option>
-                <option value={false}>DISABLE</option>
+                <option value={1}>ACTIVE</option>
+                <option value={0}>DISABLE</option>
               </Form.Control>
             </Form.Group>
           <Button className="w-100" variant="primary" onClick={() => {
