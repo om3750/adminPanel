@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import BaseURL from '../../urls/BaseUrl'
 import { Card, CardBody } from "reactstrap";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
-export default function AddBackgroundItem() {
+export default function UpdateBackgroundItem() {
   const navigate = useNavigate();
   const [isUploading, setIsUploading] = useState(false); // State for tracking uploading status
+  const { state } = useLocation();
+  console.log('state',state)
 
   const [cat, setCat] = useState([]); // Provide an empty array as the initial value
 
@@ -32,7 +34,7 @@ export default function AddBackgroundItem() {
     }
 
     axios
-      .post(`${BaseURL}background/addBgItem`, formData, {
+      .post(`${BaseURL}background/updateItem/${state._id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -71,7 +73,7 @@ export default function AddBackgroundItem() {
     <div className="mainContent">
       <Card className="m-3">
         <CardBody>
-          <h4 className="card-title">Add Background</h4>
+          <h4 className="card-title">Update Background</h4>
             <div className="form-group">
               <label>Background Thumbs</label>
               <input

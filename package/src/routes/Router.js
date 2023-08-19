@@ -38,6 +38,7 @@ const AddBackgroundCategory = lazy(() => import("../views/backgroundcategory/Add
 const UpdateBackgroundCategory = lazy(() => import("../views/backgroundcategory/UpdateBackgroundCategory.js"));
 const BackgroundItem = lazy(() => import("../views/backgrounditem/BackgroundItem.js"));
 const AddBackgroundItem = lazy(() => import("../views/backgrounditem/AddBackgroundItem.js"));
+const UpdateBackgroundItem = lazy(() => import("../views/backgrounditem/UpdateBackgroundItem.js"));
 const ImportJson = lazy(() => import("../views/importJson/ImportJson.js"));
 const CustomOrders = lazy(() => import("../views/customorders/CustomOrders.js"));
 const Employees = lazy(() => import("../views/employees/Employees.js"));
@@ -98,6 +99,7 @@ const ThemeRoutes = [
       { path: "/updateBackgroundCategory", exact: true, element: <UpdateBackgroundCategory /> },
       { path: "/backgroundItem", exact: true, element: <BackgroundItem /> },
       { path: "/addBackgroundItem", exact: true, element: <AddBackgroundItem /> },
+      { path: "/updateBackgroundItem", exact: true, element: <UpdateBackgroundItem /> },
       { path: "/importJson", exact: true, element: <ImportJson /> },
       { path: "/customorders", exact: true, element: <CustomOrders /> },
       { path: "/employees", exact: true, element: <Employees /> },
