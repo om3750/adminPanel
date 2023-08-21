@@ -13,8 +13,8 @@ export default function AddFonts() {
 
 
   const [data, setData] = useState({
-    thumb: "",
-    path: "",
+    thumb: null,
+    path: null,
     status: "1",
   });
 

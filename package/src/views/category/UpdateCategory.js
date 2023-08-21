@@ -19,7 +19,7 @@ console.log('state', state);
     size: state.size,
     app_id: 1,
     sequence_number: state.sequence_number,
-    status: state.sequence_number,
+    status: state.status,
   });
 
   const HandleSubmit = (event) => {
@@ -43,7 +43,6 @@ console.log('state', state);
     .then((res) => {
       console.log("res", res);
       setIsUploading(false); // Upload complete, hide spinner
-
       navigate("/category");
 
     })
@@ -51,16 +50,11 @@ console.log('state', state);
       setIsUploading(false); // Upload complete, hide spinner
       console.error(error);
     });
-
-
 };
-
-
   const handleFileChange = (e) => {
     // Set the actual file object when the input value changes
     setData({ ...data, category_thumb: e.target.files[0] });
   };
-
   return (
     <div className="mainContent">
       <Card className="m-3">
@@ -75,8 +69,8 @@ console.log('state', state);
                     value={data.category_name}
                     className=" mb-3 form-control"
                     name="category_name"
-                    onChange={(e) =>
-                      setData({ ...data, category_name: e.target.value })
+                    onChange={
+                      (e) => setData({ ...data, category_name: e.target.value })
                     }
                     placeholder="Category Name"
                   />
@@ -160,8 +154,8 @@ console.log('state', state);
                 onChange={(e) => setData({ ...data, status: e.target.value })}
                 id=""
               >
-                <option value="true">LIVE</option>
-                <option value="false">NOT LIVE</option>
+                <option value="1">LIVE</option>
+                <option value="0">NOT LIVE</option>
               </select>
             </div>
 

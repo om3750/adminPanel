@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import axios from "axios";
 import BaseURL from "../../urls/BaseUrl";
 import { Button, Card, CardBody, Table } from "reactstrap";
@@ -21,7 +20,7 @@ export default function UpdateFont() {
   });
 
   const HandleSubmit = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     setIsUploading(true); // Start uploading, show spinner
 
     const formData = new FormData();
@@ -40,12 +39,11 @@ export default function UpdateFont() {
       .then((res) => {
         console.log("res", res);
         setIsUploading(false); // Upload complete, hide spinner
-
         navigate("/fonts");
       })
       .catch((error) => {
-        console.error(error);
         setIsUploading(false); // Upload failed, hide spinner
+        console.error(error);
       });
   };
   const handleThumbChange = (e) => {
@@ -84,7 +82,7 @@ export default function UpdateFont() {
                 onChange={handleThumbChange}
               />
             </div>
-            <div className=" my-3">
+            <div className="my-3">
               <img
                 src={`http://192.168.29.222:8080/${state.thumb}`}
                 width={"220px"}
@@ -105,27 +103,26 @@ export default function UpdateFont() {
               <label>Status</label>
               <select
                 className="form-control"
+                // value={data.status}
                 name="status"
-                value={data.status}
                 onChange={(e) => setData({ ...data, status: e.target.value })}
-                id=""
               >
-                <option value="true">LIVE</option>
-                <option value="false">NOT LIVE</option>
+                <option value="1">ACTIVE</option>
+                <option value="0">DISABLE</option>
               </select>
             </div>
 
             {isUploading ? (
-            <div className="text-center mt-3">
-              <div className="spinner-border" role="status">
-                <span className="visually-hidden">Loading...</span>
+              <div className="text-center mt-3">
+                <div className="spinner-border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
               </div>
-            </div>
-          ) : (
-            <button onClick={HandleSubmit} className="my-3 btn btn-primary">
-              Submit
-            </button>
-          )}
+            ) : (
+              <button onClick={HandleSubmit} className="my-3 btn btn-primary">
+                Submit
+              </button>
+            )}
           </div>
         </CardBody>
       </Card>
