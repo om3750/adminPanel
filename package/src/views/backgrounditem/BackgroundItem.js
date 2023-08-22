@@ -15,7 +15,18 @@ import {
 const ITEMS_PER_PAGE = 10; // Number of items to show per pagex`
 
 export default function BackgroundItem() {
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
   const navigate = useNavigate();
+
+  const [cat, setCat] = useState([]); // Provide an empty array as the initial value
+
+  useEffect(() => {
+    axios.get(`${BaseURL}background/showallcat`).then((res) => {
+      setCat(res.data.record);
+      // console.log("res", res.data.record);
+      setIsLoading(false); // Turn off loading state when data is retrieved
+    });
+  }, []);
 
   const [dropdownOpen, setDropdownOpen] = useState([]);
 
@@ -57,7 +68,16 @@ export default function BackgroundItem() {
     <div className="mainContent">
       <Card className="m-3">
         <CardBody>
-          <div className="d-flex justify-content-between align-items-center mb-3">
+        {isLoading ? (
+            <div className="text-center mt-3">
+              <div className="spinner-border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : (
+            datas.length > 0 && (
+              <div>
+<div className="d-flex justify-content-between align-items-center mb-3">
             {/* <h4 className="card-title">Admin List</h4> */}
             <Button
               color="primary"
@@ -80,13 +100,19 @@ export default function BackgroundItem() {
               </tr>
             </thead>
             <tbody>
-              {currentItems.map((items,index) => {
+              {currentItems.map((items, index) => {
+                const category = cat.find(
+                  (category) => category._id === items.bg_cat_id
+                );
+
                 return (
-                  <tr className="border-top" key={items.no}>
+                  <tr className="border-top" key={items._id}>
                     {/* Add a unique key for each row */}
                     <td>{items._id}</td>
-                    <td>{items.bg_category_name}</td>
-                    <td>{items.bg_name.replace(".jpg", "")}</td>
+                    <td>
+                      {category ? category.bg_category_name : items.bg_cat_id}
+                    </td>
+                    <td>{items.bg_name}</td>
                     <td>
                       <img
                         style={{ height: "100%", width: "100px" }}
@@ -95,10 +121,10 @@ export default function BackgroundItem() {
                       />
                     </td>
                     <td>{items.is_premium ? "Yes" : "No"}</td>
-                    <td>{items.status ? "ACTIVATE" : "DESABLE"}</td>
+                    <td>{items.status ? "LIVE" : "NOT LIVE"}</td>
                     <td>
                       <Dropdown
-                        direction="left" // Set the direction to "left"
+                        direction="left" // Set the direction to "left" 
                         isOpen={dropdownOpen[index]} // Use individual open state
                         toggle={() => toggleDropdown(index)}
                       >
@@ -106,26 +132,39 @@ export default function BackgroundItem() {
                           <FiMoreVertical />
                         </DropdownToggle>
                         <DropdownMenu>
-                          <DropdownItem  onClick={() => {
-                             navigate('/UpdateBackgroundItem', {state: items})
-                            }}>Update</DropdownItem>
-                          <DropdownItem onClick={() => {
+                          <DropdownItem
+                            onClick={() => {
+                              navigate("/UpdateBackgroundItem", {
+                                state: items,
+                              });
+                            }}
+                          >
+                            Update
+                          </DropdownItem>
+                          <DropdownItem
+                            onClick={() => {
                               handleDelete(items._id);
-                            }}>Delete</DropdownItem>
+                            }}
+                          >
+                            Delete
+                          </DropdownItem>
                         </DropdownMenu>
-                      </Dropdown></td>
+                      </Dropdown>
+                    </td>
                   </tr>
                 );
               })}
             </tbody>
           </Table>
-        <div className="pagination-container">
+          <div className="pagination-container">
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
               onPageChange={handlePageChange}
             />
-          </div>
+          </div>              </div>
+            )
+          )}
         </CardBody>
       </Card>
     </div>

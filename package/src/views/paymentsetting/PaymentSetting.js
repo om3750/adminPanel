@@ -6,9 +6,13 @@ import { useNavigate } from "react-router-dom";
 
 export default function PaymentSetting() {
   const [datas, setDatas] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
+
   useEffect(() => {
     axios.get(`${BaseURL}paymentSetting/showPaymentSetting`).then((res) => {
       setDatas(res.data.record);
+      setIsLoading(false); // Turn off loading state when data is retrieved
+      
     });
   }, []);
 
@@ -53,21 +57,16 @@ export default function PaymentSetting() {
   const HandleSubmit = () => {
     setIsUploading(true);
 
-    const formData = new FormData();
-    for (const key in data) {
-      formData.append(key, data[key]);
-    }
+    // const formData = new FormData();
+    // for (const key in data) {
+    //   formData.append(key, data[key]);
+    // }
 
-    axios.post(`${BaseURL}paymentSetting/updatePaymentSetting/64cc89c2369cef8fb8ba3c92`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
-    
+    axios.post(`${BaseURL}paymentSetting/updatePaymentSetting/64c39f5dd0ce4f660c683496`, data)
       .then((res) => {
         console.log("res", res);
         setIsUploading(false);
-        navigate("/payment_setting");
+        // window.location.reload();
       })
       .catch((error) => {
         console.error("error", error);
@@ -80,7 +79,17 @@ export default function PaymentSetting() {
       <Card className="m-3">
         <CardBody>
           <h4 className="card-title mb-3">Payment Setting</h4>
-          {datas.length > 0 && (
+          
+          {isLoading ? (
+            <div className="text-center mt-3">
+              <div className="spinner-border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : (
+            datas.length > 0 && (
+              <div>
+               {datas.length > 0 && (
             <div>
               {/* --------------------------------------------------------------- */}
               <div className="row">
@@ -251,6 +260,9 @@ export default function PaymentSetting() {
                 </button>
               )}
             </div>
+          )}
+              </div>
+            )
           )}
         </CardBody>
       </Card>

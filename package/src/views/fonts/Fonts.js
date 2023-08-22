@@ -16,6 +16,8 @@ import {
 const ITEMS_PER_PAGE = 10; // Number of items to show per pagex`
 
 export default function Fonts() {
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
+
   const navigate = useNavigate();
   const [datas, setDatas] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,6 +26,8 @@ export default function Fonts() {
     axios.get(`${BaseURL}font/showFont`).then((res) => {
       setDatas(res.data.record);
       console.log("res", res.data.record);
+      setIsLoading(false); // Turn off loading state when data is retrieved
+
     });
   }, []);
 
@@ -59,7 +63,16 @@ export default function Fonts() {
     <div className="mainContent">
       <Card className="m-3">
         <CardBody>
-          <div className="d-flex justify-content-between align-items-center mb-3">
+        {isLoading ? (
+            <div className="text-center mt-3">
+              <div className="spinner-border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : (
+            datas.length > 0 && (
+              <div>
+              <div className="d-flex justify-content-between align-items-center mb-3">
             <Button
               color="primary"
               onClick={() => navigate("/addfonts")}
@@ -129,6 +142,9 @@ export default function Fonts() {
               onPageChange={handlePageChange}
             />
           </div>
+              </div>
+            )
+          )}
         </CardBody>
       </Card>
     </div>

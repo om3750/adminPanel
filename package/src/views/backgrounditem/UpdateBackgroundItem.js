@@ -57,6 +57,7 @@ export default function UpdateBackgroundItem() {
         setIsUploading(false); // Upload failed, hide spinner
       });
   };
+
   useEffect(() => {
     axios.get(`${BaseURL}background/showallcat`).then((res) => {
       setCat(res.data.record);
@@ -166,9 +167,11 @@ export default function UpdateBackgroundItem() {
               className=" my-3 form-control"
               onChange={(e) => setData({ ...data, is_premium: e.target.value })}
               name="is_premium"
+              value={data.is_premium}
+
             >
-              <option value="0">FALSE</option>
-              <option value="1">TRUE</option>
+              <option value="1">YES</option>
+              <option value="0">NO</option>
             </select>
           </div>
 
@@ -176,6 +179,7 @@ export default function UpdateBackgroundItem() {
             <label>Status</label>
             <select
               className="form-control"
+              value={data.status}
               onChange={(e) => setData({ ...data, status: e.target.value })}
               name="status"
               id=""

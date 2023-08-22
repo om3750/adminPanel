@@ -15,6 +15,7 @@ import {
 import { Form, Modal } from "react-bootstrap";
 const ITEMS_PER_PAGE = 10;
 export default function Language() {
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
   const navigate = useNavigate();
 
   const [dropdownOpen, setDropdownOpen] = useState([]);
@@ -60,6 +61,7 @@ export default function Language() {
     axios.get(`${BaseURL}language/showLanguage`).then((res) => {
       setDatas(res.data.record);
       console.log("res", res.data.record);
+      setIsLoading(false); // Turn off loading state when data is retrieved
     });
   }, []);
   const [show, setShow] = useState(false);
@@ -96,7 +98,16 @@ export default function Language() {
     <div className="mainContent">
       <Card className="m-3">
         <CardBody>
-          <div className="d-flex justify-content-between align-items-center mb-3">
+        {isLoading ? (
+            <div className="text-center mt-3">
+              <div className="spinner-border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : (
+            datas.length > 0 && (
+              <div>
+  <div className="d-flex justify-content-between align-items-center mb-3">
             {/* <h4 className="card-title">Admin List</h4> */}
             <Button
               color="primary"
@@ -156,7 +167,9 @@ export default function Language() {
               totalPages={totalPages}
               onPageChange={handlePageChange}
             />
-          </div>
+          </div>              </div>
+            )
+          )}
         </CardBody>
       </Card>
       <Modal

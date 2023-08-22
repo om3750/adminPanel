@@ -7,12 +7,16 @@ import axios from "axios";
 
 export default function CustomOrders() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
+
   const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
 
   useEffect(() => {
     axios.get(`${BaseURL}customOrder/showCustomOrder`).then((res) => {
       setDatas(res.data.record);
       console.log("res", res.data.record);
+      setIsLoading(false); // Turn off loading state when data is retrieved
+
     });
   }, []);
 
@@ -20,7 +24,16 @@ export default function CustomOrders() {
     <div className="mainContent">
       <Card className="m-3">
         <CardBody>
-          <div className="d-flex justify-content-between align-items-center mb-3">
+        {isLoading ? (
+            <div className="text-center mt-3">
+              <div className="spinner-border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : (
+            datas.length > 0 && (
+              <div>
+<div className="d-flex justify-content-between align-items-center mb-3">
             {/* <h4 className="card-title">Admin List</h4> */}
           </div>
           <Table className="no-wrap mt-3 align-middle" responsive borderless>
@@ -54,7 +67,9 @@ export default function CustomOrders() {
                 );
               })}
             </tbody>
-          </Table>
+          </Table>              </div>
+            )
+          )}
         </CardBody>
       </Card>
     </div>

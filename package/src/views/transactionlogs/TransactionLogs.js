@@ -10,6 +10,7 @@ import { Form, Modal } from "react-bootstrap";
 const ITEMS_PER_PAGE = 10; // Number of items to show per pagex`
 
 export default function Category() {
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
   const navigate = useNavigate();
 
 
@@ -19,6 +20,7 @@ export default function Category() {
     axios.get(`${BaseURL}TransactionLog/showTransactionLog`).then((res) => {
       setDatas(res.data.record);
       console.log("res", res.data.record);
+      setIsLoading(false); // Turn off loading state when data is retrieved
     });
   }, []);
 
@@ -36,7 +38,16 @@ export default function Category() {
     <div className="mainContent">
       <Card className="m-3">
         <CardBody>
-          <div className="d-flex justify-content-between align-items-center mb-3">
+        {isLoading ? (
+            <div className="text-center mt-3">
+              <div className="spinner-border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : (
+            datas.length > 0 && (
+              <div>
+ <div className="d-flex justify-content-between align-items-center mb-3">
             <h4 className="card-title">Transaction Logs</h4>
           </div>
           <Table className="no-wrap mt-3 align-middle" responsive borderless>
@@ -76,7 +87,9 @@ export default function Category() {
               totalPages={totalPages}
               onPageChange={handlePageChange}
             />
-          </div>
+          </div>              </div>
+            )
+          )}
         </CardBody>
       </Card>
     </div>
