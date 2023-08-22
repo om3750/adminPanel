@@ -1,7 +1,6 @@
 import React from "react";
 import image2 from "../assets/images/users/user1.jpg";
 import { Image, Container } from "react-bootstrap";
-
 import {
   Navbar,
   Collapse,
@@ -66,16 +65,15 @@ const Header = () => {
       <Collapse navbar isOpen={isOpen}>
         <Nav className="me-auto" navbar></Nav>
         <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-         
-            <DropdownToggle color="white">
-              <img
-                src={user1}
-                alt="profile"
-                className="rounded-circle"
-                width="30"
-              ></img>
-            </DropdownToggle>
-              <DropdownMenu>
+          <DropdownToggle color="white">
+            <img
+              src={user1}
+              alt="profile"
+              className="rounded-circle"
+              width="30"
+            ></img>
+          </DropdownToggle>
+          <DropdownMenu>
             <Container style={{ width: "100%" }}>
               <div className="container text-center p-0">
                 <div className="d-flex align-items-center justify-content-start">
@@ -97,7 +95,13 @@ const Header = () => {
             </Container>
             <DropdownItem divider />
             <DropdownItem>My Account</DropdownItem>
-            <DropdownItem onClick={() => {localStorage.clear();navigate('/'); window.location.reload(); }}>
+            <DropdownItem
+              onClick={() => {
+                localStorage.clear();
+                navigate("/");
+                window.location.reload();
+              }}
+            >
               Logout
             </DropdownItem>
           </DropdownMenu>

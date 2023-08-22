@@ -53,16 +53,17 @@ export default function CustomOrders() {
             <tbody>
               {datas.map((items) => {
                 return (
-                  <tr className="border-top" key={items.no}>
-                    {" "}
+                  <tr className="border-top" key={items._id}>
                     {/* Add a unique key for each row */}
-                    <td>{items._id}</td>
-                    <td>1</td>
-                    <td>{items.stk_name}</td>
-                    <td>{items.number}</td>
-                    <td>{items.is_premium ? "Yes" : "No"}</td>
+                    <td>{items.sql_id}</td>
+                    <td>{items.ref_temp_id}</td>
+                    <td>{items.name}</td>
+                    <td>{items.contact}</td>
+                    <td>{items.email}</td>
+                    <td>{items.paid_amount}</td>
+                    <td>No</td>
+                    <td>No</td>
                     <td>{items.status ? "ACTIVATE" : "DISABLE"}</td>
-                    <td>{items.seq}</td>
                   </tr>
                 );
               })}

@@ -13,7 +13,6 @@ export default function Category() {
   const [isLoading, setIsLoading] = useState(true); // Add loading state
   const navigate = useNavigate();
 
-
   const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
 
   useEffect(() => {
@@ -33,12 +32,11 @@ export default function Category() {
     setCurrentPage(pageNumber);
   };
 
-
   return (
     <div className="mainContent">
       <Card className="m-3">
         <CardBody>
-        {isLoading ? (
+          {isLoading ? (
             <div className="text-center mt-3">
               <div className="spinner-border" role="status">
                 <span className="visually-hidden">Loading...</span>
@@ -47,47 +45,52 @@ export default function Category() {
           ) : (
             datas.length > 0 && (
               <div>
- <div className="d-flex justify-content-between align-items-center mb-3">
-            <h4 className="card-title">Transaction Logs</h4>
-          </div>
-          <Table className="no-wrap mt-3 align-middle" responsive borderless>
-            <thead>
-              <tr>
-                <th>No.</th>
-                <th>User Id</th>
-                <th>User Name</th>
-                <th>Transaction Id</th>
-                <th>Platform</th>
-                <th>Amount</th>
-                <th>Paid</th>
-                <th>Payment Time</th>
-              </tr>
-            </thead>
-            <tbody>
-            {currentItems.map((items,index) => {
-                  return (
-                    <tr className="border-top" key={items._id}>
-                      {/* Add a unique key for each row */}
-                      <td>{items.sql_id}</td>
-                      <td>{items.user_id}</td>
-                      <td>{items.plan_id}</td>
-                      <td>{items.transaction_id}</td>
-                      <td>{items.from_where}</td>
-                      <td>Rs {items.price_amount}</td>
-                      <td>Rs {items.paid_amount}</td>
-                      <td>{items.created_at}</td>
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <h4 className="card-title">Transaction Logs</h4>
+                </div>
+                <Table
+                  className="no-wrap align-middle"
+                  responsive
+                  borderless
+                >
+                  <thead>
+                    <tr>
+                      <th>No.</th>
+                      <th>User Id</th>
+                      <th>User Name</th>
+                      <th>Transaction Id</th>
+                      <th>Platform</th>
+                      <th>Amount</th>
+                      <th>Paid</th>
+                      <th>Payment Time</th>
                     </tr>
-                  );
-                })}
-            </tbody>
-          </Table>
-          <div className="pagination-container">
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-          </div>              </div>
+                  </thead>
+                  <tbody>
+                    {currentItems.map((items, index) => {
+                      return (
+                        <tr className="border-top" key={items._id}>
+                          {/* Add a unique key for each row */}
+                          <td>{items.sql_id}</td>
+                          <td>{items.user_id}</td>
+                          <td>{items.plan_id}</td>
+                          <td>{items.transaction_id}</td>
+                          <td>{items.from_where}</td>
+                          <td>Rs {items.price_amount}</td>
+                          <td>Rs {items.paid_amount}</td>
+                          <td>{items.created_at}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </Table>
+                <div className="pagination-container">
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                  />
+                </div>{" "}
+              </div>
             )
           )}
         </CardBody>
