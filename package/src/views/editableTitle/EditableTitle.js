@@ -68,7 +68,7 @@ export default function EditableTitle() {
   }, []);
   const [show, setShow] = useState(false);
   const [editShow, setEditShow] = useState(false);
-  const [editItems, setEditItems] = useState({ name: "", status: '1' });
+  const [editItems, setEditItems] = useState({ name: "", status: "1" });
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleEditShow = (items) => {
@@ -101,7 +101,7 @@ export default function EditableTitle() {
     <div className="mainContent">
       <Card className="m-3">
         <CardBody>
-        {isLoading ? (
+          {isLoading ? (
             <div className="text-center mt-3">
               <div className="spinner-border" role="status">
                 <span className="visually-hidden">Loading...</span>
@@ -110,77 +110,80 @@ export default function EditableTitle() {
           ) : (
             datas.length > 0 && (
               <div>
-<div className="d-flex justify-content-between align-items-center mb-3">
-            {/* <h4 className="card-title">Admin List</h4> */}
-            <Button
-              color="primary"
-              onClick={() => handleShow()}
-              className="m-2 btn"
-            >
-              Add Title
-            </Button>
-          </div>
-          <Table className="no-wrap mt-3 align-middle" responsive borderless>
-            <thead>
-              <tr>
-                <th>No.</th>
-                <th>Name</th>
-                <th>brand_id</th>
-                {/* <th>Status</th> */}
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentItems.map((items, index) => {
-                return (
-                  <tr className="border-top" key={items._id}>
-                    {/* Add a unique key for each row */}
-                    <td>{items._id}</td>
-                    <td>{items.name}</td>
-                    <td>{items.brand_id}</td>
-                    {/* <td>{items.status ? "ACTIVATE" : "DISABLE"}</td> */}
-                    <td>
-                      <Dropdown
-                        isOpen={dropdownOpen[index]} // Use individual open state
-                        toggle={() => toggleDropdown(index)}
-                      >
-                        <DropdownToggle color="white">
-                          <FiMoreVertical />
-                        </DropdownToggle>
-                        <DropdownMenu>
-                          <DropdownItem onClick={() => handleEditShow(items)}>
-                            Update
-                          </DropdownItem>
-                          <DropdownItem
-                            onClick={() => {
-                              handleDelete(items._id);
-                            }}
-                          >
-                            Delete
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </Dropdown>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </Table>
-          <div className="pagination-container">
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-          </div>              </div>
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  {/* <h4 className="card-title">Admin List</h4> */}
+                  <Button
+                    color="primary"
+                    onClick={() => handleShow()}
+                    className="m-2 btn"
+                  >
+                    Add Title
+                  </Button>
+                </div>
+                <Table
+                  className="no-wrap mt-3 align-middle"
+                  responsive
+                  borderless
+                >
+                  <thead>
+                    <tr>
+                      <th>No.</th>
+                      <th>Name</th>
+                      <th>brand_id</th>
+                      {/* <th>Status</th> */}
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {currentItems.map((items, index) => {
+                      return (
+                        <tr className="border-top" key={items._id}>
+                          {/* Add a unique key for each row */}
+                          <td>{items._id}</td>
+                          <td>{items.name}</td>
+                          <td>{items.brand_id}</td>
+                          {/* <td>{items.status ? "ACTIVATE" : "DISABLE"}</td> */}
+                          <td>
+                            <Dropdown
+                              isOpen={dropdownOpen[index]} // Use individual open state
+                              toggle={() => toggleDropdown(index)}
+                            >
+                              <DropdownToggle color="white">
+                                <FiMoreVertical />
+                              </DropdownToggle>
+                              <DropdownMenu>
+                                <DropdownItem
+                                  onClick={() => handleEditShow(items)}
+                                >
+                                  Update
+                                </DropdownItem>
+                                <DropdownItem
+                                  onClick={() => {
+                                    handleDelete(items._id);
+                                  }}
+                                >
+                                  Delete
+                                </DropdownItem>
+                              </DropdownMenu>
+                            </Dropdown>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </Table>
+                <div className="pagination-container">
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                  />
+                </div>{" "}
+              </div>
             )
           )}
         </CardBody>
       </Card>
-
-
-
-
 
       <Modal
         show={show}
@@ -202,24 +205,24 @@ export default function EditableTitle() {
           <Modal.Title>Add Title</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ width: "400px" }}>
-            <Form.Group className="mb-3" controlId="name">
-              <Form.Label>Title Name</Form.Label>
-              <Form.Control
-                name="name"
-                onChange={(e) => setData({ ...data, name: e.target.value })}
-                placeholder="Enter Title Name"
-                autoFocus
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="name">
-              <Form.Label>Brand ID</Form.Label>
-              <Form.Control
-                name="brand_id"
-                onChange={(e) => setData({ ...data, brand_id: e.target.value })}
-                placeholder="Enter Brand ID"
-                autoFocus
-              />
-            </Form.Group>
+          <Form.Group className="mb-3" controlId="name">
+            <Form.Label>Title Name</Form.Label>
+            <Form.Control
+              name="name"
+              onChange={(e) => setData({ ...data, name: e.target.value })}
+              placeholder="Enter Title Name"
+              autoFocus
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="name">
+            <Form.Label>Brand ID</Form.Label>
+            <Form.Control
+              name="brand_id"
+              onChange={(e) => setData({ ...data, brand_id: e.target.value })}
+              placeholder="Enter Brand ID"
+              autoFocus
+            />
+          </Form.Group>
           <Button
             className="w-100"
             variant="primary"
@@ -253,29 +256,29 @@ export default function EditableTitle() {
           <Modal.Title>Edit Subcategory</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ width: "400px" }}>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Subcategory Name</Form.Label>
-              <Form.Control
-                onChange={(e) => {
-                  setEditItems({ ...editItems, name: e.target.value });
-                }}
-                value={editItems.name}
-                placeholder="Enter New Subcategory Name"
-                autoFocus
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Subcategory Name</Form.Label>
-              <Form.Control
-                onChange={(e) => {
-                  setEditItems({ ...editItems, brand_id: e.target.value });
-                }}
-                value={editItems.brand_id}
-                placeholder="Enter New Brand Name"
-                autoFocus
-              />
-            </Form.Group>
-            {/* <Form.Group
+          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Label>Subcategory Name</Form.Label>
+            <Form.Control
+              onChange={(e) => {
+                setEditItems({ ...editItems, name: e.target.value });
+              }}
+              value={editItems.name}
+              placeholder="Enter New Subcategory Name"
+              autoFocus
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Label>Subcategory Name</Form.Label>
+            <Form.Control
+              onChange={(e) => {
+                setEditItems({ ...editItems, brand_id: e.target.value });
+              }}
+              value={editItems.brand_id}
+              placeholder="Enter New Brand Name"
+              autoFocus
+            />
+          </Form.Group>
+          {/* <Form.Group
               className="mb-3"
               controlId="exampleForm.ControlTextarea1"
             >
