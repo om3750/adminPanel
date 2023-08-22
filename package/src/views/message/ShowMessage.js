@@ -29,7 +29,7 @@ export default function ShowMessage() {
   const handleEditShow = (items) => {
     setEditShow(true);
     setEditItems(items);
-    setImage(items?.image)
+    setImage(items?.image);
   };
   const handleEditClose = () => setEditShow(false);
 
@@ -86,7 +86,6 @@ export default function ShowMessage() {
   };
 
   const HandleEditSubmit = () => {
-
     const formData = new FormData();
 
     // Append all form fields to the FormData
@@ -96,11 +95,14 @@ export default function ShowMessage() {
 
     axios
       .post(
-        `${BaseURL}inAppMessage/updateInAppMessage/${editItems._id}`, formData, {
+        `${BaseURL}inAppMessage/updateInAppMessage/${editItems._id}`,
+        formData,
+        {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        })
+        }
+      )
       .then((res) => {
         console.log("res", res);
         window.location.reload(false);
