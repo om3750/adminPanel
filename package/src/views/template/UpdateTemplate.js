@@ -361,7 +361,7 @@ export default function UpdateTemplate() {
                     </select>
                   </div>
                 </div>
-                <div className="col-lg-2">
+                <div className="col-lg-3">
                   <div className="form-group">
                     <div>
                       Editable Title
