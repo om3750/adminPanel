@@ -150,7 +150,7 @@ export default function UpdateTemplate() {
 
   // interestOption
 
-    const [interestdatas, setInterestDatas] = useState([]);
+  const [interestdatas, setInterestDatas] = useState([]);
   const [selectedInterest, setSelectedInterest] = useState([]);
   const [interestOption, setInterestOption] = useState({
     options: [],
@@ -236,30 +236,70 @@ export default function UpdateTemplate() {
   //   ],
   // };
 
-    // ===========================================select option==========================================
-
+  // ===========================================select option==========================================
 
   // selectedBgOption
 
-  const bgBgptions = [{ value: "", label: "No option yet" }];
+  const bgBgptions = [
+    { value: "", label: "Select Option" },
+    { value: "1", label: "Image" },
+    { value: "2", label: "Texture" },
+    { value: "3", label: "Colored" },
+    { value: "4", label: "Linear" },
+    { value: "5", label: "Redial" },
+  ];
 
   const handleBgChange = (selectedOption) => {
     // Handle the selected option
-    console.log("Selected Option:", selectedOption);
+    console.log("Selected Option:", selectedOption.value);
   };
 
   // editableTitleOptions
 
-  const editableTitleOptions = [{ value: "", label: "No option yet" }];
+  const [editableTitledatas, setEditableTitleDatas] = useState([]);
+  const [selectedStickerEditableTitle, setSelectedStickerEditableTitle] =
+    useState([]);
+  const [selectedTextEditableTitle, setSelectedTextEditableTitle] = useState(
+    []
+  );
+  const [editableTitleOptions, setEditableTitleOptions] = useState({
+    options: [],
+  });
 
-  const editableTitleChange = (selectedOption) => {
+  useEffect(() => {
+    axios.get(`${BaseURL}editableMode/showEditableMode`).then((res) => {
+      setEditableTitleDatas(res.data.record);
+
+      // Transform relatedTagdatas into the desired format
+      const options = res.data.record.map((editableTitledata) => ({
+        label: editableTitledata.name,
+        value: editableTitledata._id,
+      }));
+      setEditableTitleOptions({ options });
+    });
+  }, []);
+
+  console.log("editableTitleOptions", editableTitleOptions.options);
+  // const categoryOptions = [{ value: "", label: "No option yet" }];
+  const editableStickerTitleChange = (selectedOption) => {
     // Handle the selected option
-    console.log("Selected Option:", selectedOption);
+    setSelectedStickerEditableTitle(selectedOption.value);
   };
+  console.log("selectedStickerEditableTitle", selectedStickerEditableTitle);
+  const editableTextTitleChange = (selectedOption) => {
+    // Handle the selected option
+    setSelectedTextEditableTitle(selectedOption.value);
+  };
+  console.log("selectedTextEditableTitle", selectedTextEditableTitle);
 
+  // const editableTitleOptions = [{ value: "", label: "No option yet" }];
+
+  // const editableTitleChange = (selectedOption) => {
+  //   // Handle the selected option
+  //   console.log("Selected Option:", selectedOption);
+  // };
 
   // categoryOptions
-
 
   const [categorydatas, setCategoryDatas] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState([]);
@@ -275,12 +315,12 @@ export default function UpdateTemplate() {
       const options = res.data.record.map((categoryData) => ({
         label: categoryData.category_name,
         value: categoryData._id,
-      })); 
+      }));
       setCategoryOptions({ options });
     });
   }, []);
 
-  console.log('cat option', categoryOptions.options);
+  console.log("cat option", categoryOptions.options);
   // const categoryOptions = [{ value: "", label: "No option yet" }];
   const categoryChange = (selectedOption) => {
     // Handle the selected option
@@ -290,28 +330,55 @@ export default function UpdateTemplate() {
 
   // languageOptions
 
-  const languageOptions = [{ value: "", label: "No option yet" }];
+  const [languagedatas, setLanguageDatas] = useState([]);
+  const [selectedLanguage, setSelectedLanguage] = useState([]);
+  const [languageOptions, setLanguageOptions] = useState({
+    options: [],
+  });
 
+  useEffect(() => {
+    axios.get(`${BaseURL}language/showLanguage`).then((res) => {
+      setLanguageDatas(res.data.record);
+
+      // Transform relatedTagdatas into the desired format
+      const options = res.data.record.map((languageData) => ({
+        label: languageData.name,
+        value: languageData._id,
+      }));
+      setLanguageOptions({ options });
+    });
+  }, []);
+
+  console.log("language option", languageOptions.options);
+  // const categoryOptions = [{ value: "", label: "No option yet" }];
   const languageChange = (selectedOption) => {
     // Handle the selected option
-    console.log("Selected Option:", selectedOption);
+    setSelectedLanguage(selectedOption.value);
   };
+  console.log("selectedLanguage", selectedLanguage);
+
+  // const languageOptions = [{ value: "", label: "No option yet" }];
+
+  // const languageChange = (selectedOption) => {
+  //   // Handle the selected option
+  //   console.log("Selected Option:", selectedOption);
+  // };
 
   return (
     <div className="mainContent">
       <Card className="m-3">
         <CardBody>
           <div className="d-flex justify-content-between align-items-center">
-            {/* ______________________----------------------first section--------------------------______________________ */}
-
-            <Button
-              size="lg"
-              color="primary"
-              onClick={() => navigate("/addtemplate")}
-              className="m-2 btn"
-            >
-              Add New Page
-            </Button>
+            <div className="ml-auto">
+              <Button
+                size="lg"
+                color="primary"
+                // onClick={}
+                className="m-2 btn ml-auto" // Add the "ml-auto" class here
+              >
+                Add New Page
+              </Button>
+            </div>
           </div>
         </CardBody>
       </Card>
@@ -605,8 +672,8 @@ export default function UpdateTemplate() {
                       {/* add Image here */}
                     </div>
                     <Select
-                      options={editableTitleOptions}
-                      onChange={editableTitleChange}
+                      options={editableTitleOptions.options}
+                      onChange={editableStickerTitleChange}
                       isSearchable={true}
                       placeholder="Select an option"
                     />
@@ -832,8 +899,8 @@ export default function UpdateTemplate() {
                         {/* add Image here */}
                       </div>
                       <Select
-                        options={editableTitleOptions}
-                        onChange={editableTitleChange}
+                        options={editableTitleOptions.options}
+                        onChange={editableTextTitleChange}
                         isSearchable={true}
                         placeholder="Select an option"
                       />
@@ -1058,7 +1125,7 @@ export default function UpdateTemplate() {
                   <div className="form-group">
                     <div>Select Language {/* add Image here */}</div>
                     <Select
-                      options={languageOptions}
+                      options={languageOptions.options}
                       onChange={languageChange}
                       isSearchable={true}
                       placeholder="Select an option"

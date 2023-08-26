@@ -25,7 +25,6 @@ export default function AddTemplate() {
     ],
   };
 
-//   const handleEditClose = () => setEditShow(false);
   return (
     <div className="mainContent">
       <Card className="m-3">
@@ -71,21 +70,7 @@ export default function AddTemplate() {
                       </div>
                       <div className="col-lg-6">
                         <div className="form-group content">
-                          <label className="text-center">Related Tags</label>
-                          {/* <select
-                            style={{ height: "100px" }}
-                            name="states[]"
-
-                            className=" my-3 js-example-basic-multiple w-100"
-                            multiple="multiple"
-                          >
-                            <option value="">--Select Tags--</option>
-                            <option value="AL">Alabama</option>
-                            <option value="WY">Wyoming</option>
-                            <% for(var vtag of tag){ %>
-                            <option value="<%= vtag.tname %>" className="h-100"><%= vtag.tname %></option>
-                            <% } %>
-                          </select> */}
+                          <label className="text-center">Related Tags</label>                        
                           <Multiselect
                             className="my-3"
                             name="states[]"
@@ -108,9 +93,6 @@ export default function AddTemplate() {
                             name="category"
                           >
                             <option value="">--Select Category--</option>
-                            {/* <% for(var vcategory of category){ %>
-                                <option value="<%= vcategory.name %>" className="h-100"><%= vcategory.name %></option>
-                                <% } %> */}
                           </select>
                         </div>
                       </div>
@@ -118,16 +100,6 @@ export default function AddTemplate() {
                       <div className="col-lg-6">
                         <div className="form-group">
                           <label>Style</label>
-                          {/* <select
-                            className=" my-3 js-example-basic-multiple w-100"
-                            name="style"
-                            multiple="multiple"
-                          >
-                            <option value="">--Select Style--</option>
-                            <% for(var vstyle of style){ %>
-                                <option value="<%= vstyle.sname %>" className="h-100"><%= vstyle.sname %></option>
-                                <% } %>
-                          </select> */}
                           <Multiselect
                           name="style"
                             className="my-3"
@@ -146,16 +118,6 @@ export default function AddTemplate() {
                       <div className="col-lg-4">
                         <div className="form-group">
                           <label>Select Interest</label>
-                          {/* <select
-                            className=" my-3 js-example-basic-multiple w-100"
-                            name="interests"
-                            multiple="multiple"
-                          >
-                            <option value="">--Select Interest--</option>
-                            <% for(var vinterest of interest){ %>
-                                <option value="<%= vinterest.iname %>" className="h-100"><%= vinterest.iname %></option>
-                                <% } %>
-                          </select> */}
                           <Multiselect
                             className="my-3"
                             name="interests"
@@ -176,9 +138,6 @@ export default function AddTemplate() {
                             name="language"
                           >
                             <option value="">--Select Language--</option>
-                            {/* <% for(var vlanguage of language){ %>
-                                <option value="<%= vlanguage.language %>" className="h-100"><%= vlanguage.language %></option>
-                                <% } %> */}
                           </select>
                         </div>
                       </div>
