@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Button, Card, CardBody } from "reactstrap";
 import { Multiselect } from "multiselect-react-dropdown";
 import Select from "react-select";
+import axios from "axios";
+import BaseURL from "../../urls/BaseUrl";
 
 import {
   Dropdown,
@@ -19,33 +21,223 @@ export default function UpdateTemplate() {
     setDropdownOpen(!dropdownOpen);
   };
 
-  const relatedTagOption = {
-    options: [
-      { name: "relatedOption1", id: 1 },
-      { name: "relatedOption2", id: 2 },
-      { name: "relatedOption3", id: 3 },
-      { name: "relatedOption4", id: 4 },
-      { name: "relatedOption5", id: 5 },
-    ],
+  // relatedTagOption
+
+  const [relatedTagdatas, setRelatedTagDatas] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [relatedTagOption, setRelatedTagOption] = useState({
+    options: [],
+  });
+
+  useEffect(() => {
+    axios.get(`${BaseURL}searchTags/showSearchTag`).then((res) => {
+      setRelatedTagDatas(res.data.record);
+
+      // Transform relatedTagdatas into the desired format
+      const options = res.data.record.map((tagData) => ({
+        name: tagData.name,
+        id: tagData._id,
+      }));
+
+      setRelatedTagOption({ options });
+    });
+  }, []);
+
+  const handleTagSelect = (selectedItems) => {
+    setSelectedTags(selectedItems?.map((item) => item?.id));
   };
-  const styleOption = {
-    options: [
-      { name: "styleOption1", id: 1 },
-      { name: "styleOption2", id: 2 },
-    ],
+
+  const handleTagRemove = (removedItem) => {
+    const updatedTags = selectedTags.filter(
+      (tagId) => tagId !== removedItem.id
+    );
+    setSelectedTags(updatedTags);
   };
-  const ratioOption = {
-    options: [
-      { name: "ratioOption1", id: 1 },
-      { name: "ratioOption2", id: 2 },
-    ],
+
+  // ****************************************
+  console.log("selectedTags", selectedTags);
+  // ****************************************
+
+  // Now you can use the relatedTagOption in your JSX
+
+  // styleOption
+
+  const [styledatas, setStyleDatas] = useState([]);
+  const [selectedStyle, setSelectedStyle] = useState([]);
+  const [styleOption, setStyleOption] = useState({
+    options: [],
+  });
+
+  useEffect(() => {
+    axios.get(`${BaseURL}style/showStyle`).then((res) => {
+      setStyleDatas(res.data.record);
+
+      // Transform relatedTagdatas into the desired format
+      const options = res.data.record.map((styleData) => ({
+        name: styleData.name,
+        id: styleData._id,
+      }));
+
+      setStyleOption({ options });
+    });
+  }, []);
+
+  const handleStyleSelect = (selectedItems) => {
+    setSelectedStyle(selectedItems?.map((item) => item?.id));
   };
-  const interestOption = {
-    options: [
-      { name: "interestOption1", id: 1 },
-      { name: "interestOption2", id: 2 },
-    ],
+
+  const handleStyleRemove = (removedItem) => {
+    const updatedStyle = selectedStyle.filter(
+      (tagId) => tagId !== removedItem.id
+    );
+    setSelectedStyle(updatedStyle);
   };
+
+  // ****************************************
+  console.log("selectedStyle", selectedStyle);
+  // ****************************************
+
+  // const styleOption = {
+  //   options: [
+  //     { name: "styleOption1", id: 1 },
+  //     { name: "styleOption2", id: 2 },
+  //   ],
+  // };
+
+  // subcategoryOption
+
+  const [subcategorydatas, setSubcategoryDatas] = useState([]);
+  const [selectedSubcategory, setSelectedSubcategory] = useState([]);
+  const [subcategoryOption, setSubcategoryOption] = useState({
+    options: [],
+  });
+
+  useEffect(() => {
+    axios.get(`${BaseURL}subCat/showSubCat`).then((res) => {
+      setSubcategoryDatas(res.data.record);
+
+      // Transform relatedTagdatas into the desired format
+      const options = res.data.record.map((subcategoryData) => ({
+        name: subcategoryData.name,
+        id: subcategoryData._id,
+      }));
+
+      setSubcategoryOption({ options });
+    });
+  }, []);
+
+  const handleSubcategorySelect = (selectedItems) => {
+    setSelectedKeyword(selectedItems?.map((item) => item?.id));
+  };
+
+  const handleSubcategoryRemove = (removedItem) => {
+    const updatedSubcategory = selectedSubcategory.filter(
+      (tagId) => tagId !== removedItem.id
+    );
+    setSelectedKeyword(updatedSubcategory);
+  };
+
+  // ****************************************
+  console.log("selectedSubcategory", selectedSubcategory);
+  // ****************************************
+
+  // const subcategoryOptions = {
+  //   options: [
+  //     { name: "ratioOption1", id: 1 },
+  //     { name: "ratioOption2", id: 2 },
+  //   ],
+  // };
+
+  // interestOption
+
+    const [interestdatas, setInterestDatas] = useState([]);
+  const [selectedInterest, setSelectedInterest] = useState([]);
+  const [interestOption, setInterestOption] = useState({
+    options: [],
+  });
+
+  useEffect(() => {
+    axios.get(`${BaseURL}interest/showInterest`).then((res) => {
+      setInterestDatas(res.data.record);
+
+      // Transform relatedTagdatas into the desired format
+      const options = res.data.record.map((interestData) => ({
+        name: interestData.name,
+        id: interestData._id,
+      }));
+
+      setInterestOption({ options });
+    });
+  }, []);
+
+  const handleInterestSelect = (selectedItems) => {
+    setSelectedInterest(selectedItems?.map((item) => item?.id));
+  };
+
+  const handleInterestRemove = (removedItem) => {
+    const updatedInterest = selectedInterest.filter(
+      (tagId) => tagId !== removedItem.id
+    );
+    setSelectedInterest(updatedInterest);
+  };
+
+  // ****************************************
+  console.log("selectedInterest", selectedInterest);
+  // ****************************************
+
+  // const interestOption = {
+  //   options: [
+  //     { name: "interestOption1", id: 1 },
+  //     { name: "interestOption2", id: 2 },
+  //   ],
+  // };
+
+  // specialKeywordOptions
+
+  const [specialKeyworddatas, setSpecialKeywordDatas] = useState([]);
+  const [selectedKeyword, setSelectedKeyword] = useState([]);
+  const [specialKeywordOption, setspecialKeywordOption] = useState({
+    options: [],
+  });
+
+  useEffect(() => {
+    axios.get(`${BaseURL}specialKeyword/showSpecialKeyword`).then((res) => {
+      setSpecialKeywordDatas(res.data.record);
+
+      // Transform relatedTagdatas into the desired format
+      const options = res.data.record.map((keywordData) => ({
+        name: keywordData.name,
+        id: keywordData._id,
+      }));
+
+      setspecialKeywordOption({ options });
+    });
+  }, []);
+
+  const handleKeywordSelect = (selectedItems) => {
+    setSelectedKeyword(selectedItems?.map((item) => item?.id));
+  };
+
+  const handleKeywordRemove = (removedItem) => {
+    const updatedKeywords = selectedKeyword.filter(
+      (tagId) => tagId !== removedItem.id
+    );
+    setSelectedKeyword(updatedKeywords);
+  };
+
+  // ****************************************
+  console.log("selectedKeywords", selectedKeyword);
+  // ****************************************
+
+  // const specialKeywordOptions = {
+  //   options: [
+  //     { name: "interestOption1", id: 1 },
+  //     { name: "interestOption2", id: 2 },
+  //   ],
+  // };
+
+    // ===========================================select option==========================================
+
 
   // selectedBgOption
 
@@ -61,6 +253,46 @@ export default function UpdateTemplate() {
   const editableTitleOptions = [{ value: "", label: "No option yet" }];
 
   const editableTitleChange = (selectedOption) => {
+    // Handle the selected option
+    console.log("Selected Option:", selectedOption);
+  };
+
+
+  // categoryOptions
+
+
+  const [categorydatas, setCategoryDatas] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState([]);
+  const [categoryOptions, setCategoryOptions] = useState({
+    options: [],
+  });
+
+  useEffect(() => {
+    axios.get(`${BaseURL}category/showCategory`).then((res) => {
+      setCategoryDatas(res.data.record);
+
+      // Transform relatedTagdatas into the desired format
+      const options = res.data.record.map((categoryData) => ({
+        label: categoryData.category_name,
+        value: categoryData._id,
+      })); 
+      setCategoryOptions({ options });
+    });
+  }, []);
+
+  console.log('cat option', categoryOptions.options);
+  // const categoryOptions = [{ value: "", label: "No option yet" }];
+  const categoryChange = (selectedOption) => {
+    // Handle the selected option
+    setSelectedCategory(selectedOption.value);
+  };
+  console.log("selectedCategory", selectedCategory);
+
+  // languageOptions
+
+  const languageOptions = [{ value: "", label: "No option yet" }];
+
+  const languageChange = (selectedOption) => {
     // Handle the selected option
     console.log("Selected Option:", selectedOption);
   };
@@ -111,7 +343,9 @@ export default function UpdateTemplate() {
                       className="my-3 form-control"
                       name="catimage"
                     />
-                    <Button className="btn ms-4 col-lg-3">Import Json</Button>
+                    <Button color="primary" className="btn ms-4 col-lg-3">
+                      Import Json
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -122,16 +356,16 @@ export default function UpdateTemplate() {
       <Card className="m-3">
         <CardBody>
           <div className="d-flex justify-content-between align-items-center mb-3">
-            {/* ______________________---------------------------------secound section----------------------------______________________ */}
-            {/* <h4 className="card-title">Admin List</h4> */}
+            {/* Your other elements */}
             <Button
               color="danger"
               onClick={() => navigate("/addtemplate")}
-              className="m-2 btn"
+              className="m-2"
             >
               Remove Page
             </Button>
           </div>
+
           <div className="row">
             <div className="col-lg-2">
               <div className="form-group">
@@ -211,10 +445,13 @@ export default function UpdateTemplate() {
                     <Button
                       color="danger"
                       onClick={() => navigate("/addtemplate")}
-                      className="btn"
                     >
                       Remove
                     </Button>
+                  </div>
+
+                  <div className="mt-3 form-group">
+                    <Button color="danger">Remove</Button>
                   </div>
                 </div>
                 <div className="col-lg-1">
@@ -419,13 +656,29 @@ export default function UpdateTemplate() {
                 <div className="col-lg-3">
                   <div className="ps-2 form-group">
                     <label>Text</label>
-                    <textarea type="text" className="mb-3 form-control" />
+                    <textarea
+                      type="text"
+                      style={{
+                        resize: "none",
+                        overflowY: "auto",
+                        height: "75px",
+                      }}
+                      className="mb-3 form-control"
+                    />
                   </div>
                 </div>
                 <div className="col-lg-3">
                   <div className="form-group">
                     <label>Effect</label>
-                    <textarea type="text" className="mb-3 form-control" />
+                    <textarea
+                      type="text"
+                      style={{
+                        resize: "none",
+                        overflowY: "auto",
+                        height: "75px",
+                      }}
+                      className="mb-3 form-control"
+                    />
                   </div>
                 </div>
                 <div className="col-lg-3">
@@ -618,10 +871,9 @@ export default function UpdateTemplate() {
             <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
               <DropdownToggle color="white">
                 {/* You can replace this with your desired icon */}
-                <Button color="success" className="btn">
-                  Add
-                </Button>
+                Add Component
               </DropdownToggle>
+
               <DropdownMenu>
                 <DropdownItem>Sticker Layer</DropdownItem>
                 <DropdownItem>Text Layer</DropdownItem>
@@ -630,7 +882,7 @@ export default function UpdateTemplate() {
             Image
             {/* ================================================================ */}
             <div>
-              <div className="row">
+              <div className="row mt-3">
                 <div className="col-lg-3">
                   <div className="form-group">
                     <div>
@@ -690,13 +942,14 @@ export default function UpdateTemplate() {
                       {/* add Image here */}
                     </div>
                     <textarea
+                      placeholder="Add Your Description Here"
                       className="mb-6 form-control"
                       style={{
                         resize: "none",
-                        overflowY: "scroll",
+                        overflowY: "auto",
                         height: "100px",
                       }}
-                    ></textarea>
+                    />
                   </div>
                 </div>
                 <div className="col-lg-6">
@@ -707,11 +960,11 @@ export default function UpdateTemplate() {
                     </div>
                     <Multiselect
                       name="states[]"
-                      placeholder=""
+                      placeholder="Select Tags"
                       options={relatedTagOption.options} // Options to display in the dropdown
                       selectedValues={relatedTagOption.selectedValue} // Preselected value to persist in dropdown
-                      // onSelect={onSelect} // Function will trigger on select event
-                      // onRemove={onRemove} // Function will trigger on remove event
+                      onSelect={handleTagSelect} // Function will trigger on select event
+                      onRemove={handleTagRemove} // Add the onRemove event handler
                       displayValue="name" // Property name to display in the dropdown options
                     />
                   </div>
@@ -725,38 +978,41 @@ export default function UpdateTemplate() {
                       Special Keyword
                       {/* add Image here */}
                     </div>
-                    <input
-                      type="text"
-                      placeholder="Add Special Keyword"
-                      className=" mb-3 form-control"
+                    <Multiselect
+                      name="states[]"
+                      placeholder="Select Keywords"
+                      options={specialKeywordOption.options} // Options to display in the dropdown
+                      selectedValues={specialKeywordOption.selectedValue} // Preselected value to persist in dropdown
+                      onSelect={handleKeywordSelect} // Function will trigger on select event
+                      onRemove={handleKeywordRemove} // Function will trigger on remove event
+                      displayValue="name" // Property name to display in the dropdown options
                     />
                   </div>
                 </div>
                 <div className="col-lg-4">
                   <div className="form-group">
                     <div>Select Category {/* add Image here */}</div>
-                    <select
-                      className="form-control"
-                      // value={data.status}
-                      name="status"
-                    >
-                      <option value="">No option here</option>
-                    </select>
+                    <Select
+                      options={categoryOptions.options}
+                      onChange={categoryChange}
+                      isSearchable={true}
+                      placeholder="Select an option"
+                    />
                   </div>
                 </div>
                 <div className="col-lg-4">
                   <div className="form-group">
                     <div>
-                      Ratio
+                      Select Sub Categories
                       {/* add Image here */}
                     </div>
                     <Multiselect
                       name="states[]"
-                      placeholder=""
-                      options={ratioOption.options} // Options to display in the dropdown
-                      selectedValues={ratioOption.selectedValue} // Preselected value to persist in dropdown
-                      // onSelect={onSelect} // Function will trigger on select event
-                      // onRemove={onRemove} // Function will trigger on remove event
+                      placeholder="Select Subcategory"
+                      options={subcategoryOption.options} // Options to display in the dropdown
+                      selectedValues={subcategoryOption.selectedValue} // Preselected value to persist in dropdown
+                      onSelect={handleSubcategorySelect} // Function will trigger on select event
+                      onRemove={handleSubcategoryRemove} // Function will trigger on remove event
                       displayValue="name" // Property name to display in the dropdown options
                     />
                   </div>
@@ -772,11 +1028,11 @@ export default function UpdateTemplate() {
                     </div>
                     <Multiselect
                       name="states[]"
-                      placeholder=""
+                      placeholder="Select Styles"
                       options={styleOption.options} // Options to display in the dropdown
                       selectedValues={styleOption.selectedValue} // Preselected value to persist in dropdown
-                      // onSelect={onSelect} // Function will trigger on select event
-                      // onRemove={onRemove} // Function will trigger on remove event
+                      onSelect={handleStyleSelect} // Function will trigger on select event
+                      onRemove={handleStyleRemove} // Function will trigger on remove event
                       displayValue="name" // Property name to display in the dropdown options
                     />
                   </div>
@@ -789,11 +1045,11 @@ export default function UpdateTemplate() {
                     </div>
                     <Multiselect
                       name="states[]"
-                      placeholder=""
+                      placeholder="Select Interests"
                       options={interestOption.options} // Options to display in the dropdown
                       selectedValues={interestOption.selectedValue} // Preselected value to persist in dropdown
-                      // onSelect={onSelect} // Function will trigger on select event
-                      // onRemove={onRemove} // Function will trigger on remove event
+                      onSelect={handleInterestSelect} // Function will trigger on select event
+                      onRemove={handleInterestRemove} // Function will trigger on remove event
                       displayValue="name" // Property name to display in the dropdown options
                     />
                   </div>
@@ -801,13 +1057,12 @@ export default function UpdateTemplate() {
                 <div className="col-lg-4">
                   <div className="form-group">
                     <div>Select Language {/* add Image here */}</div>
-                    <select
-                      className="form-control"
-                      // value={data.status}
-                      name="status"
-                    >
-                      <option value="">No option here</option>
-                    </select>
+                    <Select
+                      options={languageOptions}
+                      onChange={languageChange}
+                      isSearchable={true}
+                      placeholder="Select an option"
+                    />
                   </div>
                 </div>
               </div>
@@ -816,7 +1071,7 @@ export default function UpdateTemplate() {
                 <div className="col-lg-4">
                   <div className="form-group">
                     <div>
-                      Special Keyword
+                      Select Date Range
                       {/* add Image here */}
                     </div>
                     <input
@@ -856,9 +1111,11 @@ export default function UpdateTemplate() {
                   </div>
                 </div>
               </div>
-              <Button color="primary" size="lg" className="m-3 btn">
-                Submit
-              </Button>
+              <div>
+                <Button color="primary" size="lg" className="m-3 btn">
+                  Submit
+                </Button>
+              </div>
             </div>
           </div>
         </CardBody>

@@ -19,8 +19,8 @@ export default function Category() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true); // Add loading state
 
-  const [datas, setDatas] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [datas, setDatas] = useState([]);
 
   useEffect(() => {
     axios.get(`${BaseURL}category/showCategory`).then((res) => {
