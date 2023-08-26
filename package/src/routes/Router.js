@@ -26,7 +26,7 @@ const Language = lazy(() => import("../views/language/Language.js"));
 const EditableTitle = lazy(() => import("../views/editableTitle/EditableTitle.js"));
 const Template = lazy(() => import("../views/template/Template.js"));
 const AddTemplate = lazy(() => import("../views/template/AddTemplate.js"));
-const UpdateTemplate = lazy(() => import("../views/template/UpdateTemplate.js"));
+const UpdateTemplate = lazy(() => import("../views/template/updateTemplate/UpdateTemplate.js"));
 const StickerCategory = lazy(() => import("../views/stickercategory/StickerCategory.js"));
 const AddStickerCategory = lazy(() => import("../views/stickercategory/AddStickerCategory.js"));
 const UpdateStickerCategory = lazy(() => import("../views/stickercategory/UpdateStickerCategory.js"));

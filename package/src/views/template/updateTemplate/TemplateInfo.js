@@ -4,8 +4,7 @@ import { Button, Card, CardBody } from "reactstrap";
 import { Multiselect } from "multiselect-react-dropdown";
 import Select from "react-select";
 import axios from "axios";
-import BaseURL from "../../urls/BaseUrl";
-
+import BaseURL from "../../../urls/BaseUrl";
 import {
   Dropdown,
   DropdownToggle,
@@ -13,7 +12,7 @@ import {
   DropdownItem,
 } from "reactstrap";
 
-export default function UpdateTemplate() {
+export default function TemplateInfo() {
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -366,22 +365,6 @@ export default function UpdateTemplate() {
 
   return (
     <div className="mainContent">
-      <Card className="m-3">
-        <CardBody>
-          <div className="d-flex justify-content-between align-items-center">
-            <div className="ml-auto">
-              <Button
-                size="lg"
-                color="primary"
-                // onClick={}
-                className="m-2 btn ml-auto" // Add the "ml-auto" class here
-              >
-                Add New Page
-              </Button>
-            </div>
-          </div>
-        </CardBody>
-      </Card>
       <Card className="m-3">
         <CardBody>
           <div>
