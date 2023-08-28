@@ -483,7 +483,7 @@ export default function TemplateInfo() {
               className="my-3"
               style={{
                 height: "1px",
-                backgroundColor: "grey",
+                backgroundColor: "#f0f0f0", // Lightest grey color
                 margin: "10px 0",
               }}
             ></div>
@@ -500,9 +500,7 @@ export default function TemplateInfo() {
                     </Button>
                   </div>
 
-                  <div className="mt-3 form-group">
-                    <Button color="danger">Remove</Button>
-                  </div>
+                  
                 </div>
                 <div className="col-lg-1">
                   <div className="form-group">
@@ -685,7 +683,7 @@ export default function TemplateInfo() {
               className="my-5"
               style={{
                 height: "1px",
-                backgroundColor: "black",
+                backgroundColor: "#f0f0f0", // Lightest grey color
                 margin: "10px 0",
               }}
             ></div>
@@ -913,7 +911,7 @@ export default function TemplateInfo() {
               className="mt-5"
               style={{
                 height: "1px",
-                backgroundColor: "black",
+                backgroundColor: "#f0f0f0", // Lightest grey color
                 margin: "10px 0",
               }}
             ></div>
@@ -950,7 +948,6 @@ export default function TemplateInfo() {
                     </div>
                     <input
                       type="text"
-                      disabled
                       className=" mb-3 form-control"
                     />
                   </div>
@@ -1022,6 +1019,15 @@ export default function TemplateInfo() {
               </div>
               {/* =============================== */}
               <div className="row mt-3">
+              <div className="col-lg-4">
+                  <div className="form-group">
+                    <div>
+                      H2 Tag
+                      {/* add Image here */}
+                    </div>
+                    <input type="text" placeholder="H2 Tag" className=" mb-3 form-control" />
+                  </div>
+                </div>
                 <div className="col-lg-4">
                   <div className="form-group">
                     <div>
@@ -1067,57 +1073,6 @@ export default function TemplateInfo() {
                     />
                   </div>
                 </div>
-              </div>
-              {/* ================ */}
-              <div className="row mt-3">
-                <div className="col-lg-4">
-                  <div className="form-group">
-                    <div>
-                      Style
-                      {/* add Image here */}
-                    </div>
-                    <Multiselect
-                      name="states[]"
-                      placeholder="Select Styles"
-                      options={styleOption.options} // Options to display in the dropdown
-                      selectedValues={styleOption.selectedValue} // Preselected value to persist in dropdown
-                      onSelect={handleStyleSelect} // Function will trigger on select event
-                      onRemove={handleStyleRemove} // Function will trigger on remove event
-                      displayValue="name" // Property name to display in the dropdown options
-                    />
-                  </div>
-                </div>
-                <div className="col-lg-4">
-                  <div className="form-group">
-                    <div>
-                      Select Interest
-                      {/* add Image here */}
-                    </div>
-                    <Multiselect
-                      name="states[]"
-                      placeholder="Select Interests"
-                      options={interestOption.options} // Options to display in the dropdown
-                      selectedValues={interestOption.selectedValue} // Preselected value to persist in dropdown
-                      onSelect={handleInterestSelect} // Function will trigger on select event
-                      onRemove={handleInterestRemove} // Function will trigger on remove event
-                      displayValue="name" // Property name to display in the dropdown options
-                    />
-                  </div>
-                </div>
-                <div className="col-lg-4">
-                  <div className="form-group">
-                    <div>Select Language {/* add Image here */}</div>
-                    <Select
-                      options={languageOptions.options}
-                      onChange={languageChange}
-                      isSearchable={true}
-                      placeholder="Select an option"
-                    />
-                  </div>
-                </div>
-              </div>
-              {/* --------------------------------------------- */}
-              <div className="row mt-3">
                 <div className="col-lg-4">
                   <div className="form-group">
                     <div>
@@ -1139,8 +1094,8 @@ export default function TemplateInfo() {
                       // value={data.status}
                       name="status"
                     >
-                      <option value="1">True</option>
                       <option value="0">False</option>
+                      <option value="1">True</option>
                     </select>
                   </div>
                 </div>
@@ -1155,12 +1110,16 @@ export default function TemplateInfo() {
                       // value={data.status}
                       name="status"
                     >
-                      <option value="1">True</option>
                       <option value="0">False</option>
+                      <option value="1">True</option>
                     </select>
                   </div>
                 </div>
               </div>
+              {/* ================ */}
+             
+              {/* --------------------------------------------- */}
+             
               <div>
                 <Button color="primary" size="lg" className="m-3 btn">
                   Submit
