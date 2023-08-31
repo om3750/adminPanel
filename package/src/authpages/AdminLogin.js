@@ -27,6 +27,7 @@ export default function AdminLogin() {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("uname", res.data.name);
         localStorage.setItem("umail", res.data.email);
+        localStorage.setItem("userid", res.data._id);
         // localStorage.setItem('user',res.data.token);
         console.log(token);
         handleClose();

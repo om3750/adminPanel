@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button, Card, CardBody } from "reactstrap";
-import { Multiselect } from "multiselect-react-dropdown";
-import Select from "react-select";
 import axios from "axios";
-import BaseURL from "../../../urls/BaseUrl";
+import { Multiselect } from "multiselect-react-dropdown";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Select from "react-select";
 import {
+  Button,
+  Card,
+  CardBody,
   Dropdown,
-  DropdownToggle,
-  DropdownMenu,
   DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
 } from "reactstrap";
+import BaseURL from "../../../urls/BaseUrl";
+import UpdateStickerModel from "./UpdateStickerModel";
+import UpdateTextModel from "./UpdateTextModel";
 
 export default function TemplateInfo() {
   const navigate = useNavigate();
@@ -409,7 +413,7 @@ export default function TemplateInfo() {
             {/* Your other elements */}
             <Button
               color="danger"
-              onClick={() => navigate("/addtemplate")}
+              // onClick={() => navigate("/addtemplate")}
               className="m-2"
             >
               Remove Page
@@ -483,438 +487,14 @@ export default function TemplateInfo() {
               className="my-3"
               style={{
                 height: "1px",
-                backgroundColor: "#f0f0f0", // Lightest grey color
+                backgroundColor: "grey",
                 margin: "10px 0",
               }}
             ></div>
-            {/* __________________________sticker component__________________________ */}
-            <div>
-              <div className="row">
-                <div className="col-lg-1">
-                  <div className="ms-2 mt-3 form-group">
-                    <Button
-                      color="danger"
-                      onClick={() => navigate("/addtemplate")}
-                    >
-                      Remove
-                    </Button>
-                  </div>
-
-                  
-                </div>
-                <div className="col-lg-1">
-                  <div className="form-group">
-                    <div>
-                      Width
-                      {/* add Image here */}
-                    </div>
-                    <input type="text" className=" mb-3 form-control" />
-                  </div>
-                </div>
-                <div className="col-lg-1">
-                  <div className="form-group">
-                    <div>
-                      Height
-                      {/* add Image here */}
-                    </div>
-                    <input type="text" className=" mb-3 form-control" />
-                  </div>
-                </div>
-                <div className="col-lg-1">
-                  <div className="form-group">
-                    <div>
-                      X Pos
-                      {/* add Image here */}
-                    </div>
-                    <input type="text" className=" mb-3 form-control" />
-                  </div>
-                </div>
-                <div className="col-lg-1">
-                  <div className="form-group">
-                    <div>
-                      Y Pos
-                      {/* add Image here */}
-                    </div>
-                    <input type="text" className=" mb-3 form-control" />
-                  </div>
-                </div>
-                <div className="col-lg-1">
-                  <div className="form-group">
-                    <div>
-                      Rotation
-                      {/* add Image here */}
-                    </div>
-                    <input type="text" className=" mb-3 form-control" />
-                  </div>
-                </div>
-                <div className="col-lg-1">
-                  <div className="form-group">
-                    <div>
-                      Opacity
-                      {/* add Image here */}
-                    </div>
-                    <input type="text" className=" mb-3 form-control" />
-                  </div>
-                </div>
-                <div className="col-lg-1">
-                  <div className="form-group">
-                    <div>
-                      Type
-                      {/* add Image here */}
-                    </div>
-                    <select
-                      className="form-control"
-                      // value={data.status}
-                      name="type"
-                    >
-                      <option value="1">Colored</option>
-                      <option value="2">White</option>
-                      <option value="3">Shape</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="col-lg-1">
-                  <div className="form-group">
-                    <div>
-                      Color
-                      {/* add Image here */}
-                    </div>
-                    <input type="text" className=" mb-3 form-control" />
-                  </div>
-                </div>
-                <div className="col-lg-1">
-                  <div className="form-group">
-                    <div>
-                      Resize
-                      {/* add Image here */}
-                    </div>
-                    <select
-                      className="form-control"
-                      // value={data.status}
-                      name="resize"
-                    >
-                      <option value="1">Ratio</option>
-                      <option value="2">Free</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="col-lg-2">
-                  <div className="form-group">
-                    <div>
-                      Lock Type
-                      {/* add Image here */}
-                    </div>
-                    <select
-                      className="form-control"
-                      // value={data.status}
-                      name="lock_type"
-                    >
-                      <option value="1">No Lock</option>
-                      <option value="2">Temp Lock</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              {/* ==================== */}
-
-              <div className="row">
-                <div className="col-lg-2">
-                  <div className="form-group">
-                    <div>
-                      Sticker Image
-                      {/* add Image here */}
-                    </div>
-                    <input type="file" className=" mb-3 form-control" />
-                    Image
-                    {/* add image here */}
-                  </div>
-                </div>
-                <div className="col-lg-1">
-                  <div className="form-group">
-                    <div>
-                      Editable
-                      {/* add Image here */}
-                    </div>
-                    <select
-                      className="form-control"
-                      // value={data.status}
-                      name="status"
-                    >
-                      <option value="1">True</option>
-                      <option value="0">False</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="col-lg-3">
-                  <div className="form-group">
-                    <div>
-                      Editable Title
-                      {/* add Image here */}
-                    </div>
-                    <Select
-                      options={editableTitleOptions.options}
-                      onChange={editableStickerTitleChange}
-                      isSearchable={true}
-                      placeholder="Select an option"
-                    />
-                  </div>
-                </div>
-                <div className="col-lg-1">
-                  <div className="form-group">
-                    <div>
-                      Url
-                      {/* add Image here */}
-                    </div>
-                    <select
-                      className="form-control"
-                      // value={data.status}
-                      name="status"
-                    >
-                      <option value="1">True</option>
-                      <option value="0">False</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* __________________________ text component__________________________ */}
-            <div
-              className="my-5"
-              style={{
-                height: "1px",
-                backgroundColor: "#f0f0f0", // Lightest grey color
-                margin: "10px 0",
-              }}
-            ></div>
-            {/* __________________________ text component__________________________ */}
-            <div>
-              <div className="row">
-                <div className="col-lg-1">
-                  <div className="mt-3 form-group">
-                    <Button
-                      color="danger"
-                      // onClick={() => navigate("/addtemplate")}
-                      className="btn"
-                    >
-                      Remove
-                    </Button>
-                  </div>
-                </div>
-                <div className="col-lg-3">
-                  <div className="ps-2 form-group">
-                    <label>Text</label>
-                    <textarea
-                      type="text"
-                      style={{
-                        resize: "none",
-                        overflowY: "auto",
-                        height: "75px",
-                      }}
-                      className="mb-3 form-control"
-                    />
-                  </div>
-                </div>
-                <div className="col-lg-3">
-                  <div className="form-group">
-                    <label>Effect</label>
-                    <textarea
-                      type="text"
-                      style={{
-                        resize: "none",
-                        overflowY: "auto",
-                        height: "75px",
-                      }}
-                      className="mb-3 form-control"
-                    />
-                  </div>
-                </div>
-                <div className="col-lg-3">
-                  <div className="form-group">
-                    <label>Font Family</label>
-                    <input type="text" className="mb-3 form-control" />
-                  </div>
-                </div>
-                <div className="col-lg-1">
-                  <div className="form-group">
-                    <label>Alignment</label>
-                    <select className="form-control" name="alignment">
-                      <option value="0">Left</option>
-                      <option value="1">Center</option>
-                      <option value="2">Right</option>
-                      <option value="3">Justify</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="col-lg-1">
-                  <div className="form-group">
-                    <label>Size</label>
-                    <input type="text" className="mb-3 form-control" />
-                  </div>
-                </div>
-              </div>
-
-              {/* ==================== */}
-
-              <div className="row">
-                <div className="col-lg-1">
-                  <div className="form-group">
-                    <div>
-                      Color
-                      {/* add Image here */}
-                    </div>
-                    <input type="text" className=" mb-3 form-control" />
-                  </div>
-                </div>
-                <div className="col-lg-1">
-                  <div className="form-group">
-                    <div>
-                      Width
-                      {/* add Image here */}
-                    </div>
-                    <input type="text" className=" mb-3 form-control" />
-                  </div>
-                </div>
-                <div className="col-lg-1">
-                  <div className="form-group">
-                    <div>
-                      Height
-                      {/* add Image here */}
-                    </div>
-                    <input type="text" className=" mb-3 form-control" />
-                  </div>
-                </div>
-                <div className="col-lg-1">
-                  <div className="form-group">
-                    <div>
-                      X Pos
-                      {/* add Image here */}
-                    </div>
-                    <input type="text" className=" mb-3 form-control" />
-                  </div>
-                </div>
-                <div className="col-lg-1">
-                  <div className="form-group">
-                    <div>
-                      Y Pos
-                      {/* add Image here */}
-                    </div>
-                    <input type="text" className=" mb-3 form-control" />
-                  </div>
-                </div>
-                <div className="col-lg-1">
-                  <div className="form-group">
-                    <div>
-                      Line Space
-                      {/* add Image here */}
-                    </div>
-                    <input type="text" className=" mb-3 form-control" />
-                  </div>
-                </div>
-                <div className="col-lg-2">
-                  <div className="form-group">
-                    <div>
-                      Line Space Multiplier
-                      {/* add Image here */}
-                    </div>
-                    <input type="text" className=" mb-3 form-control" />
-                  </div>
-                </div>
-                <div className="col-lg-1">
-                  <div className="form-group">
-                    <div>
-                      Word Space
-                      {/* add Image here */}
-                    </div>
-                    <input type="text" className=" mb-3 form-control" />
-                  </div>
-                </div>
-                <div className="col-lg-1">
-                  <div className="form-group">
-                    <div>
-                      Curve
-                      {/* add Image here */}
-                    </div>
-                    <input type="text" className=" mb-3 form-control" />
-                  </div>
-                </div>
-                <div className="col-lg-1">
-                  <div className="form-group">
-                    <div>
-                      Rotation
-                      {/* add Image here */}
-                    </div>
-                    <input type="text" className=" mb-3 form-control" />
-                  </div>
-                </div>
-                <div className="col-lg-1">
-                  <div className="form-group">
-                    <div>
-                      Opacity
-                      {/* add Image here */}
-                    </div>
-                    <input type="text" className=" mb-3 form-control" />
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-lg-1">
-                    <div className="form-group">
-                      <div>
-                        Editable
-                        {/* add Image here */}
-                      </div>
-                      <select
-                        className="form-control"
-                        // value={data.status}
-                        name="status"
-                      >
-                        <option value="1">True</option>
-                        <option value="0">False</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="col-lg-3">
-                    <div className="form-group">
-                      <div>
-                        Editable Title
-                        {/* add Image here */}
-                      </div>
-                      <Select
-                        options={editableTitleOptions.options}
-                        onChange={editableTextTitleChange}
-                        isSearchable={true}
-                        placeholder="Select an option"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-1">
-                    <div className="form-group">
-                      <div>
-                        Url
-                        {/* add Image here */}
-                      </div>
-                      <select
-                        className="form-control"
-                        // value={data.status}
-                        name="status"
-                      >
-                        <option value="1">True</option>
-                        <option value="0">False</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* ================================================================ */}
-            <div
-              className="mt-5"
-              style={{
-                height: "1px",
-                backgroundColor: "#f0f0f0", // Lightest grey color
-                margin: "10px 0",
-              }}
-            ></div>
+            {/* ==========================Sticker Component====================================== */}
+            <UpdateStickerModel />
+            {/* ==========================Text Component====================================== */}
+            <UpdateTextModel />
             {/* ================================================================ */}
             <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
               <DropdownToggle color="white">
@@ -948,6 +528,7 @@ export default function TemplateInfo() {
                     </div>
                     <input
                       type="text"
+                      disabled
                       className=" mb-3 form-control"
                     />
                   </div>
@@ -1019,13 +600,13 @@ export default function TemplateInfo() {
               </div>
               {/* =============================== */}
               <div className="row mt-3">
-              <div className="col-lg-4">
+                <div className="col-lg-4">
                   <div className="form-group">
                     <div>
                       H2 Tag
                       {/* add Image here */}
                     </div>
-                    <input type="text" placeholder="H2 Tag" className=" mb-3 form-control" />
+                    <input type="text" className=" mb-3 form-control" />
                   </div>
                 </div>
                 <div className="col-lg-4">
@@ -1073,7 +654,55 @@ export default function TemplateInfo() {
                     />
                   </div>
                 </div>
+                {/* ================ */}
                 <div className="col-lg-4">
+                  <div className="form-group">
+                    <div>
+                      Style
+                      {/* add Image here */}
+                    </div>
+                    <Multiselect
+                      name="states[]"
+                      placeholder="Select Styles"
+                      options={styleOption.options} // Options to display in the dropdown
+                      selectedValues={styleOption.selectedValue} // Preselected value to persist in dropdown
+                      onSelect={handleStyleSelect} // Function will trigger on select event
+                      onRemove={handleStyleRemove} // Function will trigger on remove event
+                      displayValue="name" // Property name to display in the dropdown options
+                    />
+                  </div>
+                </div>
+                <div className="col-lg-4">
+                  <div className="form-group">
+                    <div>
+                      Select Interest
+                      {/* add Image here */}
+                    </div>
+                    <Multiselect
+                      name="states[]"
+                      placeholder="Select Interests"
+                      options={interestOption.options} // Options to display in the dropdown
+                      selectedValues={interestOption.selectedValue} // Preselected value to persist in dropdown
+                      onSelect={handleInterestSelect} // Function will trigger on select event
+                      onRemove={handleInterestRemove} // Function will trigger on remove event
+                      displayValue="name" // Property name to display in the dropdown options
+                    />
+                  </div>
+                </div>
+                <div className="col-lg-4 mt-3">
+                  <div className="form-group">
+                    <div>Select Language {/* add Image here */}</div>
+                    <Select
+                      options={languageOptions.options}
+                      onChange={languageChange}
+                      isSearchable={true}
+                      placeholder="Select an option"
+                    />
+                  </div>
+                </div>
+
+                {/* --------------------------------------------- */}
+                <div className="col-lg-4 mt-3">
                   <div className="form-group">
                     <div>
                       Select Date Range
@@ -1086,7 +715,7 @@ export default function TemplateInfo() {
                     />
                   </div>
                 </div>
-                <div className="col-lg-4">
+                <div className="col-lg-4 mt-3">
                   <div className="form-group">
                     <div>Premium Item {/* add Image here */}</div>
                     <select
@@ -1094,8 +723,8 @@ export default function TemplateInfo() {
                       // value={data.status}
                       name="status"
                     >
-                      <option value="0">False</option>
                       <option value="1">True</option>
+                      <option value="0">False</option>
                     </select>
                   </div>
                 </div>
@@ -1110,16 +739,12 @@ export default function TemplateInfo() {
                       // value={data.status}
                       name="status"
                     >
-                      <option value="0">False</option>
                       <option value="1">True</option>
+                      <option value="0">False</option>
                     </select>
                   </div>
                 </div>
               </div>
-              {/* ================ */}
-             
-              {/* --------------------------------------------- */}
-             
               <div>
                 <Button color="primary" size="lg" className="m-3 btn">
                   Submit
