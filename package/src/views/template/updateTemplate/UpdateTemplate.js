@@ -6,6 +6,18 @@ export default function UpdateTemplate() {
   const [pages, setPages] = useState([{ isOpen: true }]); // First page is open by default
   const [selectedPage, setSelectedPage] = useState(0); // First page is selected by default
 
+  const handlePageClick = (pageIndex) => {
+    if (selectedPage === pageIndex) {
+      setSelectedPage(null); // Close the form if clicking the same page again
+    } else {
+      setSelectedPage(pageIndex);
+    }
+  };
+
+  const handleAddPage = () => {
+    setPages([...pages, { isOpen: false }]);
+  };
+
   return (
     <div className="mainContent">
       <Card className="m-3">
@@ -15,19 +27,32 @@ export default function UpdateTemplate() {
               <Button
                 size="lg"
                 color="primary"
+                onClick={handleAddPage}
                 className="m-2"
               >
                 Add New Page
               </Button>
             </div>
-            <div className="flex-grow-1 d-flex align-items-center">             
+            <div className="flex-grow-1 d-flex align-items-center">
+              {pages.map((page, index) => (
+                <Button
+                  color="secondary"
+                  key={index}
+                  className={`ms-2 page-content ${page.isOpen ? "open" : ""}`}
+                  onClick={() => handlePageClick(index)}
+                >
+                  Page {index + 1}
+                </Button>
+              ))}
             </div>
           </div>
         </CardBody>
       </Card>
+      {selectedPage !== null && (
         <div className="selected-page-info">
           <TemplateInfo />
         </div>
+      )}
     </div>
   );
 }

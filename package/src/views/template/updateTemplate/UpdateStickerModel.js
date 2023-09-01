@@ -5,6 +5,10 @@ import { Button } from "reactstrap";
 import BaseURL from "../../../urls/BaseUrl";
 
 export default function UpdateStickerModel() {
+  const [layers, setLayers] = useState(null);
+
+
+  
   // editableTitleOptions
 
   const [editableTitledatas, setEditableTitleDatas] = useState([]);
@@ -31,7 +35,6 @@ export default function UpdateStickerModel() {
   }, []);
 
   console.log("editableTitleOptions", editableTitleOptions.options);
-  // const categoryOptions = [{ value: "", label: "No option yet" }];
   const editableStickerTitleChange = (selectedOption) => {
     // Handle the selected option
     setSelectedStickerEditableTitle(selectedOption.value);
@@ -44,7 +47,6 @@ export default function UpdateStickerModel() {
   console.log("selectedTextEditableTitle", selectedTextEditableTitle);
 
   // const editableTitleOptions = [{ value: "", label: "No option yet" }];
-
   // const editableTitleChange = (selectedOption) => {
   //   // Handle the selected option
   //   console.log("Selected Option:", selectedOption);
