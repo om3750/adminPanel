@@ -11,13 +11,11 @@ import {
   DropdownItem,
   Dropdown,
 } from "reactstrap";
-// ... other imports
 
-const ITEMS_PER_PAGE = 10; // Number of items to show per pagex`
+const ITEMS_PER_PAGE = 10; // Number of items to show per page
 
 export default function Fonts() {
-  const [isLoading, setIsLoading] = useState(true); // Add loading state
-
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const [datas, setDatas] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,15 +24,19 @@ export default function Fonts() {
     axios.get(`${BaseURL}font/showFont`).then((res) => {
       setDatas(res.data.record);
       console.log("res", res.data.record);
-      setIsLoading(false); // Turn off loading state when data is retrieved
-
+      setIsLoading(false);
     });
   }, []);
 
-  const totalPages = Math.ceil(datas.length / ITEMS_PER_PAGE);
+  // Add a conditional check to ensure datas is defined before calculating totalPages
+  const totalPages = datas ? Math.ceil(datas.length / ITEMS_PER_PAGE) : 0;
   const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
   const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
-  const currentItems = datas.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Add a conditional check to ensure datas is defined before slicing
+  const currentItems = datas
+    ? datas.slice(indexOfFirstItem, indexOfLastItem)
+    : [];
 
   // Create a state array to track each dropdown's open status
   const [dropdownOpen, setDropdownOpen] = useState([]);
@@ -45,6 +47,7 @@ export default function Fonts() {
     newDropdownOpen[index] = !newDropdownOpen[index];
     setDropdownOpen(newDropdownOpen);
   };
+
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -63,85 +66,94 @@ export default function Fonts() {
     <div className="mainContent">
       <Card className="m-3">
         <CardBody>
-        {isLoading ? (
+          {isLoading ? (
             <div className="text-center mt-3">
               <div className="spinner-border" role="status">
                 <span className="visually-hidden">Loading...</span>
               </div>
             </div>
           ) : (
+            datas &&
             datas.length > 0 && (
               <div>
-              <div className="d-flex justify-content-between align-items-center mb-3">
-            <Button
-              color="primary"
-              onClick={() => navigate("/addfonts")}
-              className="m-2 btn"
-            >
-              Add Font
-            </Button>
-          </div>
-          <Table className="no-wrap mt-3 align-middle" responsive borderless>
-            <thead>
-              <tr>
-                <th>Font Id</th>
-                <th>Font Name</th>
-                <th>Extension</th>
-                <th>Font Thumb</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {datas.map((items, index) => {
-                return (
-                  <tr className="border-top" key={items._id}>
-                    <td>{items._id}</td>
-                    <td>{items.name}</td>
-                    <td>{items.extension}</td>
-                    <td>
-                      <img
-                        style={{ height: "100%", width: "100px" }}
-                        src={`http://192.168.29.222:8080/${items.thumb}`}
-                        alt="Logo"
-                      />
-                    </td>
-                    <td>{items.status ? "ACTIVATE" : "DESABLE"}</td>
-                    <td>
-                      <Dropdown
-                        direction="right"
-                        isOpen={dropdownOpen[index]} // Use individual open state
-                        toggle={() => toggleDropdown(index)}
-                      >
-                        <DropdownToggle color="white">
-                          <FiMoreVertical />
-                        </DropdownToggle>
-                        <DropdownMenu>
-                          <DropdownItem onClick={() => {
-                             navigate('/updatefont', {state: items})
-                            }}>Update</DropdownItem>
-                          <DropdownItem
-                            onClick={() => {
-                              handleDelete(items._id);
-                            }}
-                          >
-                            Delete
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </Dropdown>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </Table>
-          <div className="pagination-container">
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-          </div>
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <Button
+                    color="primary"
+                    onClick={() => navigate("/addfonts")}
+                    className="m-2 btn"
+                  >
+                    Add Font
+                  </Button>
+                </div>
+                <Table
+                  className="no-wrap mt-3 align-middle"
+                  responsive
+                  borderless
+                >
+                  <thead>
+                    <tr>
+                      <th>Font Id</th>
+                      <th>Font Name</th>
+                      <th>Extension</th>
+                      <th>Font Thumb</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {datas.map((items, index) => {
+                      return (
+                        <tr className="border-top" key={items._id}>
+                          <td>{items._id}</td>
+                          <td>{items.name}</td>
+                          <td>{items.extension}</td>
+                          <td>
+                            <img
+                              style={{ height: "100%", width: "100px" }}
+                              src={`http://192.168.29.222:8080/${items.thumb}`}
+                              alt="Logo"
+                            />
+                          </td>
+                          <td>{items.status ? "ACTIVATE" : "DESABLE"}</td>
+                          <td>
+                            <Dropdown
+                              direction="right"
+                              isOpen={dropdownOpen[index]} // Use individual open state
+                              toggle={() => toggleDropdown(index)}
+                            >
+                              <DropdownToggle color="white">
+                                <FiMoreVertical />
+                              </DropdownToggle>
+                              <DropdownMenu>
+                                <DropdownItem
+                                  onClick={() => {
+                                    navigate("/updatefont", { state: items });
+                                  }}
+                                >
+                                  Update
+                                </DropdownItem>
+                                <DropdownItem
+                                  onClick={() => {
+                                    handleDelete(items._id);
+                                  }}
+                                >
+                                  Delete
+                                </DropdownItem>
+                              </DropdownMenu>
+                            </Dropdown>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </Table>
+                <div className="pagination-container">
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                  />
+                </div>
               </div>
             )
           )}

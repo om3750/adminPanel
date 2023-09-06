@@ -15,7 +15,8 @@ export default function ImportJson() {
   const fetchCategories = async () => {
     try {
       const response = await axios.get(`${BaseURL}category/showCategory`);
-      setCategories(response.data.record); // Assuming the API response is an array of category objects
+      setCategories(response.data.record);
+      console.log("category", categories); // Assuming the API response is an array of category objects
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
@@ -24,7 +25,6 @@ export default function ImportJson() {
   const handleCategoryChange = (e) => {
     setData({ ...data, category: e.target.value });
   };
-
 
   // const [cat, setCat] = useState([]); // Provide an empty array as the initial value
   const navigate = useNavigate();
@@ -53,15 +53,11 @@ export default function ImportJson() {
     }
 
     axios
-      .post(
-        `${BaseURL}importJson/addimportjson`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      )
+      .post(`${BaseURL}importJson/addimportjson`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((res) => {
         console.log("res", res);
         setIsUploading(false); // Upload complete, hide spinner
@@ -86,8 +82,6 @@ export default function ImportJson() {
     // Set the array of selected images
     setData({ ...data, images: selectedImages });
   };
-
-
 
   return (
     <div className="mainContent">
@@ -125,9 +119,7 @@ export default function ImportJson() {
                 <select
                   className=" mb-3 form-control"
                   name="app_id"
-                  onChange={(e) =>
-                    setData({ ...data, app_id: e.target.value })
-                  }
+                  onChange={(e) => setData({ ...data, app_id: e.target.value })}
                 >
                   <option value="">--Select Application--</option>
                   <option value="1">Crafty Art</option>
@@ -141,15 +133,16 @@ export default function ImportJson() {
                 <select
                   className="mb-3 form-control"
                   name="application"
-                  value={selectedCategory}
                   onChange={handleCategoryChange}
+                  value={data.category}
                 >
                   <option value="">Select an option</option>
-                  {categories.map((item) => (
-                    <option key={item._id} value={item._id}>
-                      {item.category_name}
-                    </option>
-                  ))}
+                  {categories &&
+                    categories.map((item) => (
+                      <option key={item._id} value={item._id}>
+                        {item.category_name}
+                      </option>
+                    ))}
                 </select>
               </div>
             </div>
