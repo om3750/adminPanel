@@ -3,6 +3,7 @@ import axios from "axios";
 import BaseURL from "../../urls/BaseUrl";
 import { Card, CardBody } from "reactstrap";
 import { useLocation, useNavigate } from "react-router-dom";
+import IPcalling from "../../urls/IPcalling";
 
 export default function UpdateBackgroundItem() {
   const navigate = useNavigate();
@@ -101,7 +102,7 @@ export default function UpdateBackgroundItem() {
           </div>
           <div>
             <img
-              src={`http://192.168.29.222:8080/${state.bg_thumb}`}
+              src={`${IPcalling}${state.bg_thumb}`}
               alt="image"
               width={"220px"}
             ></img>
@@ -117,7 +118,7 @@ export default function UpdateBackgroundItem() {
           </div>
           <div>
             <img
-              src={`http://192.168.29.222:8080/${state.bg_image}`}
+              src={`${IPcalling}${state.bg_image}`}
               alt="image"
               width={"220px"}
             ></img>

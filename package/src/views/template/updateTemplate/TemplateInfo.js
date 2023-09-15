@@ -1,8 +1,8 @@
 import axios from "axios";
 import { Multiselect } from "multiselect-react-dropdown";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Select from "react-select";
+
 import {
   Button,
   Card,
@@ -15,8 +15,105 @@ import {
 import BaseURL from "../../../urls/BaseUrl";
 import UpdateStickerModel from "./UpdateStickerModel";
 import UpdateTextModel from "./UpdateTextModel";
+import { useLocation, useNavigate } from "react-router-dom";
+import IPcalling from "../../../urls/IPcalling";
 
 export default function TemplateInfo() {
+  const HandleSubmit = (event) => {
+    // event.preventDefault();
+
+    const formData = new FormData();
+
+    // Append all form fields to the FormData
+    for (const key in finalData) {
+      if (key === "designs") {
+        // Convert the "designs" object to a JSON string
+        formData.append(key, JSON.stringify(finalData[key]));
+      } else {
+        formData.append(key, finalData[key]);
+      }
+    }
+
+    axios
+      .post(`${BaseURL}importJson/updateJson/${state?._id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        console.log("res", res);
+        navigate("/template");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  const { state } = useLocation();
+  console.log("state", state);
+  const [allLayers, setAllLayers] = useState({});
+
+  // http://192.168.29.222:8080/uploadedFiles/json_File/1694503739616_030858a73887dc7f.json
+  // http://192.168.29.222:8080/uploadedFiles/json_File/1694582664549_521ed0e5da8f621f.json
+
+  useEffect(() => {
+    // Fetch JSON data from the API endpoint
+    axios
+      // .get(`http://192.168.29.222:8080/uploadedFiles/json_File/1694582664549_521ed0e5da8f621f.json`)
+      .get(`${IPcalling}${state?.designs}`)
+      .then((res) => {
+        setAllLayers(res.data);
+        setFinalData({
+          ...finalData,
+          designs: JSON.par(res.data),
+        });
+        
+        console.log("res.data", res.data); // Set the fetched data to the layers state
+      })
+      .catch((error) => {
+        console.error("Error fetching JSON data: ", error);
+      });
+  }, []);
+
+  console.log("allLayers", allLayers);
+
+  const handleWidthHeightChange = (index, field, value) => {
+    if (index >= 0 && index < allLayers[0].layers.length) {
+      const updatedLayers = [...allLayers];
+      updatedLayers[0].layers[index][field] = value;
+      setAllLayers(updatedLayers, () => {
+        console.log("updatedLayers", updatedLayers); // Use the updatedLayers variable here
+      });
+      setFinalData({
+        ...finalData,
+        designs: allLayers,
+      });
+    } else {
+      console.error("Invalid index");
+    }
+  };
+
+  const [finalData, setFinalData] = useState({
+    designs: {},
+    post_name: state?.post_name,
+    id_name: state?.id_name,
+    width: state?.width,
+    height: state?.height,
+    description: state?.description,
+    related_tags: state?.related_tags,
+    special_keywords: state?.special_keywords,
+    h2_tag: state?.h2_tag,
+    ratio: state?.ratio,
+    category_id: state?.category_id,
+    sub_cat_id: state?.sub_cat_id,
+    style_id: state?.style_id,
+    interest_id: state?.interest_id,
+    lang_id: state?.lang_id,
+    is_premium: state?.is_premium,
+    status: state?.status,
+  });
+
+  console.log("finaldata", finalData);
+
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -26,79 +123,103 @@ export default function TemplateInfo() {
 
   // relatedTagOption
 
-  const [relatedTagdatas, setRelatedTagDatas] = useState([]);
-  const [selectedTags, setSelectedTags] = useState([]);
+  // const [relatedTagdatas, setRelatedTagDatas] = useState([]);
   const [relatedTagOption, setRelatedTagOption] = useState({
     options: [],
+    selectedValue: [],
   });
+
+  const [selectedTag, setSelectedTag] = useState({});
 
   useEffect(() => {
     axios.get(`${BaseURL}searchTags/showSearchTag`).then((res) => {
-      setRelatedTagDatas(res.data.record);
-
       // Transform relatedTagdatas into the desired format
       const options = res.data.record.map((tagData) => ({
         name: tagData.name,
         id: tagData._id,
       }));
 
+      // Iterate through options and compare with id_name in finalData
+
+      let selectedValue = [];
+      options.forEach((item) => {
+        console.log("item.related_tags", finalData.related_tags);
+        console.log("item.id", item.id);
+        if (finalData.related_tags?.includes(item.id)) {
+          selectedValue.push(item);
+          console.log("selectedValue", selectedValue);
+        }
+      });
+      setSelectedTag(selectedValue);
+      console.log("selectedValue", selectedValue);
+
+      // setRelatedTagDatas(tagData);
       setRelatedTagOption({ options });
     });
   }, []);
 
+  console.log("relatedTagOption", relatedTagOption.options);
+
   const handleTagSelect = (selectedItems) => {
-    setSelectedTags(selectedItems?.map((item) => item?.id));
+    setFinalData({
+      ...finalData,
+      related_tags: selectedItems?.map((item) => item?.id),
+    });
   };
-
   const handleTagRemove = (removedItem) => {
-    const updatedTags = selectedTags.filter(
-      (tagId) => tagId !== removedItem.id
-    );
-    setSelectedTags(updatedTags);
+    setFinalData({
+      ...finalData,
+      related_tags: removedItem?.map((item) => item?.id),
+    });
   };
-
-  // ****************************************
-  console.log("selectedTags", selectedTags);
-  // ****************************************
 
   // Now you can use the relatedTagOption in your JSX
 
   // styleOption
 
-  const [styledatas, setStyleDatas] = useState([]);
-  const [selectedStyle, setSelectedStyle] = useState([]);
   const [styleOption, setStyleOption] = useState({
     options: [],
+    selectedValue: [],
   });
+  const [selectedStyle, setSelectedStyle] = useState({});
 
   useEffect(() => {
     axios.get(`${BaseURL}style/showStyle`).then((res) => {
-      setStyleDatas(res.data.record);
-
       // Transform relatedTagdatas into the desired format
       const options = res.data.record.map((styleData) => ({
         name: styleData.name,
         id: styleData._id,
       }));
 
+      let selectedValue = [];
+      options.forEach((item) => {
+        console.log("item.related_tags", finalData.style_id);
+        console.log("item.id", item.id);
+        if (finalData.style_id?.includes(item.id)) {
+          selectedValue.push(item);
+          console.log("selectedValue", selectedValue);
+        }
+      });
+      setSelectedStyle(selectedValue);
+      console.log("selectedValue", selectedValue);
+
       setStyleOption({ options });
     });
   }, []);
 
   const handleStyleSelect = (selectedItems) => {
-    setSelectedStyle(selectedItems?.map((item) => item?.id));
+    setFinalData({
+      ...finalData,
+      style_id: selectedItems?.map((item) => item?.id),
+    });
   };
 
   const handleStyleRemove = (removedItem) => {
-    const updatedStyle = selectedStyle.filter(
-      (tagId) => tagId !== removedItem.id
-    );
-    setSelectedStyle(updatedStyle);
+    setFinalData({
+      ...finalData,
+      style_id: removedItem?.map((item) => item?.id),
+    });
   };
-
-  // ****************************************
-  console.log("selectedStyle", selectedStyle);
-  // ****************************************
 
   // const styleOption = {
   //   options: [
@@ -109,84 +230,93 @@ export default function TemplateInfo() {
 
   // subcategoryOption
 
-  const [subcategorydatas, setSubcategoryDatas] = useState([]);
-  const [selectedSubcategory, setSelectedSubcategory] = useState([]);
   const [subcategoryOption, setSubcategoryOption] = useState({
     options: [],
+    selectedValue: [],
   });
+
+  const [selectedSubCat, setSelectedSubCat] = useState({});
 
   useEffect(() => {
     axios.get(`${BaseURL}subCat/showSubCat`).then((res) => {
-      setSubcategoryDatas(res.data.record);
-
       // Transform relatedTagdatas into the desired format
       const options = res.data.record.map((subcategoryData) => ({
         name: subcategoryData.name,
         id: subcategoryData._id,
       }));
 
+      let selectedValue = [];
+      options.forEach((item) => {
+        console.log("item.related_tags", finalData.sub_cat_id);
+        console.log("item.id", item.id);
+        if (finalData.sub_cat_id?.includes(item.id)) {
+          selectedValue.push(item);
+          console.log("selectedValue", selectedValue);
+        }
+      });
+      setSelectedSubCat(selectedValue);
+      console.log("setSelectedSubCat", setSelectedSubCat);
+
       setSubcategoryOption({ options });
     });
   }, []);
 
   const handleSubcategorySelect = (selectedItems) => {
-    setSelectedKeyword(selectedItems?.map((item) => item?.id));
+    setFinalData({
+      ...finalData,
+      sub_cat_id: selectedItems?.map((item) => item?.id),
+    });
   };
 
   const handleSubcategoryRemove = (removedItem) => {
-    const updatedSubcategory = selectedSubcategory.filter(
-      (tagId) => tagId !== removedItem.id
-    );
-    setSelectedKeyword(updatedSubcategory);
+    setFinalData({
+      ...finalData,
+      sub_cat_id: removedItem?.map((item) => item?.id),
+    });
   };
-
-  // ****************************************
-  console.log("selectedSubcategory", selectedSubcategory);
-  // ****************************************
-
-  // const subcategoryOptions = {
-  //   options: [
-  //     { name: "ratioOption1", id: 1 },
-  //     { name: "ratioOption2", id: 2 },
-  //   ],
-  // };
 
   // interestOption
 
-  const [interestdatas, setInterestDatas] = useState([]);
-  const [selectedInterest, setSelectedInterest] = useState([]);
   const [interestOption, setInterestOption] = useState({
     options: [],
+    selectedValue: [],
   });
+
+  const [selectedInterest, setSelectedInterest] = useState({});
 
   useEffect(() => {
     axios.get(`${BaseURL}interest/showInterest`).then((res) => {
-      setInterestDatas(res.data.record);
-
       // Transform relatedTagdatas into the desired format
       const options = res.data.record.map((interestData) => ({
         name: interestData.name,
         id: interestData._id,
       }));
 
+      let selectedValue = [];
+      options.forEach((item) => {
+        if (finalData.interest_id?.includes(item.id)) {
+          selectedValue.push(item);
+        }
+      });
+      setSelectedInterest(selectedValue);
+
       setInterestOption({ options });
     });
   }, []);
 
   const handleInterestSelect = (selectedItems) => {
-    setSelectedInterest(selectedItems?.map((item) => item?.id));
+    setFinalData({
+      ...finalData,
+      interest_id: selectedItems?.map((item) => item?.id),
+    });
   };
 
   const handleInterestRemove = (removedItem) => {
-    const updatedInterest = selectedInterest.filter(
-      (tagId) => tagId !== removedItem.id
-    );
-    setSelectedInterest(updatedInterest);
+    setFinalData({
+      ...finalData,
+      interest_id: removedItem?.map((item) => item?.id),
+    });
   };
-
-  // ****************************************
-  console.log("selectedInterest", selectedInterest);
-  // ****************************************
 
   // const interestOption = {
   //   options: [
@@ -197,35 +327,50 @@ export default function TemplateInfo() {
 
   // specialKeywordOptions
 
-  const [specialKeyworddatas, setSpecialKeywordDatas] = useState([]);
+  // const [specialKeyworddatas, setSpecialKeywordDatas] = useState([]);
   const [selectedKeyword, setSelectedKeyword] = useState([]);
   const [specialKeywordOption, setspecialKeywordOption] = useState({
     options: [],
+    selectedValue: [],
   });
 
   useEffect(() => {
     axios.get(`${BaseURL}specialKeyword/showSpecialKeyword`).then((res) => {
-      setSpecialKeywordDatas(res.data.record);
-
       // Transform relatedTagdatas into the desired format
       const options = res.data.record.map((keywordData) => ({
         name: keywordData.name,
         id: keywordData._id,
       }));
 
+      let selectedValue = [];
+      options.forEach((item) => {
+        console.log("item.special_keywords", finalData.special_keywords);
+        console.log("item.id", item.id);
+        if (finalData.special_keywords?.includes(item.id)) {
+          selectedValue.push(item);
+          console.log("selectedValue", selectedValue);
+        }
+      });
+      setSelectedKeyword(selectedValue);
+      console.log("selectedValue", selectedValue);
+
       setspecialKeywordOption({ options });
     });
   }, []);
 
   const handleKeywordSelect = (selectedItems) => {
-    setSelectedKeyword(selectedItems?.map((item) => item?.id));
+    // setSelectedKeyword(selectedItems?.map((item) => item?.id));
+    setFinalData({
+      ...finalData,
+      special_keywords: selectedItems?.map((item) => item?.id),
+    });
   };
 
   const handleKeywordRemove = (removedItem) => {
-    const updatedKeywords = selectedKeyword.filter(
-      (tagId) => tagId !== removedItem.id
-    );
-    setSelectedKeyword(updatedKeywords);
+    setFinalData({
+      ...finalData,
+      special_keywords: removedItem?.map((item) => item?.id),
+    });
   };
 
   // ****************************************
@@ -304,50 +449,68 @@ export default function TemplateInfo() {
 
   // categoryOptions
 
-  const [categorydatas, setCategoryDatas] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState([]);
   const [categoryOptions, setCategoryOptions] = useState({
     options: [],
+    selectedValue: [],
   });
+
+  const [selectedCat, setSelectedCat] = useState({});
 
   useEffect(() => {
     axios.get(`${BaseURL}category/showCategory`).then((res) => {
-      setCategoryDatas(res.data.record);
-
       // Transform relatedTagdatas into the desired format
       const options = res.data.record.map((categoryData) => ({
         label: categoryData.category_name,
         value: categoryData._id,
       }));
+
+      let selectedValue = [];
+      options.forEach((item) => {
+        console.log("item.related_tags", finalData.category_id);
+        console.log("item.id", item.id);
+        if (finalData.category_id?.includes(item.value)) {
+          selectedValue.push(item);
+          console.log("selectedValuerr", selectedValue);
+        }
+      });
+      setSelectedCat(selectedValue);
+      console.log("selectedCat", selectedCat);
       setCategoryOptions({ options });
     });
   }, []);
 
-  console.log("cat option", categoryOptions.options);
-  // const categoryOptions = [{ value: "", label: "No option yet" }];
   const categoryChange = (selectedOption) => {
-    // Handle the selected option
-    setSelectedCategory(selectedOption.value);
+    setSelectedCat(selectedOption); // Set selectedCat to the selected option
+    setFinalData({ ...finalData, category_id: selectedOption.value });
   };
-  console.log("selectedCategory", selectedCategory);
 
   // languageOptions
 
-  const [languagedatas, setLanguageDatas] = useState([]);
-  const [selectedLanguage, setSelectedLanguage] = useState([]);
   const [languageOptions, setLanguageOptions] = useState({
     options: [],
+    selectedValue: [],
   });
 
+  const [selectedLang, setSelectedLang] = useState({});
   useEffect(() => {
     axios.get(`${BaseURL}language/showLanguage`).then((res) => {
-      setLanguageDatas(res.data.record);
-
       // Transform relatedTagdatas into the desired format
       const options = res.data.record.map((languageData) => ({
         label: languageData.name,
         value: languageData._id,
       }));
+
+      let selectedValue = [];
+      options.forEach((item) => {
+        console.log("item.related_tags", finalData.lang_id);
+        console.log("item.id", item.id);
+        if (finalData.lang_id?.includes(item.value)) {
+          selectedValue.push(item);
+        }
+      });
+      setSelectedLang(selectedValue);
+      console.log("selectedLang", selectedLang);
+
       setLanguageOptions({ options });
     });
   }, []);
@@ -356,9 +519,11 @@ export default function TemplateInfo() {
   // const categoryOptions = [{ value: "", label: "No option yet" }];
   const languageChange = (selectedOption) => {
     // Handle the selected option
-    setSelectedLanguage(selectedOption.value);
+    // setSelectedLanguage(selectedOption.value);
+    setSelectedLang(selectedOption); // Set selectedCat to the selected option
+
+    setFinalData({ ...finalData, lang_id: selectedOption.value });
   };
-  console.log("selectedLanguage", selectedLanguage);
 
   // const languageOptions = [{ value: "", label: "No option yet" }];
 
@@ -431,7 +596,12 @@ export default function TemplateInfo() {
                 />
               </div>
               <div>
-                Image
+              <img
+                  style={{ height: "100%", width: "100px" }}
+                  src={`${IPcalling}${allLayers[0]?.thumb}`}
+                  // src={`http://192.168.0.107:8080/${items.category_thumb}`}
+                  alt="Logo"
+                />
                 {/* add Image here */}
               </div>
             </div>
@@ -456,7 +626,12 @@ export default function TemplateInfo() {
                 />
               </div>
               <div>
-                Image
+                <img
+                  style={{ height: "100%", width: "100px" }}
+                  src={`${IPcalling}${allLayers[0]?.image}`}
+                  // src={`http://192.168.0.107:8080/${items.category_thumb}`}
+                  alt="Logo"
+                />
                 {/* add Image here */}
               </div>
             </div>
@@ -467,6 +642,7 @@ export default function TemplateInfo() {
                   type="text"
                   className=" mb-3 form-control"
                   name="catimage"
+                  placeholder={allLayers[0]?.gradAngle}
                 />
               </div>
             </div>
@@ -477,6 +653,7 @@ export default function TemplateInfo() {
                   type="text"
                   className=" mb-3 form-control"
                   name="catimage"
+                  placeholder={allLayers[0]?.gradRatio}
                 />
               </div>
             </div>
@@ -492,9 +669,15 @@ export default function TemplateInfo() {
               }}
             ></div>
             {/* ==========================Sticker Component====================================== */}
-            <UpdateStickerModel />
+            <UpdateStickerModel
+              handleWidthHeightChange={handleWidthHeightChange}
+              allLayers={allLayers}
+            />
             {/* ==========================Text Component====================================== */}
-            <UpdateTextModel />
+            <UpdateTextModel
+              handleWidthHeightChange={handleWidthHeightChange}
+              allLayers={allLayers}
+            />
             {/* ================================================================ */}
             <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
               <DropdownToggle color="white">
@@ -507,7 +690,11 @@ export default function TemplateInfo() {
                 <DropdownItem>Text Layer</DropdownItem>
               </DropdownMenu>
             </Dropdown>
-            Image
+            <img
+              src={`${IPcalling}${state?.post_thumb}`}
+              // src={`http://192.168.0.107:8080/${items.category_thumb}`}
+              alt="Logo"
+            />
             {/* ================================================================ */}
             <div>
               <div className="row mt-3">
@@ -517,7 +704,18 @@ export default function TemplateInfo() {
                       Post Name
                       {/* add Image here */}
                     </div>
-                    <input type="text" className=" mb-3 form-control" />
+                    <input
+                      type="text"
+                      name="post_name"
+                      value={finalData?.post_name}
+                      onChange={(e) =>
+                        setFinalData({
+                          ...finalData,
+                          post_name: e.target.value,
+                        })
+                      }
+                      className=" mb-3 form-control"
+                    />
                   </div>
                 </div>
                 <div className="col-lg-3">
@@ -528,7 +726,11 @@ export default function TemplateInfo() {
                     </div>
                     <input
                       type="text"
-                      disabled
+                      value={finalData?.id_name}
+                      name="id_name"
+                      onChange={(e) =>
+                        setFinalData({ ...finalData, id_name: e.target.value })
+                      }
                       className=" mb-3 form-control"
                     />
                   </div>
@@ -539,7 +741,16 @@ export default function TemplateInfo() {
                       Ratio
                       {/* add Image here */}
                     </div>
-                    <input type="text" className=" mb-3 form-control" />
+                    <input
+                      type="text"
+                      disabled
+                      value={finalData?.ratio}
+                      name="ratio"
+                      onChange={(e) =>
+                        setFinalData({ ...finalData, ratio: e.target.value })
+                      }
+                      className=" mb-3 form-control"
+                    />
                   </div>
                 </div>
                 <div className="col-lg-2">
@@ -548,7 +759,15 @@ export default function TemplateInfo() {
                       Width
                       {/* add Image here */}
                     </div>
-                    <input type="text" className=" mb-3 form-control" />
+                    <input
+                      type="text"
+                      value={finalData?.width}
+                      name="width"
+                      onChange={(e) =>
+                        setFinalData({ ...finalData, width: e.target.value })
+                      }
+                      className=" mb-3 form-control"
+                    />
                   </div>
                 </div>
                 <div className="col-lg-2">
@@ -557,7 +776,15 @@ export default function TemplateInfo() {
                       Height
                       {/* add Image here */}
                     </div>
-                    <input type="text" className=" mb-3 form-control" />
+                    <input
+                      type="text"
+                      value={finalData?.height}
+                      name="height"
+                      onChange={(e) =>
+                        setFinalData({ ...finalData, height: e.target.value })
+                      }
+                      className=" mb-3 form-control"
+                    />
                   </div>
                 </div>
               </div>
@@ -572,6 +799,14 @@ export default function TemplateInfo() {
                     <textarea
                       placeholder="Add Your Description Here"
                       className="mb-6 form-control"
+                      name="description"
+                      value={finalData?.description}
+                      onChange={(e) =>
+                        setFinalData({
+                          ...finalData,
+                          description: e.target.value,
+                        })
+                      }
                       style={{
                         resize: "none",
                         overflowY: "auto",
@@ -590,7 +825,7 @@ export default function TemplateInfo() {
                       name="states[]"
                       placeholder="Select Tags"
                       options={relatedTagOption.options} // Options to display in the dropdown
-                      selectedValues={relatedTagOption.selectedValue} // Preselected value to persist in dropdown
+                      selectedValues={selectedTag} // Preselected value to persist in dropdown
                       onSelect={handleTagSelect} // Function will trigger on select event
                       onRemove={handleTagRemove} // Add the onRemove event handler
                       displayValue="name" // Property name to display in the dropdown options
@@ -606,7 +841,15 @@ export default function TemplateInfo() {
                       H2 Tag
                       {/* add Image here */}
                     </div>
-                    <input type="text" className=" mb-3 form-control" />
+                    <input
+                      type="text"
+                      value={finalData?.h2_tag}
+                      name="h2_tag"
+                      onChange={(e) =>
+                        setFinalData({ ...finalData, h2_tag: e.target.value })
+                      }
+                      className=" mb-3 form-control"
+                    />
                   </div>
                 </div>
                 <div className="col-lg-4">
@@ -619,7 +862,7 @@ export default function TemplateInfo() {
                       name="states[]"
                       placeholder="Select Keywords"
                       options={specialKeywordOption.options} // Options to display in the dropdown
-                      selectedValues={specialKeywordOption.selectedValue} // Preselected value to persist in dropdown
+                      selectedValues={selectedKeyword} // Preselected value to persist in dropdown
                       onSelect={handleKeywordSelect} // Function will trigger on select event
                       onRemove={handleKeywordRemove} // Function will trigger on remove event
                       displayValue="name" // Property name to display in the dropdown options
@@ -630,6 +873,7 @@ export default function TemplateInfo() {
                   <div className="form-group">
                     <div>Select Category {/* add Image here */}</div>
                     <Select
+                      value={selectedCat} // Change this line to use the selected option object
                       options={categoryOptions.options}
                       onChange={categoryChange}
                       isSearchable={true}
@@ -647,7 +891,7 @@ export default function TemplateInfo() {
                       name="states[]"
                       placeholder="Select Subcategory"
                       options={subcategoryOption.options} // Options to display in the dropdown
-                      selectedValues={subcategoryOption.selectedValue} // Preselected value to persist in dropdown
+                      selectedValues={selectedSubCat} // Preselected value to persist in dropdown
                       onSelect={handleSubcategorySelect} // Function will trigger on select event
                       onRemove={handleSubcategoryRemove} // Function will trigger on remove event
                       displayValue="name" // Property name to display in the dropdown options
@@ -665,7 +909,7 @@ export default function TemplateInfo() {
                       name="states[]"
                       placeholder="Select Styles"
                       options={styleOption.options} // Options to display in the dropdown
-                      selectedValues={styleOption.selectedValue} // Preselected value to persist in dropdown
+                      selectedValues={selectedStyle} // Preselected value to persist in dropdown
                       onSelect={handleStyleSelect} // Function will trigger on select event
                       onRemove={handleStyleRemove} // Function will trigger on remove event
                       displayValue="name" // Property name to display in the dropdown options
@@ -682,7 +926,7 @@ export default function TemplateInfo() {
                       name="states[]"
                       placeholder="Select Interests"
                       options={interestOption.options} // Options to display in the dropdown
-                      selectedValues={interestOption.selectedValue} // Preselected value to persist in dropdown
+                      selectedValues={selectedInterest} // Preselected value to persist in dropdown
                       onSelect={handleInterestSelect} // Function will trigger on select event
                       onRemove={handleInterestRemove} // Function will trigger on remove event
                       displayValue="name" // Property name to display in the dropdown options
@@ -693,6 +937,7 @@ export default function TemplateInfo() {
                   <div className="form-group">
                     <div>Select Language {/* add Image here */}</div>
                     <Select
+                      value={selectedLang} // Change this line to use the selected option object
                       options={languageOptions.options}
                       onChange={languageChange}
                       isSearchable={true}
@@ -720,8 +965,14 @@ export default function TemplateInfo() {
                     <div>Premium Item {/* add Image here */}</div>
                     <select
                       className="form-control"
-                      // value={data.status}
-                      name="status"
+                      name="is_premium"
+                      value={finalData?.is_premium}
+                      onChange={(e) =>
+                        setFinalData({
+                          ...finalData,
+                          is_premium: e.target.value,
+                        })
+                      }
                     >
                       <option value="1">True</option>
                       <option value="0">False</option>
@@ -738,6 +989,13 @@ export default function TemplateInfo() {
                       className="form-control"
                       // value={data.status}
                       name="status"
+                      value={finalData?.status}
+                      onChange={(e) =>
+                        setFinalData({
+                          ...finalData,
+                          status: e.target.value,
+                        })
+                      }
                     >
                       <option value="1">True</option>
                       <option value="0">False</option>
@@ -746,7 +1004,12 @@ export default function TemplateInfo() {
                 </div>
               </div>
               <div>
-                <Button color="primary" size="lg" className="m-3 btn">
+                <Button
+                  color="primary"
+                  onClick={HandleSubmit}
+                  size="lg"
+                  className="m-3 btn"
+                >
                   Submit
                 </Button>
               </div>
@@ -757,3 +1020,4 @@ export default function TemplateInfo() {
     </div>
   );
 }
+

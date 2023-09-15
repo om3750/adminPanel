@@ -3,6 +3,7 @@ import { Card, CardBody } from "reactstrap";
 import axios from "axios";
 import BaseURL from "../../urls/BaseUrl";
 import { useNavigate, useLocation } from "react-router-dom";
+import IPcalling from "../../urls/IPcalling";
 
 export default function UpdateStickerItem() {
   const navigate = useNavigate();
@@ -95,7 +96,7 @@ export default function UpdateStickerItem() {
             </div>
             <div>
               <img
-                src={`http://192.168.29.222:8080/${state.sticker_thumb}`}
+                src={`${IPcalling}${state.sticker_thumb}`}
                 alt="image"
                 width={"220px"}
               ></img>
@@ -111,7 +112,7 @@ export default function UpdateStickerItem() {
             </div>
             <div>
               <img
-                src={`http://192.168.29.222:8080/${state.sticker_image}`}
+                src={`${IPcalling}}${state.sticker_image}`}
                 alt="image"
                 width={"220px"}
               ></img>

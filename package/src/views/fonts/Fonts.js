@@ -11,6 +11,7 @@ import {
   DropdownItem,
   Dropdown,
 } from "reactstrap";
+import IPcalling from "../../urls/IPcalling";
 
 const ITEMS_PER_PAGE = 10; // Number of items to show per page
 
@@ -23,9 +24,14 @@ export default function Fonts() {
   useEffect(() => {
     axios.get(`${BaseURL}font/showFont`).then((res) => {
       setDatas(res.data.record);
-      console.log("res", res.data.record);
-      setIsLoading(false);
-    });
+      console.log("API Response:", res.data); // Log the response data
+        setDatas(res.data.record);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setIsLoading(false);
+      });
   }, []);
 
   // Add a conditional check to ensure datas is defined before calculating totalPages
@@ -72,9 +78,7 @@ export default function Fonts() {
                 <span className="visually-hidden">Loading...</span>
               </div>
             </div>
-          ) : (
-            datas &&
-            datas.length > 0 && (
+           ) : datas && datas.length > 0 ? (
               <div>
                 <div className="d-flex justify-content-between align-items-center mb-3">
                   <Button
@@ -110,7 +114,7 @@ export default function Fonts() {
                           <td>
                             <img
                               style={{ height: "100%", width: "100px" }}
-                              src={`http://192.168.29.222:8080/${items.thumb}`}
+                              src={`${IPcalling}${items.thumb}`}
                               alt="Logo"
                             />
                           </td>
@@ -155,7 +159,17 @@ export default function Fonts() {
                   />
                 </div>
               </div>
-            )
+            
+          ): (
+            <Table className="no-wrap mt-3 align-middle" responsive borderless>
+              <tbody>
+                <tr>
+                  <td colSpan="11" className="text-center">
+                    No Data Available
+                  </td>
+                </tr>
+              </tbody>
+            </Table>
           )}
         </CardBody>
       </Card>

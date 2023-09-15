@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Card, CardBody } from "reactstrap";
 import axios from "axios";
 import BaseURL from "../../urls/BaseUrl";
+import IPcalling from "../../urls/IPcalling";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export default function UpdateBackgroundCategory() {
@@ -82,7 +83,7 @@ export default function UpdateBackgroundCategory() {
           </div>
           <div>
             <img
-              src={`http://192.168.29.222:8080/${state.bg_category_thumb}`}
+              src={`${IPcalling}${state.bg_category_thumb}`}
               width={"220px"}
               alt="image"
             ></img>

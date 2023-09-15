@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Button, Card, CardBody } from "reactstrap";
 import TemplateInfo from "./TemplateInfo";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function UpdateTemplate() {
+  const { state } = useLocation();
+  // console.log("state", state);
+
   const [pages, setPages] = useState([{ isOpen: true }]); // First page is open by default
   const [selectedPage, setSelectedPage] = useState(0); // First page is selected by default
 
@@ -38,7 +42,7 @@ export default function UpdateTemplate() {
                 <Button
                   color="secondary"
                   key={index}
-                  className={`ms-2 page-content ${page.isOpen ? "open" : ""}`}
+                  className={`ms-2 page-content `}
                   onClick={() => handlePageClick(index)}
                 >
                   Page {index + 1}

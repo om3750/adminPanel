@@ -59,11 +59,16 @@ export default function Language() {
   const [datas, setDatas] = useState([]); // Provide an empty array as the initial value
   useEffect(() => {
     axios.get(`${BaseURL}language/showLanguage`).then((res) => {
+      console.log("API Response:", res.data); // Log the response data
       setDatas(res.data.record);
-      console.log("res", res.data.record);
-      setIsLoading(false); // Turn off loading state when data is retrieved
+      setIsLoading(false);
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+      setIsLoading(false);
     });
-  }, []);
+}, []);
+
   const [show, setShow] = useState(false);
   const [editShow, setEditShow] = useState(false);
   const [editItems, setEditItems] = useState({ name: "", status: '1' });
@@ -104,8 +109,8 @@ export default function Language() {
                 <span className="visually-hidden">Loading...</span>
               </div>
             </div>
-          ) : (
-            datas.length > 0 && (
+                  ) : datas && datas.length > 0 ? (
+
               <div>
   <div className="d-flex justify-content-between align-items-center mb-3">
             {/* <h4 className="card-title">Admin List</h4> */}
@@ -168,8 +173,17 @@ export default function Language() {
               onPageChange={handlePageChange}
             />
           </div>              </div>
-            )
-          )}
+            ) : (
+              <Table className="no-wrap mt-3 align-middle" responsive borderless>
+                <tbody>
+                  <tr>
+                    <td colSpan="11" className="text-center">
+                      No Data Available
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            )}
         </CardBody>
       </Card>
       <Modal

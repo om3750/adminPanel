@@ -10,11 +10,15 @@ export default function PaymentSetting() {
 
   useEffect(() => {
     axios.get(`${BaseURL}paymentSetting/showPaymentSetting`).then((res) => {
+      console.log("API Response:", res.data); // Log the response data
       setDatas(res.data.record);
-      setIsLoading(false); // Turn off loading state when data is retrieved
-      
+      setIsLoading(false);
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+      setIsLoading(false);
     });
-  }, []);
+}, []);
 
   const [isUploading, setIsUploading] = useState(false);
   const navigate = useNavigate();
@@ -86,8 +90,8 @@ export default function PaymentSetting() {
                 <span className="visually-hidden">Loading...</span>
               </div>
             </div>
-          ) : (
-            datas.length > 0 && (
+                  ) : datas && datas.length > 0 ? (
+
               <div>
                {datas.length > 0 && (
             <div>
@@ -262,8 +266,17 @@ export default function PaymentSetting() {
             </div>
           )}
               </div>
-            )
-          )}
+            ) : (
+              <Table className="no-wrap mt-3 align-middle" responsive borderless>
+                <tbody>
+                  <tr>
+                    <td colSpan="11" className="text-center">
+                      Error in fetching details ... !
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            )}
         </CardBody>
       </Card>
     </div>

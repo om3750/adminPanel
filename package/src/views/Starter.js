@@ -120,107 +120,214 @@
 // };
 
 // export default Starter;
-import React from "react";
-import { Card, CardBody, CardText, CardTitle, Col, Row } from "reactstrap";
+import React,{useState,useEffect} from "react";
+import { useNavigate } from "react-router-dom";
+import { Card, CardBody, CardText, CardTitle,Table, Col, Row } from "reactstrap";
+import axios from "axios";
+import BaseURL from "../urls/BaseUrl";
 
-const StyledCard = ({ title, total, live, unlive }) => {
+const StyledCard = ({ title, path, total, live, unlive }) => {
+
+
+
+ 
+
+  const navigate = useNavigate();
   return (
-    <Card className="clickable-card">
+    <Card onClick={() => navigate(`/${path}`)} className="clickable-card">
       <CardBody>
         <CardTitle tag="h6" className="font-weight-bold">
           {title}
         </CardTitle>
-        <div className="ms-3">
-          <CardText className="mb-0">
-            <strong>Total:</strong> {total}
-          </CardText>
-          <CardText className="mb-0">
-            <strong>Live:</strong> {live}
-          </CardText>
-          <CardText className="mb-0">
-            <strong>Unlive:</strong> {unlive}
-          </CardText>
-        </div>
+        {total === null ? (
+          <div className="text-center mt-3">
+            <div className="spinner-border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        ) : (
+          <div className="ms-3">
+            <CardText className="mb-0">
+              <strong>Total:</strong> {total}
+            </CardText>
+            <CardText className="mb-0">
+              <strong>Live:</strong> {live}
+            </CardText>
+            <CardText className="mb-0">
+              <strong>Unlive:</strong> {unlive}
+            </CardText>
+          </div>
+        )}
       </CardBody>
     </Card>
   );
 };
 
 const Starter = () => {
+  const [datas, setDatas] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    axios
+      .get(`${BaseURL}dashboard/showData`)
+      .then((res) => {
+        setDatas(res.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setIsLoading(false);
+      });
+  }, []);
+
   return (
     <div>
-     <Row>
-     <Col sm="6"  lg="3">
-          <a href="#" className="text-decoration-none">
-            <StyledCard
-              title="Fonts"
-              total="1138"
-              live="1138"
-              unlive="1138"
-            />
-          </a>
-        </Col>      
-     <Col sm="6"  lg="3">
-          <a href="#" className="text-decoration-none">
-            <StyledCard
-              title="Categories"
-              total="1138"
-              live="1138"
-              unlive="1138"
-            />
-          </a>
-        </Col>      
-     <Col sm="6"  lg="3">
-          <a href="#" className="text-decoration-none">
-            <StyledCard
-              title="Templates"
-              total="1138"
-              live="1138"
-              unlive="1138"
-            />
-          </a>
-        </Col>      
-     <Col sm="6"  lg="3">
-          <a href="#" className="text-decoration-none">
-            <StyledCard
-              title="Sticker Categories"
-              total="1138"
-              live="1138"
-              unlive="1138"
-            />
-          </a>
-        </Col>      
-     <Col sm="6"  lg="3">
-          <a href="#" className="text-decoration-none">
-            <StyledCard
-              title="Sticker Items"
-              total="1138"
-              live="1138"
-              unlive="1138"
-            />
-          </a>
-        </Col>      
-     <Col sm="6"  lg="3">
-          <a href="#" className="text-decoration-none">
-            <StyledCard
-              title="Background Categories"
-              total="1138"
-              live="1138"
-              unlive="1138"
-            />
-          </a>
-        </Col>      
-     <Col sm="6"  lg="3">
-          <a href="#" className="text-decoration-none">
-            <StyledCard
-              title="Background Items"
-              total="1138"
-              live="1138"
-              unlive="1138"
-            />
-          </a>
-        </Col>      
-    </Row>   
+      <Row>
+        <Col sm="4" lg="3">
+          <StyledCard
+            title="Fonts"
+            path="fonts"
+            total={isLoading ? null : datas?.fontCount?.total}
+            live={isLoading ? null : datas?.fontCount?.Live}
+            unlive={isLoading ? null : datas?.fontCount?.NotLive}
+          />
+        </Col>
+        <Col sm="4" lg="3">
+          <StyledCard
+            title="Font Families"
+            path="fontFamilies"
+            total={isLoading ? null : datas?.fontFamilieCount?.total}
+            live={isLoading ? null : datas?.fontFamilieCount?.Live}
+            unlive={isLoading ? null : datas?.fontFamilieCount?.NotLive}
+          />
+        </Col>
+        <Col sm="4" lg="3">
+          <StyledCard
+            title="Font List"
+            path="fontList"
+            total={isLoading ? null : datas?.fontListCount?.total}
+            live={isLoading ? null : datas?.fontListCount?.Live}
+            unlive={isLoading ? null : datas?.fontListCount?.NotLive}
+          />
+        </Col>
+        <Col sm="4" lg="3">
+          <StyledCard
+            title="Categories"
+            path="category"
+            total={isLoading ? null : datas?.categorieCount?.total}
+            live={isLoading ? null : datas?.categorieCount?.Live}
+            unlive={isLoading ? null : datas?.categorieCount?.NotLive}
+          />
+        </Col>
+        <Col sm="4" lg="3">
+          <StyledCard
+            title="Subcategories"
+            path="subcategory"
+            total={isLoading ? null : datas?.subCategorieCount?.total}
+            live={isLoading ? null : datas?.subCategorieCount?.Live}
+            unlive={isLoading ? null : datas?.subCategorieCount?.NotLive}
+          />
+        </Col>
+        <Col sm="4" lg="3">
+          <StyledCard
+            title="Style"
+            path="style"
+            total={isLoading ? null : datas?.styleCount?.total}
+            live={isLoading ? null : datas?.styleCount?.Live}
+            unlive={isLoading ? null : datas?.styleCount?.NotLive}
+          />
+        </Col>
+        <Col sm="4" lg="3">
+          <StyledCard
+            title="Theme"
+            path="theme"
+            total={isLoading ? null : datas?.themeCount?.total}
+            live={isLoading ? null : datas?.themeCount?.Live}
+            unlive={isLoading ? null : datas?.themeCount?.NotLive}
+          />
+        </Col>
+        <Col sm="4" lg="3">
+          <StyledCard
+            title="Keywords"
+            path="keyword"
+            total={isLoading ? null : datas?.fontCount?.total}
+            live='*'
+            unlive='*'
+          />
+        </Col>
+        <Col sm="4" lg="3">
+          <StyledCard
+            title="Search Tags"
+            path="tags"
+            total={isLoading ? null : datas?.fontCount?.total}
+            live={isLoading ? null : datas?.fontCount?.Live}
+            unlive={isLoading ? null : datas?.fontCount?.NotLive}
+          />
+        </Col>
+        <Col sm="4" lg="3">
+          <StyledCard
+            title="Interest"
+            path="interest"
+            total={isLoading ? null : datas?.fontCount?.total}
+            live={isLoading ? null : datas?.fontCount?.Live}
+            unlive={isLoading ? null : datas?.fontCount?.NotLive}
+          />
+        </Col>
+        <Col sm="4" lg="3">
+          <StyledCard
+            title="Editable Title"
+            path="editabletitle"
+            total={isLoading ? null : datas?.fontCount?.total}
+            live={isLoading ? null : datas?.fontCount?.Live}
+            unlive={isLoading ? null : datas?.fontCount?.NotLive}
+          />
+        </Col>
+        <Col sm="4" lg="3">
+          <StyledCard
+            title="Templates"
+            path="template"
+            total={isLoading ? null : datas?.fontCount?.total}
+            live={isLoading ? null : datas?.fontCount?.Live}
+            unlive={isLoading ? null : datas?.fontCount?.NotLive}
+          />
+        </Col>
+        <Col sm="4" lg="3">
+          <StyledCard
+            title="Sticker Categories"
+            path="stickerCategory"
+            total={isLoading ? null : datas?.fontCount?.total}
+            live={isLoading ? null : datas?.fontCount?.Live}
+            unlive={isLoading ? null : datas?.fontCount?.NotLive}
+          />
+        </Col>
+        <Col sm="4" lg="3">
+          <StyledCard
+            title="Sticker Items"
+            path="stickerItem"
+            total={isLoading ? null : datas?.fontCount?.total}
+            live={isLoading ? null : datas?.fontCount?.Live}
+            unlive={isLoading ? null : datas?.fontCount?.NotLive}
+          />
+        </Col>
+        <Col sm="4" lg="3">
+          <StyledCard
+            title="Background Categories"
+            path="backgroundCategory"
+            total={isLoading ? null : datas?.fontCount?.total}
+            live={isLoading ? null : datas?.fontCount?.Live}
+            unlive={isLoading ? null : datas?.fontCount?.NotLive}
+          />
+        </Col>
+        <Col sm="4" lg="3">
+          <StyledCard
+            title="Background Items"
+            path="backgroundItem"
+            total={isLoading ? null : datas?.fontCount?.total}
+            live={isLoading ? null : datas?.fontCount?.Live}
+            unlive={isLoading ? null : datas?.fontCount?.NotLive}
+          />
+        </Col>
+      </Row>
     </div>
   );
 };

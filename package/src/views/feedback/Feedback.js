@@ -30,11 +30,15 @@ export default function Feedback() {
 
   useEffect(() => {
     axios.get(`${BaseURL}feedback/showFeedback`).then((res) => {
+      console.log("API Response:", res.data); // Log the response data
       setDatas(res.data.record);
-      console.log("res", res.data.record);
-      setIsLoading(false); // Turn off loading state when data is retrieved
+      setIsLoading(false);
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+      setIsLoading(false);
     });
-  }, []);
+}, []);
 
     const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(datas.length / ITEMS_PER_PAGE);
@@ -64,8 +68,8 @@ export default function Feedback() {
                 <span className="visually-hidden">Loading...</span>
               </div>
             </div>
-          ) : (
-            datas.length > 0 && (
+                 ) : datas && datas.length > 0 ? (
+
               <div>
 <div className="d-flex justify-content-between align-items-center mb-3">
             <h4 className="card-title">Feedbacks</h4>
@@ -113,8 +117,17 @@ export default function Feedback() {
               onPageChange={handlePageChange}
             />
           </div>              </div>
-            )
-          )}
+            ) : (
+              <Table className="no-wrap mt-3 align-middle" responsive borderless>
+                <tbody>
+                  <tr>
+                    <td colSpan="11" className="text-center">
+                      No Data Available
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            )}
         </CardBody>
       </Card>
     </div>

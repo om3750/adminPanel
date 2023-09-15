@@ -3,6 +3,7 @@ import { Card, CardBody } from "reactstrap";
 import axios from "axios";
 import BaseURL from "../../urls/BaseUrl";
 import { useNavigate, useLocation } from "react-router-dom";
+import IPcalling from "../../urls/IPcalling";
 
 export default function UpdateStickerCategory() {
   const navigate = useNavigate();
@@ -82,7 +83,7 @@ export default function UpdateStickerCategory() {
           </div>
           <div>
             <img
-              src={`http://192.168.29.222:8080/${state.stk_category_thumb}`}
+              src={`${IPcalling}${state.stk_category_thumb}`}
               width="200px"
               alt="image"
             ></img>

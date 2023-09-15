@@ -11,6 +11,7 @@ import {
   DropdownItem,
   Dropdown,
 } from "reactstrap";
+import IPcalling from "../../urls/IPcalling";
 
 const ITEMS_PER_PAGE = 10; // Number of items to show per pagex`
 
@@ -21,12 +22,18 @@ export default function Category() {
   const [datas, setDatas] = useState([]);
 
   useEffect(() => {
-    axios.get(`${BaseURL}category/showCategory`).then((res) => {
-      setDatas(res.data.record);
-      console.log(datas);
-    });
+    axios
+      .get(`${BaseURL}category/showCategory`)
+      .then((res) => {
+        setDatas(res.data.record);
+        console.log("category", res.data.record); // Log the data inside the function
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching categories:", error);
+        setIsLoading(false);
+      });
   }, []);
-  
 
   const totalPages = datas ? Math.ceil(datas.length / ITEMS_PER_PAGE) : 0;
   const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
@@ -67,98 +74,105 @@ export default function Category() {
                 <span className="visually-hidden">Loading...</span>
               </div>
             </div>
-          ) : (
-            datas &&
-            datas.length > 0 && (
-              <div>
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                  {/* <h4 className="card-title">Admin List</h4> */}
-                  <Button
-                    color="primary"
-                    onClick={() => navigate("/addcategory")}
-                    className="m-2 btn"
-                  >
-                    Add Category
-                  </Button>
-                </div>
-                <Table
-                  className="no-wrap mt-3 align-middle"
-                  responsive
-                  borderless
+          ) : datas && datas.length > 0 ? (
+            <div>
+              <div className="d-flex justify-content-between align-items-center mb-3">
+                {/* <h4 className="card-title">Admin List</h4> */}
+                <Button
+                  color="primary"
+                  onClick={() => navigate("/addcategory")}
+                  className="m-2 btn"
                 >
-                  <thead>
-                    <tr>
-                      <th>Catrgory ID</th>
-                      <th>App Name</th>
-                      <th>Category Name</th>
-                      <th>ID Name</th>
-                      <th>Category Thumb</th>
-                      <th>Sequence name</th>
-                      <th>Status</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {currentItems.map((items, index) => {
-                      return (
-                        <tr className="border-top" key={items._id}>
-                          {/* Add a unique key for each row */}
-                          <td>{items._id}</td>
-                          <td>CraftyArt</td>
-                          <td>{items.category_name}</td>
-                          <td>{items.id_name}</td>
-                          <td>
-                            <img
-                              style={{ height: "100%", width: "100px" }}
-                              src={`http://192.168.29.222:8080/${items.category_thumb}`}
-                              // src={`http://192.168.0.107:8080/${items.category_thumb}`}
-                              alt="Logo"
-                            />
-                          </td>
-                          <td>{items.sequence_number}</td>
-                          <td>{items.status ? "ACTIVATE" : "DESABLE"}</td>
-                          <td>
-                            <Dropdown
-                              isOpen={dropdownOpen[index]} // Use individual open state
-                              toggle={() => toggleDropdown(index)}
-                            >
-                              <DropdownToggle color="white">
-                                <FiMoreVertical />
-                              </DropdownToggle>
-                              <DropdownMenu>
-                                <DropdownItem
-                                  onClick={() => {
-                                    navigate("/updateCategory", {
-                                      state: items,
-                                    });
-                                  }}
-                                >
-                                  Update
-                                </DropdownItem>
-                                <DropdownItem
-                                  onClick={() => {
-                                    handleDelete(items._id);
-                                  }}
-                                >
-                                  Delete
-                                </DropdownItem>
-                              </DropdownMenu>
-                            </Dropdown>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </Table>
-                <div className="pagination-container">
-                  <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                  />
-                </div>{" "}
+                  Add Category
+                </Button>
               </div>
-            )
+              <Table
+                className="no-wrap mt-3 align-middle"
+                responsive
+                borderless
+              >
+                <thead>
+                  <tr>
+                    <th>Catrgory ID</th>
+                    <th>App Name</th>
+                    <th>Category Name</th>
+                    <th>ID Name</th>
+                    <th>Category Thumb</th>
+                    <th>Sequence name</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentItems.map((items, index) => {
+                    return (
+                      <tr className="border-top" key={items._id}>
+                        {/* Add a unique key for each row */}
+                        <td>{items._id}</td>
+                        <td>CraftyArt</td>
+                        <td>{items.category_name}</td>
+                        <td>{items.id_name}</td>
+                        <td>
+                          <img
+                            style={{ height: "100%", width: "100px" }}
+                            src={`${IPcalling}${items.category_thumb}`}
+                            // src={`http://192.168.0.107:8080/${items.category_thumb}`}
+                            alt="Logo"
+                          />
+                        </td>
+                        <td>{items.sequence_number}</td>
+                        <td>{items.status ? "ACTIVATE" : "DESABLE"}</td>
+                        <td>
+                          <Dropdown
+                            isOpen={dropdownOpen[index]} // Use individual open state
+                            toggle={() => toggleDropdown(index)}
+                          >
+                            <DropdownToggle color="white">
+                              <FiMoreVertical />
+                            </DropdownToggle>
+                            <DropdownMenu>
+                              <DropdownItem
+                                onClick={() => {
+                                  navigate("/updateCategory", {
+                                    state: items,
+                                  });
+                                }}
+                              >
+                                Update
+                              </DropdownItem>
+                              <DropdownItem
+                                onClick={() => {
+                                  handleDelete(items._id);
+                                }}
+                              >
+                                Delete
+                              </DropdownItem>
+                            </DropdownMenu>
+                          </Dropdown>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </Table>
+              <div className="pagination-container">
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
+              </div>
+            </div>
+          ) : (
+            <Table className="no-wrap mt-3 align-middle" responsive borderless>
+              <tbody>
+                <tr>
+                  <td colSpan="11" className="text-center">
+                    No Data Available
+                  </td>
+                </tr>
+              </tbody>
+            </Table>
           )}
         </CardBody>
       </Card>

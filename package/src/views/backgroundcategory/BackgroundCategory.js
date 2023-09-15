@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import BaseURL from "../../urls/BaseUrl";
+import IPcalling from "../../urls/IPcalling";
 import { Button, Card, CardBody, Table } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -12,6 +13,7 @@ import {
   Dropdown,
 } from "reactstrap";
 // ... other imports
+
 import { Form, Modal } from "react-bootstrap";
 const ITEMS_PER_PAGE = 10; // Number of items to show per pagex`
 
@@ -31,11 +33,15 @@ export default function BackgroundCategory() {
 
   useEffect(() => {
     axios.get(`${BaseURL}background/showallcat`).then((res) => {
+      console.log("API Response:", res.data); // Log the response data
       setDatas(res.data.record);
-      console.log("res", res.data.record);
-      setIsLoading(false); // Turn off loading state when data is retrieved
+      setIsLoading(false);
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+      setIsLoading(false);
     });
-  }, []);
+}, []);
 
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(datas.length / ITEMS_PER_PAGE);
@@ -65,8 +71,8 @@ export default function BackgroundCategory() {
                 <span className="visually-hidden">Loading...</span>
               </div>
             </div>
-          ) : (
-            datas.length > 0 && (
+                 ) : datas && datas.length > 0 ? (
+
               <div>
 <div className="d-flex justify-content-between align-items-center mb-3">
             {/* <h4 className="card-title">Admin List</h4> */}
@@ -98,7 +104,7 @@ export default function BackgroundCategory() {
                     <td>
                       <img
                         style={{ height: "100%", width: "100px" }}
-                        src={`http://192.168.29.222:8080/${items.bg_category_thumb}`}
+                        src={`${IPcalling}${items.bg_category_thumb}`}
                         alt="Logo"
                       />
                     </td>
@@ -132,8 +138,17 @@ export default function BackgroundCategory() {
               onPageChange={handlePageChange}
             />
           </div>              </div>
-            )
-          )}
+            ) : (
+              <Table className="no-wrap mt-3 align-middle" responsive borderless>
+                <tbody>
+                  <tr>
+                    <td colSpan="11" className="text-center">
+                      No Data Available
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            )}
         </CardBody>
       </Card>
     </div>

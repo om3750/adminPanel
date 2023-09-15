@@ -528,7 +528,6 @@ export default function AddTemplate() {
                   <div className="form-group">
                     <div>
                       Sticker Image
-                      {/* add Image here */}
                     </div>
                     <input type="file" className=" mb-3 form-control" />
                     {/* add image here */}
@@ -538,7 +537,6 @@ export default function AddTemplate() {
                   <div className="form-group">
                     <div>
                       Width
-                      {/* add Image here */}
                     </div>
                     <input type="text" className=" mb-3 form-control" />
                   </div>
@@ -547,7 +545,6 @@ export default function AddTemplate() {
                   <div className="form-group">
                     <div>
                       Height
-                      {/* add Image here */}
                     </div>
                     <input type="text" className=" mb-3 form-control" />
                   </div>
@@ -556,7 +553,6 @@ export default function AddTemplate() {
                   <div className="form-group">
                     <div>
                       X Pos
-                      {/* add Image here */}
                     </div>
                     <input type="text" className=" mb-3 form-control" />
                   </div>
@@ -565,7 +561,6 @@ export default function AddTemplate() {
                   <div className="form-group">
                     <div>
                       Y Pos
-                      {/* add Image here */}
                     </div>
                     <input type="text" className=" mb-3 form-control" />
                   </div>
@@ -574,7 +569,6 @@ export default function AddTemplate() {
                   <div className="form-group">
                     <div>
                       Rotation
-                      {/* add Image here */}
                     </div>
                     <input type="text" className=" mb-3 form-control" />
                   </div>
@@ -583,7 +577,6 @@ export default function AddTemplate() {
                   <div className="form-group">
                     <div>
                       Opacity
-                      {/* add Image here */}
                     </div>
                     <input type="text" className=" mb-3 form-control" />
                   </div>
@@ -592,7 +585,6 @@ export default function AddTemplate() {
                   <div className="form-group">
                     <div>
                       Type
-                      {/* add Image here */}
                     </div>
                     <select
                       className="form-control"
@@ -609,7 +601,6 @@ export default function AddTemplate() {
                   <div className="form-group">
                     <div>
                       Color
-                      {/* add Image here */}
                     </div>
                     <input type="text" className=" mb-3 form-control" />
                   </div>
@@ -618,7 +609,6 @@ export default function AddTemplate() {
                   <div className="form-group">
                     <div>
                       Resize
-                      {/* add Image here */}
                     </div>
                     <select
                       className="form-control"
@@ -634,7 +624,6 @@ export default function AddTemplate() {
                   <div className="form-group">
                     <div>
                       Lock Type
-                      {/* add Image here */}
                     </div>
                     <select
                       className="form-control"
@@ -656,7 +645,6 @@ export default function AddTemplate() {
                   <div className="form-group">
                     <div>
                       Order
-                      {/* add Image here */}
                     </div>
                     <input type="text" className=" mb-3 form-control" />
                   </div>
@@ -665,7 +653,6 @@ export default function AddTemplate() {
                   <div className="form-group">
                     <div>
                       Editable Title
-                      {/* add Image here */}
                     </div>
                     <Select
                       options={editableTitleOptions.options}
@@ -734,7 +721,6 @@ export default function AddTemplate() {
                   <div className="form-group">
                     <div>
                       Editable
-                      {/* add Image here */}
                     </div>
                     <select
                       className="form-control"
@@ -750,7 +736,6 @@ export default function AddTemplate() {
                   <div className="form-group">
                     <div>
                       Editable Title
-                      {/* add Image here */}
                     </div>
                     <Select
                       options={editableTitleOptions.options}
@@ -900,7 +885,6 @@ export default function AddTemplate() {
                   <div className="form-group">
                     <div>
                       Related Tags
-                      {/* add Image here */}
                     </div>
                     <Multiselect
                       name="states[]"
@@ -917,7 +901,6 @@ export default function AddTemplate() {
                   <div className="form-group">
                     <div>
                       Style
-                      {/* add Image here */}
                     </div>
                     <Multiselect
                       name="states[]"
@@ -947,7 +930,6 @@ export default function AddTemplate() {
                   <div className="form-group">
                     <div>
                       Select Sub Categories
-                      {/* add Image here */}
                     </div>
                     <Multiselect
                       name="states[]"
@@ -964,7 +946,6 @@ export default function AddTemplate() {
                   <div className="form-group">
                     <div>
                       Select Theme
-                      {/* add Image here */}
                     </div>
                     <Multiselect
                       name="states[]"
@@ -985,7 +966,6 @@ export default function AddTemplate() {
                   <div className="form-group">
                     <div>
                       Select Date Range
-                      {/* add Image here */}
                     </div>
                     <input type="date" class="mb-3 form-control" />
                   </div>
@@ -1007,7 +987,6 @@ export default function AddTemplate() {
                   <div className="form-group">
                     <div>
                       Status
-                      {/* add Image here */}
                     </div>
                     <select
                       className="form-control"

@@ -1,13 +1,35 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
+import { useLocation } from "react-router-dom";
 import { Button } from "reactstrap";
 import BaseURL from "../../../urls/BaseUrl";
+import IPcalling from "../../../urls/IPcalling";
 import { jsonData } from "../../../Constant/constant";
 
-export default function UpdateStickerModel() {
-  const [layers, setLayers] = useState(jsonData);
-  console.log("layers", layers);
+export default function UpdateStickerModel({handleWidthHeightChange, allLayers}) {
+
+  const { state } = useLocation();
+  // console.log("state", `${IPcalling}${state.fab_designs}`);
+
+
+  // const [allLayers, setAllLayers] = useState([]);
+
+  // useEffect(() => {
+  //   // Fetch JSON data from the API endpoint
+  //   axios
+  //     .get("http://192.168.29.222:8080/uploadedFiles/json_File/1694582664549_521ed0e5da8f621f.json")
+  //     .then((res) => {
+  //       setAllLayers(res.data);
+  //       console.log('res.data',res.data); // Set the fetched data to the layers state
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching JSON data: ", error);
+  //     });
+  // }, []);
+
+
+  // console.log("layers", layers);
   // editableTitleOptions
 
   const [editableTitledatas, setEditableTitleDatas] = useState([]);
@@ -51,17 +73,23 @@ export default function UpdateStickerModel() {
   //   console.log("Selected Option:", selectedOption);
   // };
 
-  const handleWidthHeightChange = (index, field, value) => {
-    const updatedLayers = [...layers];
-    updatedLayers[0].layers[index][field] = value;
-    setLayers(updatedLayers);
-    console.log(layers);
-  };
+  // const handleWidthHeightChange = (index, field, value) => {
+  //   if (index >= 0 && index < allLayers[0].layers.length) {
+  //     const updatedLayers = [...allLayers];
+  //     updatedLayers[0].layers[index][field] = value;
+  //     setAllLayers(updatedLayers, () => {
+  //       console.log('updatedLayers',updatedLayers); // Use the updatedLayers variable here
+  //     }); 
+  //   } else {
+  //     console.error("Invalid index");
+  //   }  
+  // };
 
   return (
-    <div>
-      {jsonData[0].layers.map((layer, index) => { 
-        if (layer.layerType === 1) {
+    <>
+      {allLayers.length > 0 &&
+        allLayers[0].layers.map((layer, index) => {
+          if (layer.layerType === 1) {
           return (
           
             <div key={index}>
@@ -275,7 +303,12 @@ export default function UpdateStickerModel() {
                       {/* add Image here */}
                     </div>
                     <input type="file" className=" mb-3 form-control" />
-                    Image
+                    <img
+                            style={{ height: "30%", width: "30%" }}
+                            src={`${IPcalling}${layer.image}`}
+                            // src={`http://192.168.0.107:8080/${items.category_thumb}`}
+                            alt="Logo"
+                          />
                     {/* add image here */}
                   </div>
                 </div>
@@ -349,6 +382,6 @@ export default function UpdateStickerModel() {
         }
         return null;
       })}
-    </div>
+    </>
   );
 }

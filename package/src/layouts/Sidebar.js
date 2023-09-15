@@ -138,7 +138,35 @@ const Sidebar = () => {
               }
             >
               {/* <i className={navi.icon}></i> */}
-              <span className="ms-3 d-inline-block">Fonts</span>
+              <span className="ms-3 d-inline-block">Font</span>
+            </Link>
+          </NavItem>
+          <NavItem className="sidenav-bg">
+            <Link
+              
+              to="/fontFamilies"
+              className={
+                location.pathname === "/fontFamilies"
+                  ? "text-primary nav-link py-3"
+                  : "nav-link text-secondary py-3"
+              }
+            >
+              {/* <i className={navi.icon}></i> */}
+              <span className="ms-3 d-inline-block">Font Families</span>
+            </Link>
+          </NavItem>
+          <NavItem className="sidenav-bg">
+            <Link
+              
+              to="/fontList"
+              className={
+                location.pathname === "/fontList"
+                  ? "text-primary nav-link py-3"
+                  : "nav-link text-secondary py-3"
+              }
+            >
+              {/* <i className={navi.icon}></i> */}
+              <span className="ms-3 d-inline-block">Font List</span>
             </Link>
           </NavItem>
           <div className="h4 mx-3 mt-2 border-bottom border-grey"></div>

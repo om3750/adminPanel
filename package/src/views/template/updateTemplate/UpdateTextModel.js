@@ -2,12 +2,33 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { Button } from "reactstrap";
+import { useLocation } from "react-router-dom";
 import BaseURL from "../../../urls/BaseUrl";
+import IPcalling from "../../../urls/IPcalling";
 import { jsonData } from "../../../Constant/constant";
 
-export default function UpdateTextModel() {
-  const [layers, setLayers] = useState(jsonData);
-  console.log("layers", layers);
+export default function UpdateTextModel({handleWidthHeightChange,allLayers }) {
+
+  const { state } = useLocation();
+  // console.log("state", `${IPcalling}${state.fab_designs}`);
+
+
+  // const [allLayers, setAllLayers] = useState([]);
+
+  // useEffect(() => {
+  //   // Fetch JSON data from the API endpoint
+  //   axios
+  //     .get("http://192.168.29.222:8080/uploadedFiles/json_File/1694582664549_521ed0e5da8f621f.json")
+  //     .then((res) => {
+  //       setAllLayers(res.data);
+  //       console.log('res.data',res.data); // Set the fetched data to the layers state
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching JSON data: ", error);
+  //     });
+  // }, []);
+
+    console.log("layers", allLayers);
 
   const [editableTitledatas, setEditableTitleDatas] = useState([]);
   const [selectedStickerEditableTitle, setSelectedStickerEditableTitle] =
@@ -52,23 +73,24 @@ export default function UpdateTextModel() {
   //   console.log("Selected Option:", selectedOption);
   // };
 
-  const handleWidthHeightChange = (index, field, value) => {
-    if (index >= 0 && index < layers[0].layers.length) {
-      const updatedLayers = [...layers];
-      updatedLayers[0].layers[index][field] = value;
-      setLayers(updatedLayers, () => {
-        console.log(updatedLayers); // Use the updatedLayers variable here
-      });
-    } else {
-      console.error("Invalid index");
-    }
-  };
+  // const handleWidthHeightChange = (index, field, value) => {
+  //   if (index >= 0 && index < allLayers[0].layers.length) {
+  //     const updatedLayers = [...allLayers];
+  //     updatedLayers[0].layers[index][field] = value;
+  //     setAllLayers(updatedLayers, () => {
+  //       console.log('updatedLayers',updatedLayers); // Use the updatedLayers variable here
+  //     }); 
+  //   } else {
+  //     console.error("Invalid index");
+  //   }
+  // };
 
   return (
-    <f>
-      {jsonData[0].layers.map((layer, index) => {
-        if (layer.layerType === 2) {
-          return (
+    <>
+       {allLayers.length > 0 &&
+        allLayers[0].layers.map((layer, index) => {
+          if (layer.layerType === 2) {
+            return (
             <div key={index}>
               <div>
                 <div className="row">
@@ -445,10 +467,10 @@ export default function UpdateTextModel() {
                 }}
               ></div>
             </div>
-          );
+         );
         }
         return null;
       })}
-    </f>
-  );
+  </>
+);
 }

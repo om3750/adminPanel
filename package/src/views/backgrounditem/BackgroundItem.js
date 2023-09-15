@@ -11,6 +11,7 @@ import {
   DropdownItem,
   Dropdown,
 } from "reactstrap";
+import IPcalling from "../../urls/IPcalling";
 // ... other imports
 const ITEMS_PER_PAGE = 10; // Number of items to show per pagex`
 
@@ -40,10 +41,15 @@ export default function BackgroundItem() {
 
   useEffect(() => {
     axios.get(`${BaseURL}background/bgitem`).then((res) => {
+      console.log("API Response:", res.data); // Log the response data
       setDatas(res.data.record);
-      console.log("res", res.data.record);
+      setIsLoading(false);
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+      setIsLoading(false);
     });
-  }, []);
+}, []);
 
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(datas.length / ITEMS_PER_PAGE);
@@ -74,8 +80,8 @@ export default function BackgroundItem() {
                 <span className="visually-hidden">Loading...</span>
               </div>
             </div>
-          ) : (
-            datas.length > 0 && (
+                 ) : datas && datas.length > 0 ? (
+
               <div>
 <div className="d-flex justify-content-between align-items-center mb-3">
             {/* <h4 className="card-title">Admin List</h4> */}
@@ -116,7 +122,7 @@ export default function BackgroundItem() {
                     <td>
                       <img
                         style={{ height: "100%", width: "100px" }}
-                        src={`http://192.168.29.222:8080/${items.bg_image}`}
+                        src={`${IPcalling}${items.bg_image}`}
                         alt="Logo"
                       />
                     </td>
@@ -163,8 +169,17 @@ export default function BackgroundItem() {
               onPageChange={handlePageChange}
             />
           </div>              </div>
-            )
-          )}
+            ) : (
+              <Table className="no-wrap mt-3 align-middle" responsive borderless>
+                <tbody>
+                  <tr>
+                    <td colSpan="11" className="text-center">
+                      No Data Available
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            )}
         </CardBody>
       </Card>
     </div>

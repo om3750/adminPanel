@@ -13,6 +13,7 @@ import {
 } from "reactstrap";
 // ... other imports
 import { Form, Modal } from "react-bootstrap";
+import IPcalling from "../../urls/IPcalling";
 const ITEMS_PER_PAGE = 10; // Number of items to show per pagex`
 
 export default function ShowMessage() {
@@ -122,11 +123,15 @@ export default function ShowMessage() {
 
   useEffect(() => {
     axios.get(`${BaseURL}inAppMessage/showInAppMessage`).then((res) => {
+      console.log("API Response:", res.data); // Log the response data
       setDatas(res.data.record);
-      console.log("res", res.data.record);
-      setIsLoading(false); // Turn off loading state when data is retrieved
+      setIsLoading(false);
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+      setIsLoading(false);
     });
-  }, []);
+}, []);
 
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(datas.length / ITEMS_PER_PAGE);
@@ -157,8 +162,8 @@ export default function ShowMessage() {
                 <span className="visually-hidden">Loading...</span>
               </div>
             </div>
-          ) : (
-            datas.length > 0 && (
+                  ) : datas && datas.length > 0 ? (
+
               <div>
                 <div className="d-flex justify-content-between align-items-center mb-3">
                   {/* <h4 className="card-title">Admin List</h4> */}
@@ -198,7 +203,7 @@ export default function ShowMessage() {
                           <td>
                             <img
                               style={{ height: "100%", width: "100px" }}
-                              src={`http://192.168.29.222:8080/${items.image}`}
+                              src={`${IPcalling}${items.image}`}
                               alt="Logo"
                             />
                           </td>
@@ -247,8 +252,17 @@ export default function ShowMessage() {
                   />
                 </div>
               </div>
-            )
-          )}
+            ) : (
+              <Table className="no-wrap mt-3 align-middle" responsive borderless>
+                <tbody>
+                  <tr>
+                    <td colSpan="11" className="text-center">
+                      No Data Available
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            )}
         </CardBody>
       </Card>
 
@@ -383,7 +397,7 @@ export default function ShowMessage() {
             />
             <img
               className="mt-3"
-              src={`http://192.168.29.222:8080/${image}`}
+              src={`${IPcalling}${image}`}
               alt="image"
               width="150"
             />

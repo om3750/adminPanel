@@ -4,6 +4,7 @@ import BaseURL from "../../urls/BaseUrl";
 import { Button, Card, CardBody, Table } from "reactstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FiMoreVertical } from "react-icons/fi";
+import IPcalling from "../../urls/IPcalling";
 
 export default function UpdateFont() {
   const navigate = useNavigate();
@@ -84,7 +85,7 @@ export default function UpdateFont() {
             </div>
             <div className="my-3">
               <img
-                src={`http://192.168.29.222:8080/${state.thumb}`}
+                src={`${IPcalling}${state.thumb}`}
                 width={"220px"}
                 alt="image"
               ></img>
